@@ -1,0 +1,92 @@
+<?xml version="1.0"?>
+<!DOCTYPE module PUBLIC
+    "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+    "https://checkstyle.org/dtds/configuration_1_3.dtd">
+
+<!--
+  Checkstyle configuration for template project.
+  Role: Naming + Forbidden patterns + Javadoc + Code structure.
+  Formatting (indent, whitespace) is handled by Spotless/google-java-format.
+  Bug patterns handled by Error Prone. Null safety by NullAway.
+-->
+<module name="Checker">
+  <property name="severity" value="error"/>
+  <property name="fileExtensions" value="java"/>
+
+  <module name="SuppressionFilter">
+    <property name="file" value="${config_loc}/suppressions.xml"/>
+    <property name="optional" value="false"/>
+  </module>
+
+  <!-- Tab 문자 금지 (Spotless 안전망) -->
+  <module name="FileTabCharacter">
+    <property name="eachLine" value="true"/>
+  </module>
+
+  <!-- 라인 길이: 120자 (CLAUDE.md) -->
+  <module name="LineLength">
+    <property name="max" value="120"/>
+    <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+  </module>
+
+  <!-- Virtual Thread 금지 패턴: synchronized -->
+  <module name="RegexpSingleline">
+    <property name="format" value="^\s*(?!//|/\*|\*)\s*.*\bsynchronized\b"/>
+    <property name="message" value="[VirtualThread] Use ReentrantLock instead of synchronized. See CLAUDE.md."/>
+  </module>
+
+  <!-- Virtual Thread 금지 패턴: ThreadLocal -->
+  <module name="RegexpSingleline">
+    <property name="format" value="^\s*(?!//|/\*|\*)\s*.*\bThreadLocal\b"/>
+    <property name="message" value="[VirtualThread] Use ScopedValue instead of ThreadLocal. See CLAUDE.md."/>
+  </module>
+
+  <module name="TreeWalker">
+
+    <!-- ── 네이밍 규칙 ────────────────────────────────────────────── -->
+    <module name="TypeName"/>
+    <module name="MethodName"/>
+    <module name="MemberName"/>
+    <module name="ConstantName"/>
+    <module name="PackageName">
+      <property name="format" value="^[a-z]+(\.[a-z][a-z0-9]*)*$"/>
+    </module>
+    <module name="LocalVariableName"/>
+    <module name="AbbreviationAsWordInName">
+      <property name="ignoreFinal" value="false"/>
+      <property name="allowedAbbreviationLength" value="2"/>
+      <property name="allowedAbbreviations"
+          value="IT,UI,IO,API,URL,URI,ID,DTO,JWT,WS,MQ,DB,SQL,HTTP,REST,RPC,OK"/>
+    </module>
+
+    <!-- ── Import 규칙 ────────────────────────────────────────────── -->
+    <module name="AvoidStarImport"/>
+
+    <!-- ── 코드 구조 규칙 ─────────────────────────────────────────── -->
+    <module name="OneTopLevelClass"/>
+    <module name="MultipleVariableDeclarations"/>
+
+    <module name="EmptyBlock">
+      <property name="option" value="TEXT"/>
+      <property name="tokens"
+          value="LITERAL_WHILE,LITERAL_TRY,LITERAL_FINALLY,LITERAL_DO,LITERAL_IF,LITERAL_ELSE,LITERAL_FOR,INSTANCE_INIT,STATIC_INIT,LITERAL_SWITCH"/>
+    </module>
+
+    <module name="NeedBraces">
+      <property name="tokens"
+          value="LITERAL_DO,LITERAL_ELSE,LITERAL_FOR,LITERAL_IF,LITERAL_WHILE"/>
+    </module>
+
+    <!-- ── Javadoc 규칙 (WARNING 수준) ───────────────────────────── -->
+    <module name="MissingJavadocType">
+      <property name="severity" value="warning"/>
+      <property name="skipAnnotations"
+          value="SpringBootApplication,AutoConfiguration,RestController,Controller,Service,Repository,Component,Configuration,ConditionalOnProperty,ConditionalOnClass,ConditionalOnMissingBean,Generated,SuppressWarnings"/>
+    </module>
+
+    <module name="NonEmptyAtclauseDescription">
+      <property name="severity" value="warning"/>
+    </module>
+
+  </module>
+</module>

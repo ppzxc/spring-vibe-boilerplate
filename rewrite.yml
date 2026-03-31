@@ -1,0 +1,16 @@
+type: specs.openrewrite.org/v1beta/recipe
+name: io.github.ppzxc.template.CodeQuality
+displayName: Template Code Quality
+description: >
+  Static analysis, Java best practices, and Spring Boot best practice recipes
+  for the template hexagonal architecture project.
+recipeList:
+  # Static analysis
+  - org.openrewrite.staticanalysis.CommonStaticAnalysis
+  - org.openrewrite.staticanalysis.JavaApiBestPractices
+
+  # Java 25 migration (includes Java 21 internally)
+  - org.openrewrite.java.migrate.UpgradeToJava25
+
+  # Spring Boot 4.0 best practices (includes Spring Framework 7.0)
+  - org.openrewrite.java.spring.boot4.UpgradeSpringBoot_4_0
