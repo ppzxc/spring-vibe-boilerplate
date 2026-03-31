@@ -3,22 +3,18 @@ package io.github.ppzxc.template.application.architecture;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.classes;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
+import com.tngtech.archunit.core.importer.ImportOption;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
-/**
- * template-application 아키텍처 규칙 검증.
- *
- * <p>애플리케이션 레이어는 Spring에 의존할 수 없으며, 순수 Java UseCase와 Port 인터페이스로만 구성된다.
- *
- * <p>{@code allowEmptyShould(true)}: 초기 빈 상태에서도 통과. 위반 코드가 추가되면 즉시 감지된다.
- */
-@AnalyzeClasses(packages = "io.github.ppzxc.template.application")
+@AnalyzeClasses(
+    packages = "io.github.ppzxc.template.application",
+    importOptions = ImportOption.DoNotIncludeTests.class)
 class ApplicationArchitectureTest {
 
   @ArchTest
-  static final ArchRule no_spring_dependencies =
+  static final ArchRule noSpringDependency =
       noClasses()
           .should()
           .dependOnClassesThat()
@@ -27,59 +23,63 @@ class ApplicationArchitectureTest {
           .as("애플리케이션 레이어는 Spring에 의존할 수 없다");
 
   @ArchTest
-  static final ArchRule outbound_ports_are_interfaces =
+  static final ArchRule onlyAllowedDependencies =
+      noClasses()
+          .should()
+          .dependOnClassesThat()
+          .resideOutsideOfPackages(
+              "io.github.ppzxc.template.application..",
+              "io.github.ppzxc.template.domain..",
+              "java..",
+              "javax..",
+              "jakarta.validation..",
+              "lombok..",
+              "org.jspecify..")
+          .allowEmptyShould(true)
+          .as("애플리케이션 레이어는 허용된 패키지에만 의존할 수 있다");
+
+  @ArchTest
+  static final ArchRule outboundPortsMustBeInterfaces =
       classes()
           .that()
-          .resideInAPackage("..port.out..")
+          .resideInAPackage("..port.output..")
           .should()
           .beInterfaces()
           .allowEmptyShould(true)
           .as("Outbound Port는 반드시 인터페이스여야 한다");
 
   @ArchTest
-  static final ArchRule application_only_depends_on_allowed_packages =
+  static final ArchRule commandUseCasesMustBeInterfaces =
       classes()
+          .that()
+          .resideInAPackage("..port.input.command..")
+          .and()
+          .haveSimpleNameEndingWith("UseCase")
           .should()
-          .onlyDependOnClassesThat()
-          .resideInAnyPackage(
-              "io.github.ppzxc.template.application..",
-              "io.github.ppzxc.template.domain..",
-              "io.github.ppzxc.template.common..",
-              "java..",
-              "javax..")
+          .beInterfaces()
           .allowEmptyShould(true)
-          .as("애플리케이션 레이어는 domain과 common에만 의존할 수 있다");
+          .as("Inbound Command Port (*UseCase)는 반드시 인터페이스여야 한다");
 
   @ArchTest
-  static final ArchRule query_services_do_not_use_command_ports =
+  static final ArchRule queryPortsMustBeInterfaces =
+      classes()
+          .that()
+          .resideInAPackage("..port.input.query..")
+          .and()
+          .haveSimpleNameEndingWith("Query")
+          .should()
+          .beInterfaces()
+          .allowEmptyShould(true)
+          .as("Inbound Query Port (*Query)는 반드시 인터페이스여야 한다");
+
+  @ArchTest
+  static final ArchRule queryServicesMustNotDependOnCommandPorts =
       noClasses()
           .that()
           .resideInAPackage("..service.query..")
           .should()
           .dependOnClassesThat()
-          .resideInAPackage("..port.out.command..")
+          .resideInAPackage("..port.output.command..")
           .allowEmptyShould(true)
-          .as("Query 서비스는 Command 포트(Save*)에 의존할 수 없다");
-
-  @ArchTest
-  static final ArchRule command_use_cases_are_interfaces =
-      classes()
-          .that()
-          .resideInAPackage("..port.in.command..")
-          .and()
-          .haveSimpleNameEndingWith("UseCase")
-          .should()
-          .beInterfaces()
-          .allowEmptyShould(true);
-
-  @ArchTest
-  static final ArchRule query_use_cases_are_interfaces =
-      classes()
-          .that()
-          .resideInAPackage("..port.in.query..")
-          .and()
-          .haveSimpleNameEndingWith("Query")
-          .should()
-          .beInterfaces()
-          .allowEmptyShould(true);
+          .as("Query 서비스는 Command Outbound Port에 의존할 수 없다");
 }

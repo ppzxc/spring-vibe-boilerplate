@@ -1,9 +1,13 @@
 [versions]
-# plugin
+# plugins
 org-springframework-boot = "4.0.3"
 com-diffplug-spotless = "8.4.0"
 org-openrewrite-rewrite = "7.29.0"
 com-fizzpod-lefthook = "0.4.0"
+io-spring-dependency-management = "1.1.7"
+com-linecorp-build-recipe-plugin = "1.1.1"
+net-ltgt-errorprone = "4.2.0"
+com-google-protobuf-plugin = "0.9.6"
 
 # tools
 com-google-googlejavaformat = "1.35.0"
@@ -13,170 +17,51 @@ com-puppycrawl-tools-checkstyle = "10.21.4"
 org-openrewrite-recipe-static-analysis = "2.31.0"
 org-openrewrite-recipe-migrate-java = "3.31.1"
 org-openrewrite-recipe-spring = "6.28.1"
-io-spring-dependency-management = "1.1.7"
-com-linecorp-build-recipe-plugin = "1.1.1"
-net-ltgt-errorprone = "4.2.0"
-com-google-protobuf-plugin = "0.9.6"
-org-graalvm-buildtools-native = "0.10.6"
 
 # libs
-org-mapstruct = "1.6.3"
-org-mybatis-spring-boot-starter = "3.0.5"
-org-bouncycastle-bcprov-jdk18on = "1.80"
 org-awaitility = "4.3.0"
-org-wiremock-standalone = "3.13.1"
-org-flywaydb = "12.0.1"
 org-testcontainers-bom = "2.0.3"
-com-bucket4j-jdk17 = "8.14.0"
-tools-jackson-bom = "3.0.4"
 com-navercorp-fixture-monkey = "1.1.15"
-com-google-protobuf-bom = "4.33.5"
-com-google-guava = "33.5.0-jre"
 com-google-errorprone-core = "2.36.0"
-com-googlecode-libphonenumber = "9.0.1"
 com-uber-nullaway = "0.12.3"
-com-redis-testcontainers-redis = "2.2.2"
-com-github-f4b6a3-uuid-creator = "6.2.0"
-io-github-ppzxc-crypto = "0.0.42"
-io-github-resilience4j-ratelimiter = "2.3.0"
-io-opentelemetry-instrumentation-annotations = "2.18.0"
 com-tngtech-archunit = "1.3.0"
 org-jspecify = "1.0.0"
-com-nimbus-jose-jwt = "10.3"
-com-auth0-java-jwt = "4.5.0"
 net-logstash-logback-encoder = "9.0"
 
 [libraries]
+# spring boot (java label)
 org-springframework-boot-starter = { group = "org.springframework.boot", name = "spring-boot-starter" }
-org-springframework-boot-starter-data-jdbc = { group = "org.springframework.boot", name = "spring-boot-starter-data-jdbc" }
-org-springframework-boot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
-org-springframework-boot-starter-data-redis = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis" }
-org-springframework-boot-starter-data-redis-reactive = { group = "org.springframework.boot", name = "spring-boot-starter-data-redis-reactive" }
-org-springframework-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
 org-springframework-boot-starter-validation = { group = "org.springframework.boot", name = "spring-boot-starter-validation" }
-org-springframework-boot-starter-aop = { group = "org.springframework.boot", name = "spring-boot-starter-aop" }
-org-springframework-boot-starter-cache = { group = "org.springframework.boot", name = "spring-boot-starter-cache" }
-org-springframework-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
-org-springframework-boot-starter-websocket = { group = "org.springframework.boot", name = "spring-boot-starter-websocket" }
-org-springframework-boot-starter-webflux = { group = "org.springframework.boot", name = "spring-boot-starter-webflux" }
-org-springframework-boot-starter-webmvc-test = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc-test" }
-org-springframework-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
-org-springframework-boot-starter-integration = { group = "org.springframework.boot", name = "spring-boot-starter-integration" }
-org-springframework-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
-org-springframework-boot-starter-mail = { group = "org.springframework.boot", name = "spring-boot-starter-mail" }
-org-springframework-boot-starter-data-r2dbc = { group = "org.springframework.boot", name = "spring-boot-starter-data-r2dbc" }
-org-springframework-boot-starter-amqp = { group = "org.springframework.boot", name = "spring-boot-starter-amqp" }
-org-springframework-boot-starter-jackson = { group = "org.springframework.boot", name = "spring-boot-starter-jackson" }
 org-springframework-boot-starter-json = { group = "org.springframework.boot", name = "spring-boot-starter-json" }
-org-springframework-boot-autoconfigure = { group = "org.springframework.boot", name = "spring-boot-autoconfigure" }
-org-springframework-boot-test-autoconfigure = { group = "org.springframework.boot", name = "spring-boot-test-autoconfigure" }
-org-springframework-boot-testcontainers = { group = "org.springframework.boot", name = "spring-boot-testcontainers" }
-org-springframework-boot-configuration-processor = { group = "org.springframework.boot", name = "spring-boot-configuration-processor" }
-org-springframework-cloud-starter-gateway-server-webflux = { group = "org.springframework.cloud", name = "spring-cloud-starter-gateway-server-webflux" }
-org-springframework-cloud-starter-gateway-server-webmvc = { group = "org.springframework.cloud", name = "spring-cloud-starter-gateway-server-webmvc" }
-org-springframework-cloud-starter-loadbalancer = { group = "org.springframework.cloud", name = "spring-cloud-starter-loadbalancer" }
-org-springframework-data-commons = { group = "org.springframework.data", name = "spring-data-commons" }
-org-springframework-spring-jdbc = { group = "org.springframework", name = "spring-jdbc" }
-org-springframework-security-crypto = { group = "org.springframework.security", name = "spring-security-crypto" }
-org-springframework-security-test = { group = "org.springframework.security", name = "spring-security-test" }
-org-springframework-retry = { group = "org.springframework.retry", name = "spring-retry" }
-org-springframework-integration-ip = { group = "org.springframework.integration", name = "spring-integration-ip" }
-org-springframework-web = { group = "org.springframework", name = "spring-web" }
-org-wiremock-standalone = { group = "org.wiremock", name = "wiremock-standalone", version.ref = "org-wiremock-standalone" }
-org-mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "org-mapstruct" }
-org-mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "org-mapstruct" }
+org-springframework-boot-starter-test = { group = "org.springframework.boot", name = "spring-boot-starter-test" }
+
+# logging
+net-logstash-logback-encoder = { group = "net.logstash.logback", name = "logstash-logback-encoder", version.ref = "net-logstash-logback-encoder" }
+
+# lombok
 org-projectlombok-lombok = { group = "org.projectlombok", name = "lombok" }
 org-slf4j-api = { group = "org.slf4j", name = "slf4j-api" }
-org-junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
-org-junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api" }
-org-junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine" }
-org-junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params" }
-org-junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
-org-assertj-core = { group = "org.assertj", name = "assertj-core" }
-org-mockito-core = { group = "org.mockito", name = "mockito-core" }
-org-mockito-junit-jupiter = { group = "org.mockito", name = "mockito-junit-jupiter" }
-org-testcontainers-bom = { group = "org.testcontainers", name = "testcontainers-bom", version.ref = "org-testcontainers-bom" }
-org-testcontainers-testcontainers = { group = "org.testcontainers", name = "testcontainers"}
-org-testcontainers-junit-jupiter = { group = "org.testcontainers", name = "testcontainers-junit-jupiter", version.ref = "org-testcontainers-bom" }
-org-testcontainers-rabbitmq = { group = "org.testcontainers", name = "rabbitmq" }
-org-testcontainers-mysql = { group = "org.testcontainers", name = "mysql" }
-org-testcontainers-mariadb = { group = "org.testcontainers", name = "mariadb" }
-org-testcontainers-mssqlserver = { group = "org.testcontainers", name = "mssqlserver" }
-org-testcontainers-postgresql = { group = "org.testcontainers", name = "testcontainers-postgresql", version.ref = "org-testcontainers-bom" }
-org-testcontainers-oracle-xe = { group = "org.testcontainers", name = "oracle-xe" }
-org-testcontainers-r2dbc = { group = "org.testcontainers", name = "r2dbc" }
-org-apache-commons-lang3 = { group = "org.apache.commons", name = "commons-lang3" }
-org-apache-commons-dbcp2 = { group = "org.apache.commons", name = "commons-dbcp2" }
-org-mybatis-spring-boot-starter = { group = "org.mybatis.spring.boot", name = "mybatis-spring-boot-starter", version.ref = "org-mybatis-spring-boot-starter" }
-org-bouncycastle-bcprov-jdk18on = { group = "org.bouncycastle", name = "bcprov-jdk18on", version.ref = "org-bouncycastle-bcprov-jdk18on" }
-org-awaitility = { group = "org.awaitility", name = "awaitility", version.ref = "org-awaitility" }
-org-apache-httpcomponents-client5-httpclient5 = { group = "org.apache.httpcomponents.client5", name = "httpclient5" }
-org-flywaydb-core = { group = "org.flywaydb", name = "flyway-core", version.ref = "org-flywaydb" }
-org-flywaydb-database-postgresql = { group = "org.flywaydb", name = "flyway-database-postgresql", version.ref = "org-flywaydb" }
-org-springframework-boot-flyway = { group = "org.springframework.boot", name = "spring-boot-flyway" }
-com-bucket4j-jdk17-redis-common = { group = "com.bucket4j", name = "bucket4j_jdk17-redis-common", version.ref = "com-bucket4j-jdk17"}
-com-bucket4j-jdk17-lettuce = { group = "com.bucket4j", name = "bucket4j_jdk17-lettuce", version.ref = "com-bucket4j-jdk17"}
-com-bucket4j-jdk17-caffeine = { group = "com.bucket4j", name = "bucket4j_jdk17-caffeine", version.ref = "com-bucket4j-jdk17"}
-#tools-jackson-bom = { group = "tools.jackson", name = "jackson-bom", version.ref = "tools-jackson-bom" }
-#tools-jackson-modules-java8 = { group = "tools.jackson.module", name = "jackson-module-java8", version.ref = "tools-jackson-bom" }
-#tools-jackson-modules-parameter-names = { group = "tools.jackson.module", name = "jackson-module-parameter-names", version.ref = "tools-jackson-bom" }
-#tools-jackson-core-databind = { group = "tools.jackson.core", name = "jackson-databind" }
-#tools-jackson-dataformat-yaml = { group = "tools.jackson.dataformat", name = "jackson-dataformat-yaml" }
-#tools-jackson-dataformat-xml = { group = "tools.jackson.dataformat", name = "jackson-dataformat-xml" }
-#tools-jackson-dataformat-protobuf = { group = "tools.jackson.dataformat", name = "jackson-dataformat-protobuf" }
-#tools-jackson-datatype-jsr310 = { group = "tools.jackson.datatype", name = "jackson-datatype-jsr310", version.ref = "tools-jackson-bom" }
-#tools-jackson-annotations = { group = "com.fasterxml.jackson.core", name = "jackson-annotations", version = "2.18.2" }
-com-navercorp-fixture-monkey-starter = { group = "com.navercorp.fixturemonkey", name = "fixture-monkey-starter", version.ref = "com-navercorp-fixture-monkey" }
-com-navercorp-fixture-monkey-jackson = { group = "com.navercorp.fixturemonkey", name = "fixture-monkey-jackson-jackson3", version.ref = "com-navercorp-fixture-monkey" }
-com-navercorp-fixture-monkey-javax-validation = { group = "com.navercorp.fixturemonkey", name = "fixture-monkey-javax-validation", version.ref = "com-navercorp-fixture-monkey" }
-com-navercorp-fixture-monkey-jakarta-validation = { group = "com.navercorp.fixturemonkey", name = "fixture-monkey-jakarta-validation", version.ref = "com-navercorp-fixture-monkey" }
-com-google-protobuf-bom = { group = "com.google.protobuf", name = "protobuf-bom", version.ref = "com-google-protobuf-bom" }
-com-google-protobuf-java = { group = "com.google.protobuf", name = "protobuf-java", version.ref = "com-google-protobuf-bom" }
-com-google-protobuf-java-util = { group = "com.google.protobuf", name = "protobuf-java-util", version.ref = "com-google-protobuf-bom" }
-com-google-protobuf-javalite = { group = "com.google.protobuf", name = "protobuf-javalite", version.ref = "com-google-protobuf-bom" }
-com-google-protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "com-google-protobuf-bom" }
-com-google-guava = { group = "com.google.guava", name = "guava", version.ref = "com-google-guava" }
-com-google-errorprone-core = { group = "com.google.errorprone", name = "error_prone_core", version.ref = "com-google-errorprone-core" }
-com-googlecode-libphonenumber = { group = "com.googlecode.libphonenumber", name = "libphonenumber", version.ref = "com-googlecode-libphonenumber" }
-com-github-f4b6a3-uuid-creator = { group = "com.github.f4b6a3", name = "uuid-creator", version.ref = "com-github-f4b6a3-uuid-creator" }
-com-github-ben-manes-caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine" }
-com-uber-nullaway = { group = "com.uber.nullaway", name = "nullaway", version.ref = "com-uber-nullaway" }
-com-zaxxer-Hikaricp = { group = "com.zaxxer", name = "HikariCP" }
-com-redis-testcontainers-redis = { group = "com.redis", name = "testcontainers-redis", version.ref = "com-redis-testcontainers-redis" }
-io-netty-all = { group = "io.netty", name = "netty-all" }
-io-netty-common = { group = "io.netty", name = "netty-common" }
-io-netty-buffer = { group = "io.netty", name = "netty-buffer" }
-io-github-ppzxc-crypto = {group = "io.github.ppzxc", name = "crypto", version.ref = "io-github-ppzxc-crypto" }
-io-github-resilience4j-ratelimiter = {group = "io.github.resilience4j", name = "resilience4j-ratelimiter", version.ref = "io-github-resilience4j-ratelimiter" }
-io-micrometer-tracing = {group = "io.micrometer", name = "micrometer-tracing" }
-io-micrometer-tracing-bridge-otel = {group = "io.micrometer", name = "micrometer-tracing-bridge-otel" }
-io-opentelemetry-instrumentation-annotations = {group = "io.opentelemetry.instrumentation", name = "opentelemetry-instrumentation-annotations", version.ref = "io-opentelemetry-instrumentation-annotations" }
-io-opentelemetry-exporter-otlp = {group = "io.opentelemetry", name = "opentelemetry-exporter-otlp" }
-com-nimbus-jose-jwt = { group = "com.nimbusds", name = "nimbus-jose-jwt", version.ref = "com-nimbus-jose-jwt" }
-com-auth0-java-jwt = { group = "com.auth0", name = "java-jwt", version.ref = "com-auth0-java-jwt" }
-com-tngtech-archunit-junit5 = { group = "com.tngtech.archunit", name = "archunit-junit5", version.ref = "com-tngtech-archunit" }
+
+# null safety
 org-jspecify = { group = "org.jspecify", name = "jspecify", version.ref = "org-jspecify" }
-jakarta-annotation-api = { group = "jakarta.annotation", name = "jakarta.annotation-api" }
-jakarta-validation-api = { group = "jakarta.validation", name = "jakarta.validation-api" }
-jakarta-persistence-api = { group = "jakarta.persistence", name = "jakarta.persistence-api" }
-jakarta-xml-bind-api = { group = "jakarta.xml.bind", name = "jakarta.xml.bind-api" }
-org-springframework-boot-starter-jdbc-test = { group = "org.springframework.boot", name = "spring-boot-starter-jdbc-test" }
-ch-qos-logback-classic = { group = "ch.qos.logback", name = "logback-classic" }
-net-logstash-logback-encoder = { group = "net.logstash.logback", name = "logstash-logback-encoder", version.ref = "net-logstash-logback-encoder" }
+
+# errorprone + nullaway
+com-google-errorprone-core = { group = "com.google.errorprone", name = "error_prone_core", version.ref = "com-google-errorprone-core" }
+com-uber-nullaway = { group = "com.uber.nullaway", name = "nullaway", version.ref = "com-uber-nullaway" }
+
+# testcontainers (BOM)
+org-testcontainers-bom = { group = "org.testcontainers", name = "testcontainers-bom", version.ref = "org-testcontainers-bom" }
+
+# test utilities
+org-junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
+org-awaitility = { group = "org.awaitility", name = "awaitility", version.ref = "org-awaitility" }
+com-tngtech-archunit-junit5 = { group = "com.tngtech.archunit", name = "archunit-junit5", version.ref = "com-tngtech-archunit" }
+com-navercorp-fixture-monkey-starter = { group = "com.navercorp.fixturemonkey", name = "fixture-monkey-starter", version.ref = "com-navercorp-fixture-monkey" }
 
 # openrewrite recipes
 org-openrewrite-recipe-static-analysis = { group = "org.openrewrite.recipe", name = "rewrite-static-analysis", version.ref = "org-openrewrite-recipe-static-analysis" }
 org-openrewrite-recipe-migrate-java = { group = "org.openrewrite.recipe", name = "rewrite-migrate-java", version.ref = "org-openrewrite-recipe-migrate-java" }
 org-openrewrite-recipe-spring = { group = "org.openrewrite.recipe", name = "rewrite-spring", version.ref = "org-openrewrite-recipe-spring" }
-
-# driver
-com-h2database = { group = "com.h2database", name = "h2" }
-com-mysql-connector-j = { group = "com.mysql", name = "mysql-connector-j" }
-com-microsoft-sqlserver-mssql-jdbc = { group = "com.microsoft.sqlserver", name = "mssql-jdbc" }
-com-oracle-database-jdbc-ojdbc11 = { group = "com.oracle.database.jdbc", name = "ojdbc11" }
-org-postgresql = { group = "org.postgresql", name = "postgresql" }
-org-mariadb-jdbc-java-client = { group = "org.mariadb.jdbc", name = "mariadb-java-client" }
-org-mariadb-r2dbc = { group = "org.mariadb", name = "r2dbc-mariadb" }
 
 [plugins]
 org-springframework-boot = { id = "org.springframework.boot", version.ref = "org-springframework-boot" }
@@ -187,4 +72,3 @@ io-spring-dependency-management = { id = "io.spring.dependency-management", vers
 com-linecorp-build-recipe-plugin = { id = "com.linecorp.build-recipe-plugin", version.ref = "com-linecorp-build-recipe-plugin" }
 net-ltgt-errorprone = { id = "net.ltgt.errorprone", version.ref = "net-ltgt-errorprone" }
 com-google-protobuf = { id = "com.google.protobuf", version.ref = "com-google-protobuf-plugin" }
-org-graalvm-buildtools-native = { id = "org.graalvm.buildtools.native", version.ref = "org-graalvm-buildtools-native" }

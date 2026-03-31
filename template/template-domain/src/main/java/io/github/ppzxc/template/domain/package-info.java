@@ -1,6 +1,2 @@
-/**
- * template-domain: 순수 도메인 모델.
- *
- * <p>Spring, JPA 어노테이션 사용 금지. Java 표준, Bean Validation, Lombok만 허용.
- */
+/** 순수 도메인 모델. Spring/JPA 의존 금지. */
 package io.github.ppzxc.template.domain;

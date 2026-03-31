@@ -1,6 +1,4 @@
-// template-adapter-output-cache: Caffeine (Phase 1) / Redis (Phase 2)
+// template-adapter-output-cache: Cache Adapter (Outbound Adapter)
 dependencies {
   implementation(project(":template-application"))
-  implementation(rootProject.libs.org.springframework.boot.starter.cache)
-  implementation(rootProject.libs.com.github.ben.manes.caffeine)
 }

@@ -1,18 +1,14 @@
 /**
- * template-application: Inbound Port + Outbound Port + UseCase 구현체.
- *
- * <p>Spring 의존 금지. 순수 Java 인터페이스와 구현체만 허용.
- *
- * <p>패키지 구조:
+ * 유즈케이스 레이어. Spring 의존 금지.
  *
  * <ul>
- *   <li>{@code port.in.command.*} — Inbound Command UseCase 인터페이스
- *   <li>{@code port.in.query.*} — Inbound Query 인터페이스
- *   <li>{@code port.out.command.*} — Outbound Command Port 인터페이스 (Save*)
- *   <li>{@code port.out.query.*} — Outbound Query Port 인터페이스 (Find*)
- *   <li>{@code port.out.shared.*} — 공유 인프라 Port 인터페이스
- *   <li>{@code service.command.*} — Command UseCase 구현체
- *   <li>{@code service.query.*} — Query 구현체
+ *   <li>{@code port.input.command.*} — Inbound Command Port (*UseCase interface)
+ *   <li>{@code port.input.query.*} — Inbound Query Port (*Query interface)
+ *   <li>{@code port.output.command.*} — Outbound Command Port (Save*Port interface)
+ *   <li>{@code port.output.query.*} — Outbound Query Port (Find*Port interface)
+ *   <li>{@code port.output.shared.*} — 공유 인프라 Port interface
+ *   <li>{@code service.command.*} — Command UseCase 구현체 (*Service)
+ *   <li>{@code service.query.*} — Query UseCase 구현체 (*Service)
  * </ul>
  */
 package io.github.ppzxc.template.application;

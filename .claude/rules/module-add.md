@@ -21,12 +21,19 @@ template/<module-name>/
 
 레이어별 의존성 규칙:
 
-**template-domain 추가 시:**
+**template-domain 계열:**
 ```kotlin
 dependencies {
-    implementation(libs.org.projectlombok.lombok)
-    implementation(libs.org.jspecify)
     // Spring/JPA 의존 추가 금지
+    // 외부 라이브러리는 최소화 (java.*, jakarta.validation.* 범위 내)
+}
+```
+
+**template-application 계열:**
+```kotlin
+dependencies {
+    api(project(":template-domain"))
+    // Spring 의존 추가 금지
 }
 ```
 
@@ -59,12 +66,15 @@ dependencies {
 ## 모듈 간 의존 방향
 
 ```
-template-boot-* (앱)
-  └─ template-adapter-input-* (Inbound)
-  └─ template-adapter-output-* (Outbound)
-       └─ template-application (UseCase + Port)
-            └─ template-domain (Domain)
-            └─ template-common (Util)
+template-boot-api (앱)
+  ├── template-application-autoconfiguration
+  ├── template-adapter-input-api ──→ template-application
+  ├── template-adapter-input-ws ───→ template-application
+  ├── template-adapter-output-persist → template-application
+  └── template-adapter-output-cache ──→ template-application
+                                            │
+                                            ↓
+                                      template-domain
 ```
 
-역방향 의존 금지. domain이 application을 알면 안 된다.
+**역방향 의존 금지.** adapter 간 상호 의존 전면 금지.
