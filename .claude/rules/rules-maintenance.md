@@ -1,0 +1,45 @@
+# Rules Maintenance
+
+## ADR ↔ Rules 동기화 원칙
+
+ADR(`docs/decisions/NNNN-*.md`)을 새로 작성할 때:
+1. 결정에서 **제약 조건**을 추출하여 관련 `.claude/rules/` 파일에 추가
+2. 규칙 항목에 `[ADR-NNNN]` 태그 달기
+3. ADR에는 근거(why)를 유지, rules에는 제약(what)만 작성
+
+ADR 없이 규칙을 추가할 때:
+- 근거가 비자명하면 ADR 먼저 작성
+- 명백한 코딩 컨벤션은 ADR 없이 rules에 직접 추가 가능
+
+## 규칙 파일 크기 관리
+
+- 파일 하나당 **100줄 이하** 유지
+- 100줄 초과 시 → 주제별로 파일 분리
+- 예: `testing.md`가 커지면 `testing-unit.md`, `testing-integration.md`로 분리
+
+## 규칙 정리 기준
+
+| 상태 | 대응 |
+|------|------|
+| 같은 규칙이 두 파일에 중복 | 한 파일로 통합, 나머지에서 참조 |
+| 6개월 이상 참조되지 않은 규칙 | 삭제 또는 `docs/decisions/`로 이동 |
+| 규칙이 서로 모순 | ADR 작성 후 한쪽 삭제 |
+| 규칙이 현재 코드와 불일치 | 코드 또는 규칙 중 하나를 맞춤 |
+
+## MADR 작성 형식
+
+`docs/decisions/NNNN-<kebab-case-title>.md` 형식으로 저장.
+번호는 앞에 있는 최대 번호 + 1.
+
+필수 섹션:
+- `status`: accepted / deprecated / superseded-by
+- `date`: YYYY-MM-DD
+- Context and Problem Statement
+- Considered Options (최소 2개)
+- Decision Outcome + Consequences
+
+## CLAUDE.md 유지 원칙
+
+- 항상 50줄 이하로 유지
+- 세부 규칙은 CLAUDE.md에 쓰지 않고 `.claude/rules/`에 위임
+- rules 파일이 추가되면 CLAUDE.md의 규칙 파일 목록 테이블 업데이트
