@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Checkstyle//DTD SuppressionFilter Configuration 1.2//EN"
+    "https://checkstyle.org/dtds/suppressions_1_2.dtd">
+
+<suppressions>
+
+  <!-- 빌드 생성 코드 전체 제외 -->
+  <suppress checks=".*" files="[/\\]build[/\\]generated[/\\]"/>
+
+  <!-- MapStruct 생성 구현체 -->
+  <suppress checks=".*" files=".*MapperImpl\.java$"/>
+
+  <!-- 테스트 파일: Javadoc 불필요 -->
+  <suppress checks="MissingJavadocType" files=".*Test\.java$"/>
+  <suppress checks="MissingJavadocType" files=".*IT\.java$"/>
+  <suppress checks="MissingJavadocType" files=".*Tests\.java$"/>
+
+  <!-- 테스트 파일: 간결한 코드 허용 -->
+  <suppress checks="NeedBraces" files=".*Test\.java$"/>
+  <suppress checks="NeedBraces" files=".*IT\.java$"/>
+
+  <!-- 테스트 파일: snake_case 및 HTTP 동사 대문자 메서드명/상수명 허용 (가독성 향상) -->
+  <suppress checks="MethodName" files=".*Test\.java$"/>
+  <suppress checks="MethodName" files=".*IT\.java$"/>
+  <suppress checks="AbbreviationAsWordInName" files=".*Test\.java$"/>
+  <suppress checks="AbbreviationAsWordInName" files=".*IT\.java$"/>
+  <suppress checks="ConstantName" files=".*Test\.java$"/>
+  <suppress checks="ConstantName" files=".*IT\.java$"/>
+
+  <!-- 테스트 파일: ThreadLocal/synchronized 허용 (테스트 유틸리티) -->
+  <suppress checks="RegexpSingleline" files=".*Test\.java$"/>
+  <suppress checks="RegexpSingleline" files=".*IT\.java$"/>
+
+  <!-- Fixtures: 테스트 픽스처 파일 -->
+  <suppress checks="MissingJavadocType" files=".*Fixture\.java$"/>
+  <suppress checks="MissingJavadocType" files=".*Factory\.java$"/>
+
+</suppressions>

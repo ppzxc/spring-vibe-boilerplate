@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package template;
+
+option java_package = "io.github.ppzxc.template.adapter.input.ws.proto";
+option java_multiple_files = true;
+
+// Placeholder message — replace with actual domain messages.
+message PlaceholderMessage {
+  string id = 1;
+  string payload = 2;
+}
