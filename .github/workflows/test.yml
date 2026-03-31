@@ -53,12 +53,10 @@ jobs:
           ./gradlew
           :template-domain:test
           :template-application:test
-          :template-common:test
           :template-application-autoconfiguration:test
           :template-adapter-output-cache:test
           :template-adapter-input-ws:test
-          :template-adapter-input-web:test
-          :template-adapter-output-channel:test
+          :template-adapter-input-api:test
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
@@ -97,9 +95,7 @@ jobs:
         run: >
           ./gradlew
           :template-adapter-output-persist:test
-          :template-adapter-output-notify:test
           :template-boot-api:test
-          :template-boot-admin:test
 
       - name: Upload test results
         uses: actions/upload-artifact@v4
