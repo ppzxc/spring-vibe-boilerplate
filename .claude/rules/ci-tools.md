@@ -1,6 +1,6 @@
 # CI Tools Rules
 
-## 도구 역할 요약 [ADR-0002] [ADR-0004]
+## 도구 역할 요약 [ADR-0005] [ADR-0006]
 
 | 도구 | 시점 | 역할 | 자동수정 |
 |------|------|------|----------|
@@ -44,7 +44,7 @@
 ./gradlew testCodeCoverageReport
 ```
 
-## Lefthook Git Hooks [ADR-0004]
+## Lefthook Git Hooks [ADR-0006]
 
 설정 파일: `lefthook.yml`
 
@@ -72,7 +72,7 @@ Lefthook 설치 후 `./gradlew lefthookInstall` 실행하여 hook 등록.
 설정 파일: `config/checkstyle/checkstyle.xml`
 억제 파일: `config/checkstyle/suppressions.xml` (generated/, MapperImpl, 테스트 파일 제외)
 
-## GitHub Actions Jobs [ADR-0004]
+## GitHub Actions Jobs [ADR-0006]
 
 설정 파일: `.github/workflows/test.yml`
 
