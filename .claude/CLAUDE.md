@@ -1,10 +1,5 @@
 # CLAUDE.md
 
-## Source of Truth
-
-`CLAUDE.md`, `.claude/rules/*`, `docs/decisions/*` — 이 세 경로만 프로젝트 규칙의 정본이다.
-`docs/superpowers/*`는 임시 문서다. superpowers 스킬 실행 중에만 접근하고, 그 외에는 자발적으로 읽거나 검색하지 않는다.
-
 ## 이 프로젝트란?
 
 Spring Boot 4 + Hexagonal Architecture 범용 보일러플레이트.
@@ -24,8 +19,18 @@ template-adapter-output-cache          # Cache
 template-boot-api                      # Spring Boot 앱 (port 8080)
 ```
 
+## 빠른 참조
+
+```bash
+./gradlew spotlessApply       # 포맷 수정 (코드 작성 후 필수)
+./gradlew compileJava         # 컴파일 (ErrorProne + NullAway 포함)
+./gradlew test                # 전체 테스트
+./gradlew bootRun             # 로컬 실행
+```
+
 ## 규칙 파일
 
+프로젝트 규칙의 정본은 이 파일(`CLAUDE.md`), `.claude/rules/*`, `docs/decisions/*` 세 경로뿐이다.
 작업 전 관련 규칙 파일을 읽는다.
 
 | 작업 | 파일 |
@@ -42,7 +47,4 @@ template-boot-api                      # Spring Boot 앱 (port 8080)
 | 컨테이너화 / 배포 | `rules/containerization.md` |
 | 환경 설정 (프로파일, 환경변수) | `rules/configuration.md` |
 
-## ADR 참조
-
-결정의 근거가 필요하면 [`docs/decisions/README.md`](../docs/decisions/README.md) 를 참조한다.
-규칙 파일의 `[ADR-NNNN]` 태그가 해당 ADR 번호를 가리킨다.
+결정의 근거는 [`docs/decisions/README.md`](../docs/decisions/README.md) 참조. 규칙 파일의 `[ADR-NNNN]` 태그가 해당 ADR을 가리킨다.
