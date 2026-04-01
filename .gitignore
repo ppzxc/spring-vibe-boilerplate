@@ -25,3 +25,6 @@ Thumbs.db
 docs/superpowers/
 docs/plans/
 docs/specs/
+
+# Git worktrees
+.worktrees/

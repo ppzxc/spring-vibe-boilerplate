@@ -34,6 +34,7 @@
 | Controller | `*Controller` | `OrderController` |
 | DTO (Request) | `*Request` | `CreateOrderRequest` |
 | DTO (Response) | `*Response` | `OrderResponse` |
+| 에러 코드 enum | `ErrorCode` enum | `ErrorCode` |
 
 ## 코드 규칙
 
@@ -45,7 +46,7 @@
 - 동시성 락: `ReentrantLock` 사용 (`synchronized` 금지 — Checkstyle 강제)
 - 스레드 로컬: `ScopedValue` 사용 (`ThreadLocal` 금지 — Checkstyle 강제)
 
-## 코드 품질 도구 [ADR-0002]
+## 코드 품질 도구 [ADR-0005]
 
 | 도구 | 명령 | 설명 |
 |------|------|------|

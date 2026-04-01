@@ -91,4 +91,4 @@ ArchUnit 테스트가 의존성 방향과 CQRS 경계를 자동 검증한다:
 ## More Information
 
 * 관련 규칙: `.claude/rules/architecture.md` (의존성 방향 규칙, 금지 규칙)
-* 관련 ADR: ADR-0006 (패키지 구조 및 네이밍 컨벤션)
+* 관련 ADR: ADR-0003 (패키지 구조 및 네이밍 컨벤션)

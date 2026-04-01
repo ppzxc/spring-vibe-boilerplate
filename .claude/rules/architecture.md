@@ -1,6 +1,6 @@
 # Architecture Rules
 
-## 모듈 레이아웃 [ADR-0001]
+## 모듈 레이아웃 [ADR-0002]
 
 8개 모듈, `template/` 하위 플랫 구조.
 
@@ -15,7 +15,7 @@
 | `template-adapter-output-cache` | Outbound Adapter | ✓ | ✗ |
 | `template-boot-api` | Boot | ✓ | ✗ |
 
-## 의존성 방향 규칙 [ADR-0005]
+## 의존성 방향 규칙 [ADR-0001]
 
 ```
 template-boot-api
@@ -29,7 +29,7 @@ template-boot-api
                                            template-domain
 ```
 
-### 금지 규칙 [ADR-0005]
+### 금지 규칙 [ADR-0001]
 
 1. **adapter ↔ adapter 상호 의존 전면 금지** — adapter 간 통신은 반드시 application 레이어(port)를 경유
 2. **순환 의존 전면 금지**
@@ -37,7 +37,7 @@ template-boot-api
 4. **application → Spring 금지** — UseCase 구현체에 `@Service` 사용 불가; autoconfiguration에서 `@Bean` 등록
 5. **query service → command outbound port 의존 금지** — CQRS 경계 유지
 
-## 패키지 구조 규칙 [ADR-0006]
+## 패키지 구조 규칙 [ADR-0003]
 
 ```
 io.github.ppzxc.template
@@ -60,13 +60,13 @@ io.github.ppzxc.template
 └── adapter/output/cache/            ← template-adapter-output-cache 모듈
 ```
 
-## Port 인터페이스 규칙 [ADR-0006]
+## Port 인터페이스 규칙 [ADR-0003]
 
 - `..port.output..*` — 반드시 interface
 - `..port.input.command..*UseCase` — 반드시 interface
 - `..port.input.query..*Query` — 반드시 interface
 
-## ArchUnit 강제 검증 [ADR-0003]
+## ArchUnit 강제 검증 [ADR-0004]
 
 다음 테스트는 항상 통과해야 한다. 위반 시 빌드 실패.
 
@@ -76,3 +76,13 @@ io.github.ppzxc.template
 | `ApplicationArchitectureTest` | `template-application` | Spring 금지, Port interface, query→command port 금지 |
 
 새 레이어 규칙 추가 시 해당 ArchUnit 테스트도 함께 추가.
+
+## 에러 처리 레이어 규칙 [ADR-0007]
+
+- domain/application 레이어: 순수 Java 예외만 던짐
+- adapter 레이어(template-adapter-input-api): 예외를 `ProblemDetail`로 변환
+
+## 관측성 의존성 배치 규칙 [ADR-0008]
+
+- Actuator, OpenTelemetry 의존성: `template-boot-api` 모듈에 배치
+- 로깅 설정 파일 (`logback-spring.xml`, `application.yml`): `template-boot-api/src/main/resources/`

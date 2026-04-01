@@ -119,4 +119,4 @@ recipeList:
 ## 관련 문서
 
 → [ci-tools.md](../.claude/rules/ci-tools.md) — 도구 실행 명령 참조
-→ [ADR-0002](0002-code-quality-toolchain.md) — 코드 품질 도구 선택 근거
+→ [ADR-0005](0005-code-quality-toolchain.md) — 코드 품질 도구 선택 근거

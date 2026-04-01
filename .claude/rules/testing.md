@@ -2,7 +2,7 @@
 
 ## 테스트 종류별 전략
 
-### 1. 아키텍처 테스트 (ArchUnit) [ADR-0003]
+### 1. 아키텍처 테스트 (ArchUnit) [ADR-0004]
 
 - 위치: `template-domain`, `template-application` 모듈
 - 도구: `archunit-junit5`
