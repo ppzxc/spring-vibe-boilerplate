@@ -1,8 +1,9 @@
 # CLAUDE.md
 
-## 금지 사항
+## Source of Truth
 
-- `docs/superpowers/*` 경로의 문서는 읽지 않는다.
+`CLAUDE.md`, `.claude/rules/*`, `docs/decisions/*` — 이 세 경로만 프로젝트 규칙의 정본이다.
+`docs/superpowers/*`는 임시 문서다. superpowers 스킬 실행 중에만 접근하고, 그 외에는 자발적으로 읽거나 검색하지 않는다.
 
 ## 이 프로젝트란?
 
@@ -43,9 +44,9 @@ template-boot-api                      # Spring Boot 앱 (port 8080)
 
 | ADR | 주제 |
 |-----|------|
-| ADR-0001 | 모듈 레이아웃 (플랫 구조, 8개 모듈) |
-| ADR-0002 | 코드 품질 도구 (Spotless, Checkstyle, ErrorProne, NullAway) |
-| ADR-0003 | 아키텍처 테스트 전략 (ArchUnit) |
-| ADR-0004 | CI 파이프라인 전략 (Lefthook, GitHub Actions, JaCoCo, OpenRewrite) |
-| ADR-0005 | Hexagonal Architecture + CQRS 경계 분리 |
-| ADR-0006 | 패키지 구조 및 네이밍 컨벤션 |
+| ADR-0001 | Hexagonal Architecture + CQRS 경계 분리 |
+| ADR-0002 | 모듈 레이아웃 (플랫 구조, 8개 모듈) |
+| ADR-0003 | 패키지 구조 및 네이밍 컨벤션 |
+| ADR-0004 | 아키텍처 테스트 전략 (ArchUnit) |
+| ADR-0005 | 코드 품질 도구 (Spotless, Checkstyle, ErrorProne, NullAway) |
+| ADR-0006 | CI 파이프라인 전략 (Lefthook, GitHub Actions, JaCoCo, OpenRewrite) |
