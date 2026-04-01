@@ -46,6 +46,30 @@ dependencies {
 }
 ```
 
+**template-adapter-input-grpc 패턴 (gRPC 확장 시):**
+```kotlin
+// gradle.properties: label=java,spring,proto
+dependencies {
+    implementation(project(":template-application"))
+    implementation(libs.io.grpc.netty.shaded)
+    implementation(libs.io.grpc.protobuf)
+    implementation(libs.io.grpc.stub)
+}
+```
+
+`proto` 라벨이 Protobuf 플러그인과 코드 생성을 자동 적용한다.
+`.proto` 파일은 `src/main/proto/`에 배치.
+
+**template-boot-grpc 패턴 (gRPC 전용 서버 필요 시):**
+```kotlin
+// gradle.properties: label=java,spring,boot
+dependencies {
+    implementation(project(":template-application-autoconfiguration"))
+    implementation(project(":template-adapter-input-grpc"))
+    // 필요에 따라 output adapter 추가
+}
+```
+
 ### 4. AutoConfiguration 등록 (adapter 모듈)
 
 `src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`

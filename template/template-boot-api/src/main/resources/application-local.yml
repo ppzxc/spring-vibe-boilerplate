@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/template
+    username: template
+    password: ${DB_PASSWORD:template}
+
+logging:
+  level:
+    io.github.ppzxc.template: DEBUG
