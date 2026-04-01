@@ -2,4 +2,4 @@ spring:
   datasource:
     url: jdbc:tc:postgresql:18:///template
     username: template
-    password: template
+    password: ${DB_PASSWORD:test}
