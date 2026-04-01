@@ -76,3 +76,13 @@ io.github.ppzxc.template
 | `ApplicationArchitectureTest` | `template-application` | Spring 금지, Port interface, query→command port 금지 |
 
 새 레이어 규칙 추가 시 해당 ArchUnit 테스트도 함께 추가.
+
+## 에러 처리 레이어 규칙 [ADR-0007]
+
+- domain/application 레이어: 순수 Java 예외만 던짐
+- adapter 레이어(template-adapter-input-api): 예외를 `ProblemDetail`로 변환
+
+## 관측성 의존성 배치 규칙 [ADR-0008]
+
+- Actuator, OpenTelemetry 의존성: `template-boot-api` 모듈에 배치
+- 로깅 설정 파일 (`logback-spring.xml`, `application.yml`): `template-boot-api/src/main/resources/`

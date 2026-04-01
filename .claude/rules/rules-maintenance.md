@@ -50,3 +50,4 @@ full 템플릿 필수 섹션:
 - 항상 50줄 이하로 유지
 - 세부 규칙은 CLAUDE.md에 쓰지 않고 `.claude/rules/`에 위임
 - rules 파일이 추가되면 CLAUDE.md의 규칙 파일 목록 테이블 업데이트
+- ADR 추가 시 `docs/decisions/README.md` 인덱스 테이블도 업데이트

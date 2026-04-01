@@ -34,6 +34,7 @@
 | Controller | `*Controller` | `OrderController` |
 | DTO (Request) | `*Request` | `CreateOrderRequest` |
 | DTO (Response) | `*Response` | `OrderResponse` |
+| 에러 코드 enum | `ErrorCode` enum | `ErrorCode` |
 
 ## 코드 규칙
 

@@ -36,17 +36,13 @@ template-boot-api                      # Spring Boot 앱 (port 8080)
 | 코드 작성 / 네이밍 | `rules/coding-style.md` |
 | CI 도구 사용 | `rules/ci-tools.md` |
 | ADR 작성 / 규칙 수정 | `rules/rules-maintenance.md` |
+| 에러 처리 | `rules/error-handling.md` |
+| 관측성 (로깅, Actuator, OTel) | `rules/observability.md` |
+| API 문서화 (springdoc, Redoc, Springwolf) | `rules/api-documentation.md` |
+| 컨테이너화 / 배포 | `rules/containerization.md` |
+| 환경 설정 (프로파일, 환경변수) | `rules/configuration.md` |
 
 ## ADR 참조
 
-결정의 근거가 필요하면 `docs/decisions/NNNN-*.md` 를 직접 읽는다.
+결정의 근거가 필요하면 [`docs/decisions/README.md`](../docs/decisions/README.md) 를 참조한다.
 규칙 파일의 `[ADR-NNNN]` 태그가 해당 ADR 번호를 가리킨다.
-
-| ADR | 주제 |
-|-----|------|
-| ADR-0001 | Hexagonal Architecture + CQRS 경계 분리 |
-| ADR-0002 | 모듈 레이아웃 (플랫 구조, 8개 모듈) |
-| ADR-0003 | 패키지 구조 및 네이밍 컨벤션 |
-| ADR-0004 | 아키텍처 테스트 전략 (ArchUnit) |
-| ADR-0005 | 코드 품질 도구 (Spotless, Checkstyle, ErrorProne, NullAway) |
-| ADR-0006 | CI 파이프라인 전략 (Lefthook, GitHub Actions, JaCoCo, OpenRewrite) |
