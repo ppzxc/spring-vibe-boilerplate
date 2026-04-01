@@ -11,7 +11,7 @@
 ## springdoc 설정 규칙
 
 ```yaml
-# application.yml
+# template-boot-api/src/main/resources/application.yml
 springdoc:
   swagger-ui:
     enabled: false       # Swagger UI 비활성화 (Redoc 사용)
@@ -49,8 +49,3 @@ public class OrderController {
 - `@AsyncListener` 어노테이션: consumer 엔드포인트 문서화
 - `@AsyncPublisher` 어노테이션: publisher 엔드포인트 문서화
 - AsyncAPI 접근 URL: `/springwolf/asyncapi-ui.html`
-
-## 비고
-
-- Spring Boot 4 호환성은 구현 시 검증 (springdoc, Springwolf 버전 확인 필요)
-- Swagger UI 대신 Redoc을 사용하는 이유: 더 나은 가독성, 단일 HTML 파일 배포
