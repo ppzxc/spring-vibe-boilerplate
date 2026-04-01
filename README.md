@@ -17,18 +17,14 @@ Spring Boot 4 + Hexagonal Architecture boilerplate template.
 
 ```
 template/
-  template-boot-api/                     # Port 8080 - Main API
-  template-boot-admin/                   # Port 8081 - Admin API
-  template-domain/                       # Pure domain (NO Spring, NO JPA)
-  template-application/                  # Ports + UseCases (NO Spring)
-  template-application-autoconfiguration/ # UseCase Bean registration
-  template-adapter-input-web/            # REST + Security
-  template-adapter-input-ws/             # WebSocket + Protobuf
-  template-adapter-output-persist/       # JPA + Flyway
-  template-adapter-output-cache/         # Caffeine
-  template-adapter-output-channel/       # SMS
-  template-adapter-output-notify/        # Email
-  template-common/                       # Shared utilities
+  template-boot-api/                       # Port 8080 - Main API
+  template-domain/                         # Pure domain (NO Spring, NO JPA)
+  template-application/                    # Ports + UseCases (NO Spring)
+  template-application-autoconfiguration/  # UseCase Bean registration
+  template-adapter-input-api/              # REST + Security
+  template-adapter-input-ws/              # WebSocket
+  template-adapter-output-persist/         # JPA + Flyway
+  template-adapter-output-cache/           # Cache
 ```
 
 ## Architecture
@@ -37,10 +33,8 @@ Hexagonal Architecture (Ports & Adapters):
 
 ```
 Inbound Adapters       Application Core       Outbound Adapters
-(input-web)    ──>    (application)    ──>   (output-persist)
+(input-api)    ──>    (application)    ──>   (output-persist)
 (input-ws)            (domain)               (output-cache)
-                                             (output-channel)
-                                             (output-notify)
 ```
 
 ### Dependency Rules (enforced by ArchUnit)
@@ -74,10 +68,10 @@ Base package: `io.github.ppzxc.template`
 |-------|---------|
 | Domain | `io.github.ppzxc.template.domain` |
 | Application | `io.github.ppzxc.template.application` |
-| Web Adapter | `io.github.ppzxc.template.adapter.input.web` |
+| API Adapter | `io.github.ppzxc.template.adapter.input.api` |
 | WS Adapter | `io.github.ppzxc.template.adapter.input.ws` |
 | Persist Adapter | `io.github.ppzxc.template.adapter.output.persist` |
-| Common | `io.github.ppzxc.template.common` |
+| Cache Adapter | `io.github.ppzxc.template.adapter.output.cache` |
 
 ## Adding a New Domain
 
@@ -86,5 +80,5 @@ Base package: `io.github.ppzxc.template`
 3. Add UseCase interfaces and implementations to `template-application/`
 4. Register UseCase beans in `ApplicationAutoConfiguration`
 5. Add JPA entities and repositories to `template-adapter-output-persist`
-6. Add controllers to `template-adapter-input-web`
+6. Add controllers to `template-adapter-input-api`
 7. Add Flyway migration to `template-adapter-output-persist/src/main/resources/db/migration/`

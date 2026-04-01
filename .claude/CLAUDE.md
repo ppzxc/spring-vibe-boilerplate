@@ -47,3 +47,5 @@ template-boot-api                      # Spring Boot 앱 (port 8080)
 | ADR-0002 | 코드 품질 도구 (Spotless, Checkstyle, ErrorProne, NullAway) |
 | ADR-0003 | 아키텍처 테스트 전략 (ArchUnit) |
 | ADR-0004 | CI 파이프라인 전략 (Lefthook, GitHub Actions, JaCoCo, OpenRewrite) |
+| ADR-0005 | Hexagonal Architecture + CQRS 경계 분리 |
+| ADR-0006 | 패키지 구조 및 네이밍 컨벤션 |
