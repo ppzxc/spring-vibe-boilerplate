@@ -15,7 +15,7 @@
 | `template-adapter-output-cache` | Outbound Adapter | ✓ | ✗ |
 | `template-boot-api` | Boot | ✓ | ✗ |
 
-## 의존성 방향 규칙 [ADR-0001]
+## 의존성 방향 규칙 [ADR-0005]
 
 ```
 template-boot-api
@@ -29,7 +29,7 @@ template-boot-api
                                            template-domain
 ```
 
-### 금지 규칙
+### 금지 규칙 [ADR-0005]
 
 1. **adapter ↔ adapter 상호 의존 전면 금지** — adapter 간 통신은 반드시 application 레이어(port)를 경유
 2. **순환 의존 전면 금지**
@@ -37,7 +37,7 @@ template-boot-api
 4. **application → Spring 금지** — UseCase 구현체에 `@Service` 사용 불가; autoconfiguration에서 `@Bean` 등록
 5. **query service → command outbound port 의존 금지** — CQRS 경계 유지
 
-## 패키지 구조 규칙 [ADR-0001]
+## 패키지 구조 규칙 [ADR-0006]
 
 ```
 io.github.ppzxc.template
@@ -60,7 +60,7 @@ io.github.ppzxc.template
 └── adapter/output/cache/            ← template-adapter-output-cache 모듈
 ```
 
-## Port 인터페이스 규칙
+## Port 인터페이스 규칙 [ADR-0006]
 
 - `..port.output..*` — 반드시 interface
 - `..port.input.command..*UseCase` — 반드시 interface

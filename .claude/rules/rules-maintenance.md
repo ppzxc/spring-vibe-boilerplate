@@ -26,14 +26,21 @@ ADR 없이 규칙을 추가할 때:
 | 규칙이 서로 모순 | ADR 작성 후 한쪽 삭제 |
 | 규칙이 현재 코드와 불일치 | 코드 또는 규칙 중 하나를 맞춤 |
 
-## MADR 작성 형식
+## MADR 작성 형식 [MADR 4.0]
 
 `docs/decisions/NNNN-<kebab-case-title>.md` 형식으로 저장.
 번호는 앞에 있는 최대 번호 + 1.
 
-필수 섹션:
-- `status`: accepted / deprecated / superseded-by
+템플릿:
+- full: `docs/decisions/0000-template.md` — 대부분의 결정에 사용
+- minimal: `docs/decisions/0000-template-minimal.md` — 검토 옵션이 2개 이하이고 트레이드오프가 경미한 결정
+
+frontmatter 필수 필드:
+- `status`: accepted / deprecated / superseded by ADR-NNNN
 - `date`: YYYY-MM-DD
+- `decision-makers`: 결정 참여자
+
+full 템플릿 필수 섹션:
 - Context and Problem Statement
 - Considered Options (최소 2개)
 - Decision Outcome + Consequences
