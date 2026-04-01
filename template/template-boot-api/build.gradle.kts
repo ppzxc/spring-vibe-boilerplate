@@ -7,4 +7,9 @@ dependencies {
   implementation(project(":template-adapter-input-ws"))
   implementation(project(":template-adapter-output-persist"))
   implementation(project(":template-adapter-output-cache"))
+
+  // observability (ADR-0008)
+  implementation(libs.org.springframework.boot.starter.actuator)
+  implementation(libs.io.micrometer.tracing.bridge.otel)
+  implementation(libs.io.opentelemetry.exporter.otlp)
 }

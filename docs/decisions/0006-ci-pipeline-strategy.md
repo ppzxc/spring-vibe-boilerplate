@@ -51,8 +51,8 @@ pre-push:
 | 잡 | 범위 | 설명 |
 |----|------|------|
 | `code-quality` | 전체 모듈 | Spotless, Checkstyle, OpenRewrite dry-run |
-| `unit-and-slice` | 단위/슬라이스 테스트 모듈 | ArchUnit, 단위 테스트 |
-| `integration-test` | 통합 테스트 모듈 | Testcontainers 기반 DB/외부 서비스 |
+| `unit-and-slice` | domain, application, autoconfiguration, adapter-input-*, adapter-output-cache | ArchUnit, 단위/슬라이스 테스트 |
+| `integration-test` | adapter-output-persist, boot-api | Testcontainers 기반 DB/외부 서비스 |
 | `coverage-report` | 루트 | JaCoCo 집계 리포트 |
 
 **설정 파일:** `.github/workflows/test.yml`

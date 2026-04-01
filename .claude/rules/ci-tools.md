@@ -79,6 +79,6 @@ Lefthook 설치 후 `./gradlew lefthookInstall` 실행하여 hook 등록.
 | 잡 | 트리거 | 포함 모듈 |
 |----|--------|----------|
 | `code-quality` | push/PR | 전체 (spotless, checkstyle, rewriteDryRun) |
-| `unit-and-slice` | push/PR | domain, application, adapter-input-* |
+| `unit-and-slice` | push/PR | domain, application, autoconfiguration, adapter-input-*, adapter-output-cache |
 | `integration-test` | push/PR | adapter-output-persist, boot-api |
 | `coverage-report` | unit+integration 완료 후 | 루트 (집계) |

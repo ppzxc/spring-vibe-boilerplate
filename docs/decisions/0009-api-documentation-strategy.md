@@ -29,7 +29,7 @@ AsyncAPI가 CNCF 프로젝트로 비동기 API의 표준으로 자리잡았다.
 핵심 제약:
 
 1. **OpenAPI 생성**: springdoc-openapi가 `/v3/api-docs` JSON 자동 생성
-2. **렌더링**: Redoc static HTML 1개 파일로 통합 (`/docs` 경로)
+2. **렌더링**: Redoc static HTML 1개 파일로 통합 (`/redoc.html` 경로)
 3. **Swagger UI 비활성화**: `springdoc.swagger-ui.enabled: false`
 4. **의존성 위치**: springdoc 의존성 + Redoc HTML은 `template-adapter-input-api` 모듈 (Controller와 응집)
 5. **어노테이션 필수**: Controller에 `@Operation`, `@ApiResponse` 어노테이션 작성

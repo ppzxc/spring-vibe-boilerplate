@@ -2,13 +2,13 @@ pre-commit:
   parallel: true
   commands:
     spotless:
-      glob: "*.java"
+      glob: "**/*.java"
       run: ./gradlew spotlessCheck --daemon -q
     checkstyle:
-      glob: "*.java"
+      glob: "**/*.java"
       run: ./gradlew checkstyleMain --daemon -q
     compile:
-      glob: "*.java"
+      glob: "**/*.java"
       run: ./gradlew compileJava --daemon -q
 
 pre-push:

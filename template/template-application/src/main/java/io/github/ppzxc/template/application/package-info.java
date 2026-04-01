@@ -11,4 +11,7 @@
  *   <li>{@code service.query.*} — Query UseCase 구현체 (*Service)
  * </ul>
  */
+@NullMarked
 package io.github.ppzxc.template.application;
+
+import org.jspecify.annotations.NullMarked;

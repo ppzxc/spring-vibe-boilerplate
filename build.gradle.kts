@@ -152,7 +152,6 @@ configureByLabel("spring") {
     implementation(rootProject.libs.org.springframework.boot.starter)
     implementation(rootProject.libs.org.springframework.boot.starter.validation)
     implementation(rootProject.libs.org.springframework.boot.starter.json)
-    implementation(rootProject.libs.net.logstash.logback.encoder)
 
     testImplementation(rootProject.libs.org.springframework.boot.starter.test)
   }
