@@ -13,7 +13,7 @@ COPY config/ config/
 COPY template/ template/
 
 RUN ./gradlew :template-boot-api:bootJar -x test --no-daemon && \
-    java -Djarmode=tools -jar template/template-boot-api/build/libs/*.jar extract --layers --launcher --destination /workspace/extracted
+    java -Djarmode=tools -jar template/template-boot-api/build/libs/template-boot-api-0.0.1.jar extract --layers --launcher --destination /workspace/extracted
 
 # ---- runtime ----
 FROM eclipse-temurin:25-jre AS runtime
@@ -28,4 +28,4 @@ COPY --from=builder /workspace/extracted/snapshot-dependencies/ ./
 COPY --from=builder /workspace/extracted/application/ ./
 
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["java", "org.springframework.boot.loader.launch.JarLauncher"]
