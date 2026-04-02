@@ -73,6 +73,7 @@ jobs:
           name: unit-jacoco
           path: '**/build/jacoco/test.exec'
           retention-days: 7
+          if-no-files-found: ignore
 
   integration-test:
     name: Integration Tests (Docker)
@@ -112,6 +113,7 @@ jobs:
           name: integration-jacoco
           path: '**/build/jacoco/test.exec'
           retention-days: 7
+          if-no-files-found: ignore
 
   coverage-report:
     name: Coverage Report
@@ -135,12 +137,14 @@ jobs:
 
       - name: Download unit JaCoCo reports
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           name: unit-jacoco
           merge-multiple: true
 
       - name: Download integration JaCoCo reports
         uses: actions/download-artifact@v4
+        continue-on-error: true
         with:
           name: integration-jacoco
           merge-multiple: true

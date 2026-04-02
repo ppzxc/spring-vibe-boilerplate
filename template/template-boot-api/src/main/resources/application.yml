@@ -4,12 +4,6 @@ spring:
   threads:
     virtual:
       enabled: true
-  datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/template}
-    username: ${DB_USERNAME:template}
-    password: ${DB_PASSWORD}
-  jpa:
-    open-in-view: false
   mvc:
     problemdetails:
       enabled: true

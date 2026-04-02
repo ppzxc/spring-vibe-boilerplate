@@ -42,15 +42,9 @@ org-springframework-boot-starter-test = { group = "org.springframework.boot", na
 org-springframework-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
 org-springframework-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
 org-springframework-boot-starter-websocket = { group = "org.springframework.boot", name = "spring-boot-starter-websocket" }
-org-springframework-boot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
 org-springframework-boot-starter-cache = { group = "org.springframework.boot", name = "spring-boot-starter-cache" }
 org-springframework-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
 org-springframework-security-test = { group = "org.springframework.security", name = "spring-security-test" }
-
-# database
-org-postgresql = { group = "org.postgresql", name = "postgresql" }
-org-flywaydb-core = { group = "org.flywaydb", name = "flyway-core" }
-org-flywaydb-database-postgresql = { group = "org.flywaydb", name = "flyway-database-postgresql" }
 
 # observability
 io-micrometer-tracing-bridge-otel = { group = "io.micrometer", name = "micrometer-tracing-bridge-otel" }
@@ -67,9 +61,6 @@ io-grpc-protobuf = { group = "io.grpc", name = "grpc-protobuf", version.ref = "i
 io-grpc-stub = { group = "io.grpc", name = "grpc-stub", version.ref = "io-grpc" }
 com-google-protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "com-google-protobuf" }
 io-grpc-protoc-gen-grpc-java = { group = "io.grpc", name = "protoc-gen-grpc-java", version.ref = "io-grpc" }
-
-# testcontainers (adapter-specific)
-org-testcontainers-postgresql = { group = "org.testcontainers", name = "testcontainers-postgresql", version.ref = "org-testcontainers-bom" }
 
 # lombok
 org-projectlombok-lombok = { group = "org.projectlombok", name = "lombok" }

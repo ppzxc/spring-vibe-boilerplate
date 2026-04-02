@@ -3,7 +3,7 @@
 ## 이 프로젝트란?
 
 Spring Boot 4 + Hexagonal Architecture 범용 보일러플레이트.
-Java 25, Virtual Threads, PostgreSQL 18 기반.
+Java 25, Virtual Threads 기반.
 베이스 패키지: `io.github.ppzxc.template`
 
 ## 모듈 구성 (8개)
@@ -14,7 +14,7 @@ template-application                   # 순수 Java (Spring 금지)
 template-application-autoconfiguration # UseCase Bean 등록
 template-adapter-input-api             # REST Controller + Security
 template-adapter-input-ws              # WebSocket
-template-adapter-output-persist        # JPA/Flyway
+template-adapter-output-persist        # Outbound Adapter (영속화 기술 선택)
 template-adapter-output-cache          # Cache
 template-boot-api                      # Spring Boot 앱 (port 8080)
 ```

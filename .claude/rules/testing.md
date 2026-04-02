@@ -48,16 +48,8 @@ MyDomain domain = fixture.giveMeOne(MyDomain.class);
 ### 4. 통합 테스트 (Testcontainers)
 
 - 도구: Testcontainers, WireMock
-- 대상: JPA Repository, 외부 서비스 Adapter
-- PostgreSQL 컨테이너: `org.testcontainers:testcontainers-postgresql`
-
-```java
-@Testcontainers
-class MyRepositoryIT {
-    @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:18");
-}
-```
+- 대상: Repository, 외부 서비스 Adapter
+- 사용할 영속화 기술에 맞는 Testcontainers 모듈 선택 (`testcontainers-postgresql`, `testcontainers-mongodb` 등)
 
 ## 명명 규칙
 
