@@ -74,6 +74,12 @@ dependencies {
 `src/main/resources/META-INF/spring/org.springframework.boot.autoconfigure.AutoConfiguration.imports`
 에 AutoConfiguration 클래스 FQCN 추가.
 
+AutoConfiguration 클래스 패키지 네이밍 규칙 [ADR-0014]:
+- application 모듈: `io.github.ppzxc.template.autoconfigure.application`
+- adapter 모듈: `io.github.ppzxc.template.autoconfigure.adapter.{direction}.{type}`
+  - 예: `io.github.ppzxc.template.autoconfigure.adapter.input.api`
+  - 예: `io.github.ppzxc.template.autoconfigure.adapter.output.persist`
+
 ### 5. ArchUnit 테스트 추가 (domain, application 레이어)
 
 `DomainArchitectureTest` 또는 `ApplicationArchitectureTest` 패턴 참고.
