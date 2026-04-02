@@ -13,10 +13,9 @@ docker build -t template-api .
 ## docker-compose 구성 규칙
 
 - 파일 위치: 프로젝트 루트 `docker-compose.yml`
-- 패스워드 등 비밀값은 `.env` 파일로 분리하여 주입 (`configuration.md` 비밀 관리 규칙 준수)
+- 비밀값은 `.env` 파일로 분리하여 주입 (`configuration.md` 비밀 관리 규칙 준수)
 
 ```yaml
-# .env 파일에서 DB_PASSWORD 등 비밀값을 주입
 services:
   app:
     image: template-api
@@ -24,20 +23,7 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: local
-      DB_URL: jdbc:postgresql://postgres:5432/template
-      DB_USERNAME: template
-      DB_PASSWORD: ${DB_PASSWORD}
-    depends_on:
-      - postgres
-
-  postgres:
-    image: postgres:18
-    ports:
-      - "5432:5432"
-    environment:
-      POSTGRES_DB: template
-      POSTGRES_USER: template
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      # 영속화 기술 선택 후 필요한 환경변수 추가
 ```
 
 ## Dockerfile 작성 규칙 (대안 사용 시)

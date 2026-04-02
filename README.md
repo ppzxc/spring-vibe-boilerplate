@@ -2,7 +2,7 @@
 
 **Spring Boot 4 + Hexagonal Architecture 범용 보일러플레이트**
 
-Java 25, Virtual Threads, PostgreSQL 18 기반의 프로덕션 레디 템플릿.
+Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 헥사고날 아키텍처(Ports & Adapters), CQRS, ArchUnit 기반 아키텍처 테스트를 내장합니다.
 
 ---
@@ -31,8 +31,6 @@ Java 25, Virtual Threads, PostgreSQL 18 기반의 프로덕션 레디 템플릿.
 | Java | 25 |
 | Spring Boot | 4.0.3 |
 | Gradle | 9.3.1 (Kotlin DSL) |
-| PostgreSQL | 18 |
-| Flyway | 12.0.1 |
 | Virtual Threads | 활성화 |
 
 ---
@@ -48,7 +46,7 @@ Java 25, Virtual Threads, PostgreSQL 18 기반의 프로덕션 레디 템플릿.
 | `template-application-autoconfiguration` | UseCase Bean 등록 | ✓ | ✗ |
 | `template-adapter-input-api` | REST Controller + Security | ✓ | ✗ |
 | `template-adapter-input-ws` | WebSocket | ✓ | ✗ |
-| `template-adapter-output-persist` | JPA + Flyway | ✓ | ✓ |
+| `template-adapter-output-persist` | 영속화 (사용자 선택) | ✓ | ✗ |
 | `template-adapter-output-cache` | Cache | ✓ | ✗ |
 | `template-boot-api` | Spring Boot 앱 (port 8080) | ✓ | ✗ |
 
@@ -100,7 +98,7 @@ graph LR
     end
 
     subgraph Outbound Adapters
-        O1[JPA / Flyway\ntemplate-adapter-output-persist]
+        O1[Persistence\ntemplate-adapter-output-persist]
         O2[Cache\ntemplate-adapter-output-cache]
     end
 
@@ -179,7 +177,6 @@ graph LR
 | Outbound Port | `*Port` interface | `SaveOrderPort` |
 | UseCase 구현체 | `*Service` | `CreateOrderService` |
 | Controller | `*Controller` | `OrderController` |
-| JPA Entity | `*JpaEntity` | `OrderJpaEntity` |
 
 > 상세: [`.claude/rules/coding-style.md`](.claude/rules/coding-style.md)
 
@@ -191,9 +188,8 @@ graph LR
 2. `template-application/port/`에 Port 인터페이스 추가
 3. `template-application/`에 UseCase 인터페이스 및 Service 구현체 추가
 4. `ApplicationAutoConfiguration`에 UseCase Bean 등록
-5. `template-adapter-output-persist`에 JPA Entity, Repository, Adapter 추가
+5. `template-adapter-output-persist`에 영속화 기술에 맞는 Adapter 추가
 6. `template-adapter-input-api`에 Controller 추가
-7. `template-adapter-output-persist/src/main/resources/db/migration/`에 Flyway 마이그레이션 추가
 
 ---
 
@@ -277,8 +273,7 @@ Swagger UI는 비활성화되어 있습니다. Redoc으로 통일합니다.
 | 파일 | 용도 |
 |------|------|
 | `application.yml` | 공통 설정 + 환경변수 플레이스홀더 |
-| `application-local.yml` | 로컬 개발 (직접 DB 연결) |
-| `application-test.yml` | 테스트 (Testcontainers 연동) |
+| `application-local.yml` | 로컬 개발 |
 | `application-prod.yml` | 프로덕션 (환경변수 중심, 기본값 없음) |
 
 ### 주요 환경변수
@@ -286,9 +281,6 @@ Swagger UI는 비활성화되어 있습니다. Redoc으로 통일합니다.
 | 변수 | 설명 | 기본값 |
 |------|------|--------|
 | `SPRING_PROFILES_ACTIVE` | 활성 프로파일 | `local` |
-| `DB_URL` | PostgreSQL JDBC URL | `jdbc:postgresql://localhost:5432/template` |
-| `DB_USERNAME` | DB 사용자명 | `template` |
-| `DB_PASSWORD` | DB 패스워드 | **(필수, 기본값 없음)** |
 | `OTLP_ENDPOINT` | OTel 수집 엔드포인트 | (선택) |
 
 > 비밀(패스워드, 토큰)은 반드시 환경변수로 주입합니다. yml 파일에 평문 작성 금지.
@@ -308,7 +300,6 @@ Swagger UI는 비활성화되어 있습니다. Redoc으로 통일합니다.
 ### docker-compose
 
 ```bash
-# .env 파일에 DB_PASSWORD 설정 후 실행
 docker compose up -d
 ```
 

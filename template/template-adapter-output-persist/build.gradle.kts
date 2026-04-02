@@ -1,11 +1,4 @@
-// template-adapter-output-persist: JPA Entity, Repository, Flyway (Outbound Adapter)
+// template-adapter-output-persist: Outbound Adapter (영속화 기술 선택 후 의존성 추가)
 dependencies {
   implementation(project(":template-application"))
-  implementation(libs.org.springframework.boot.starter.data.jpa)
-  implementation(libs.org.flywaydb.core)
-  implementation(libs.org.flywaydb.database.postgresql)
-
-  runtimeOnly(libs.org.postgresql)
-
-  testImplementation(libs.org.testcontainers.postgresql)
 }

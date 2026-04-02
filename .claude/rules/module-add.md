@@ -41,8 +41,7 @@ dependencies {
 ```kotlin
 dependencies {
     implementation(project(":template-application"))
-    implementation(libs.org.springframework.boot.starter.data.jpa)
-    implementation(libs.org.flywaydb.core)
+    // 사용할 영속화 기술에 맞는 의존성 추가 (JPA, R2DBC, MongoDB 등)
 }
 ```
 
