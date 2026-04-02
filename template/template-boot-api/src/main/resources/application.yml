@@ -1,6 +1,6 @@
 spring:
   application:
-    name: template-api
+    name: ${APP_NAME:template-api}
   threads:
     virtual:
       enabled: true
@@ -9,6 +9,9 @@ spring:
       enabled: true
 
 logging:
+  level:
+    root: ${LOG_LEVEL_ROOT:INFO}
+    io.github.ppzxc.template: ${LOG_LEVEL_APP:INFO}
   structured:
     format:
       console: logstash
@@ -26,7 +29,7 @@ management:
       endpoint: ${OTLP_ENDPOINT:}
 
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 springdoc:
   swagger-ui:
