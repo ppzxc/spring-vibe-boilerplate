@@ -18,6 +18,7 @@
 | [ADR-0009](0009-api-documentation-strategy.md) | accepted | API 문서화 전략: springdoc-openapi + Redoc + Springwolf + AsyncAPI |
 | [ADR-0010](0010-containerization-strategy.md) | accepted | 컨테이너화 전략: bootBuildImage + 멀티스테이지 Dockerfile + docker-compose |
 | [ADR-0011](0011-configuration-strategy.md) | accepted | 환경 설정 전략: application-{profile}.yml 분리 + 환경변수 오버라이드 패턴 |
+| [ADR-0012](0012-transaction-management-strategy.md) | accepted | 트랜잭션 관리 전략: AutoConfiguration 데코레이터 패턴 |
 
 ## 새 ADR 추가
 

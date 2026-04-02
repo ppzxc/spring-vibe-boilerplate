@@ -77,6 +77,16 @@ io.github.ppzxc.template
 
 새 레이어 규칙 추가 시 해당 ArchUnit 테스트도 함께 추가.
 
+## 비즈니스 로직 위치 규칙 [ADR-0001]
+
+- 비즈니스 로직은 domain/application 레이어에서만 구현할 것 — adapter는 변환/위임만 담당
+
+## 트랜잭션 관리 규칙 [ADR-0012]
+
+- 트랜잭션 경계는 `template-application-autoconfiguration`에서 데코레이터로 적용할 것
+- Command UseCase Bean: `@Transactional`, Query UseCase Bean: `@Transactional(readOnly = true)`
+- application 레이어에서 Spring 트랜잭션 직접 사용 금지
+
 ## 에러 처리 레이어 규칙 [ADR-0007]
 
 - domain/application 레이어: 순수 Java 예외만 던짐
