@@ -67,6 +67,10 @@ full 템플릿 필수 섹션:
 - Considered Options (최소 2개)
 - Decision Outcome + Consequences
 
+섹션명 규칙:
+- ADR 섹션명은 반드시 영문 MADR 4.0 표준을 따를 것 (템플릿 파일 참조 필수)
+- 프로젝트 고유 섹션은 `##` 레벨 한글 허용, 단 표준 섹션 순서 뒤에 배치
+
 ## CLAUDE.md 유지 원칙
 
 - 항상 50줄 이하로 유지
