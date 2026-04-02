@@ -42,7 +42,6 @@ org-springframework-boot-starter-test = { group = "org.springframework.boot", na
 org-springframework-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
 org-springframework-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
 org-springframework-boot-starter-websocket = { group = "org.springframework.boot", name = "spring-boot-starter-websocket" }
-org-springframework-boot-starter-data-jpa = { group = "org.springframework.boot", name = "spring-boot-starter-data-jpa" }
 org-springframework-boot-starter-cache = { group = "org.springframework.boot", name = "spring-boot-starter-cache" }
 org-springframework-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
 org-springframework-security-test = { group = "org.springframework.security", name = "spring-security-test" }
