@@ -6,20 +6,22 @@ decision-makers: ppzxc
 
 # CI 파이프라인 전략: Lefthook + GitHub Actions + JaCoCo + OpenRewrite
 
-## 배경 및 문제
+## Context and Problem Statement
 
 코드 품질 도구(Spotless, Checkstyle, ErrorProne, ArchUnit)가 있어도 CI에 통합되지 않으면
 push 이후에야 문제가 발견된다. 로컬에서 빠른 피드백을 주고, 원격에서는 전체 검증을 수행하는
 다단계 파이프라인이 필요하다.
 
-## 결정 기준
+## Decision Drivers
 
 * 로컬 개발 시 빠른 피드백 (push 전 차단)
 * CI에서 전체 테스트 + 커버리지 집계
 * 코드 현대화 자동 제안
 * 설정 복잡도 최소화
 
-## 채택 도구
+## Decision Outcome
+
+Chosen option: "Lefthook + GitHub Actions + JaCoCo + OpenRewrite", because 로컬 빠른 피드백(Lefthook) + 원격 전체 검증(Actions) + 커버리지(JaCoCo) + 현대화(OpenRewrite)를 조합.
 
 ### 1. Lefthook (0.4.0) — Git Hooks 관리
 
@@ -106,7 +108,7 @@ recipeList:
   └── coverage-report: JaCoCo 집계 (unit + integration 의존)
 ```
 
-## 검토한 대안
+## Pros and Cons of the Options
 
 | 대안 | 미채택 이유 |
 |------|-----------|
@@ -116,7 +118,7 @@ recipeList:
 | SonarCloud | 유료 플랜 필요, 현재 규모에서 과도 |
 | Codecov | 별도 토큰/설정 필요, JaCoCo 아티팩트로 충분 |
 
-## 관련 문서
+## More Information
 
 → [ci-tools.md](../.claude/rules/ci-tools.md) — 도구 실행 명령 참조
 → [ADR-0005](0005-code-quality-toolchain.md) — 코드 품질 도구 선택 근거
