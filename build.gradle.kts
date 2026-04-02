@@ -169,3 +169,14 @@ configureByLabel("boot") {
 configureByLabel("proto") {
   apply(plugin = "com.google.protobuf")
 }
+
+// ── mapstruct 라벨: MapStruct + Lombok 바인딩 ──────────────────────
+// Lombok annotationProcessor는 "java" 라벨에서 이미 전역 등록됨
+// lombok-mapstruct-binding이 Lombok→MapStruct annotation processor 순서를 보장함
+configureByLabel("mapstruct") {
+  dependencies {
+    implementation(rootProject.libs.org.mapstruct)
+    annotationProcessor(rootProject.libs.org.projectlombok.mapstruct.binding)
+    annotationProcessor(rootProject.libs.org.mapstruct.processor)
+  }
+}

@@ -1,5 +1,5 @@
 /** UseCase 구현체를 Spring Bean으로 등록하는 AutoConfiguration. */
 @NullMarked
-package io.github.ppzxc.template.application.autoconfiguration;
+package io.github.ppzxc.template.autoconfigure.application;
 
 import org.jspecify.annotations.NullMarked;

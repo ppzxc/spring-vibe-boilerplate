@@ -35,6 +35,7 @@
 | DTO (Request) | `*Request` | `CreateOrderRequest` |
 | DTO (Response) | `*Response` | `OrderResponse` |
 | 에러 코드 enum | `ErrorCode` enum | `ErrorCode` |
+| Mapper | `*Mapper` interface | `OrderMapper` |
 
 ## 코드 규칙
 

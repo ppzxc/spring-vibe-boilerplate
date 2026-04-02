@@ -37,6 +37,10 @@ management:
 | 변수 | 설명 | 기본값 |
 |------|------|--------|
 | `SPRING_PROFILES_ACTIVE` | 활성 프로파일 | `local` |
+| `APP_NAME` | 애플리케이션 이름 | `template-api` |
+| `SERVER_PORT` | 서버 포트 | `8080` |
+| `LOG_LEVEL_ROOT` | 루트 로그 레벨 | `INFO` |
+| `LOG_LEVEL_APP` | 앱 패키지 로그 레벨 | `INFO` |
 | `OTLP_ENDPOINT` | OTel 수집 엔드포인트 | (없음, 선택) |
 
 ## 금지 패턴

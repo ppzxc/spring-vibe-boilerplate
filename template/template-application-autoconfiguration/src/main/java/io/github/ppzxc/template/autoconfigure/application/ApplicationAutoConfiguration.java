@@ -1,4 +1,4 @@
-package io.github.ppzxc.template.application.autoconfiguration;
+package io.github.ppzxc.template.autoconfigure.application;
 
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 

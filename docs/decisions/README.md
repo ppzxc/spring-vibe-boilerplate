@@ -19,6 +19,8 @@
 | [ADR-0010](0010-containerization-strategy.md) | accepted | 컨테이너화 전략: bootBuildImage + 멀티스테이지 Dockerfile + docker-compose |
 | [ADR-0011](0011-configuration-strategy.md) | accepted | 환경 설정 전략: application-{profile}.yml 분리 + 환경변수 오버라이드 패턴 |
 | [ADR-0012](0012-transaction-management-strategy.md) | accepted | 트랜잭션 관리 전략: AutoConfiguration 데코레이터 패턴 |
+| [ADR-0013](0013-object-mapping-strategy.md) | accepted | 객체 변환 전략: 하이브리드 (MapStruct + static factory) |
+| [ADR-0014](0014-module-autoconfiguration-assembly-strategy.md) | accepted | 모듈 자동 조립 전략: 모듈별 AutoConfiguration 자체 등록 |
 
 ## 새 ADR 추가
 
