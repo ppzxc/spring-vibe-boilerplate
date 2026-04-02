@@ -18,6 +18,10 @@ org-openrewrite-recipe-static-analysis = "2.31.0"
 org-openrewrite-recipe-migrate-java = "3.31.1"
 org-openrewrite-recipe-spring = "6.28.1"
 
+# mapstruct
+org-mapstruct = "1.6.3"
+org-projectlombok-mapstruct-binding = "0.2.0"
+
 # libs
 org-awaitility = "4.3.0"
 org-testcontainers-bom = "2.0.4"
@@ -61,6 +65,11 @@ io-grpc-protobuf = { group = "io.grpc", name = "grpc-protobuf", version.ref = "i
 io-grpc-stub = { group = "io.grpc", name = "grpc-stub", version.ref = "io-grpc" }
 com-google-protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "com-google-protobuf" }
 io-grpc-protoc-gen-grpc-java = { group = "io.grpc", name = "protoc-gen-grpc-java", version.ref = "io-grpc" }
+
+# mapstruct
+org-mapstruct = { group = "org.mapstruct", name = "mapstruct", version.ref = "org-mapstruct" }
+org-mapstruct-processor = { group = "org.mapstruct", name = "mapstruct-processor", version.ref = "org-mapstruct" }
+org-projectlombok-mapstruct-binding = { group = "org.projectlombok", name = "lombok-mapstruct-binding", version.ref = "org-projectlombok-mapstruct-binding" }
 
 # lombok
 org-projectlombok-lombok = { group = "org.projectlombok", name = "lombok" }
