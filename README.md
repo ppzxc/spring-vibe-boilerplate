@@ -102,12 +102,12 @@ graph LR
         O2[Cache\ntemplate-adapter-output-cache]
     end
 
-    A1 -->|implements| P1
-    A2 -->|implements| P1
+    A1 -->|calls| P1
+    A2 -->|calls| P1
     P1 --> SVC
     SVC --> P2
-    P2 -->|implements| O1
-    P2 -->|implements| O2
+    O1 -->|implements| P2
+    O2 -->|implements| P2
 ```
 
 ### ArchUnit 강제 규칙
