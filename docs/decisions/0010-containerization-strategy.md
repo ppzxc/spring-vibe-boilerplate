@@ -6,21 +6,21 @@ decision-makers: ppzxc
 
 # 컨테이너화 전략: bootBuildImage (기본) + 멀티스테이지 Dockerfile (대안) + docker-compose
 
-## 배경 및 문제
+## Context and Problem Statement
 
 컨테이너 이미지 빌드 방식이 여러 가지 존재한다. Spring Boot 공식 Cloud Native Buildpacks,
 직접 작성한 Dockerfile, Jib 플러그인 등이 있으며 각각 트레이드오프가 다르다.
 Virtual Threads를 사용하는 이 프로젝트에서 GraalVM Native Image는 목적이 중복된다.
 보일러플레이트로서 기본 방식과 대안 방식을 모두 제공하여 사용자가 선택할 수 있게 해야 한다.
 
-## 결정 기준
+## Decision Drivers
 
 * Spring Boot 4 공식 지원 방식 우선
 * 보안 패치 자동 적용 (베이스 이미지 관리 최소화)
 * 로컬 개발 환경 구성 지원 (PostgreSQL 18 포함)
 * 특정 JDK 버전 고정 등 완전 제어 필요 시 대안 제공
 
-## 결정
+## Decision Outcome
 
 **bootBuildImage (기본) + 멀티스테이지 Dockerfile (대안) + docker-compose** 조합을 채택한다.
 
@@ -44,7 +44,7 @@ docker build -t template-app .
 docker compose up -d
 ```
 
-## 검토한 대안
+## Pros and Cons of the Options
 
 | 대안 | 미채택 이유 |
 |------|-----------|
@@ -53,7 +53,7 @@ docker compose up -d
 | Jib | 유지보수 빈도 감소 우려, Gradle/Maven 플러그인 호환성 불확실 |
 | GraalVM Native Image | Virtual Threads 사용 목적과 중복, 빌드 시간 10분+, 리플렉션 설정 복잡 |
 
-## 관련 문서
+## More Information
 
 → [ADR-0006](0006-ci-pipeline-strategy.md) — CI 파이프라인 (GitHub Actions 빌드 잡)
 → [ADR-0011](0011-configuration-strategy.md) — 환경 설정 전략 (prod 환경변수 주입)

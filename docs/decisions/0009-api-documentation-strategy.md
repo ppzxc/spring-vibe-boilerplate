@@ -6,21 +6,21 @@ decision-makers: ppzxc
 
 # API 문서화 전략: springdoc-openapi + Redoc (REST) + Springwolf + AsyncAPI (WS)
 
-## 배경 및 문제
+## Context and Problem Statement
 
 REST API와 WebSocket 메시지 프로토콜 모두 문서화가 필요하다.
 REST는 OpenAPI 3.x 스펙이 사실상 표준이지만, 렌더링 도구의 UX가 개발자 경험에 큰 영향을 준다.
 WebSocket 메시지 계약은 REST와 별도의 문서화 체계가 필요하며,
 AsyncAPI가 CNCF 프로젝트로 비동기 API의 표준으로 자리잡았다.
 
-## 결정 기준
+## Decision Drivers
 
 * REST API: OpenAPI 3.x 자동 생성 + 고품질 렌더링
 * WebSocket: 메시지 계약 문서화
 * 외부 서비스(Swagger Hub 등) 없이 자체 호스팅
 * Spring Boot 4 호환성
 
-## 결정
+## Decision Outcome
 
 **springdoc-openapi + Redoc (REST) + Springwolf + AsyncAPI (WS)** 조합을 채택한다.
 
@@ -41,7 +41,7 @@ AsyncAPI가 CNCF 프로젝트로 비동기 API의 표준으로 자리잡았다.
 8. **스펙 버전**: AsyncAPI 3.0 (2023 stable)
 9. **의존성 위치**: `template-adapter-input-ws` 모듈
 
-## 검토한 대안
+## Pros and Cons of the Options
 
 | 대안 | 미채택 이유 |
 |------|-----------|
@@ -50,7 +50,7 @@ AsyncAPI가 CNCF 프로젝트로 비동기 API의 표준으로 자리잡았다.
 | Spring REST Docs | 테스트 기반으로 유지 비용 높음, OpenAPI 자동 생성보다 수동 작업 많음 |
 | Stoplight Elements | 외부 CDN 의존, 자체 호스팅 복잡 |
 
-## 관련 문서
+## More Information
 
 → [architecture.md](../../.claude/rules/architecture.md) — 모듈 레이아웃 (adapter-input-api, adapter-input-ws)
 → [ADR-0002](0002-flat-module-structure.md) — 모듈 구성 원칙
