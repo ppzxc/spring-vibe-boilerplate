@@ -103,3 +103,9 @@ io.github.ppzxc.template
 - domain/application 레이어에서 MapStruct 사용 금지 — static factory 또는 생성자로 변환할 것 [ADR-0013]
 - Mapper 인터페이스는 해당 adapter 모듈에 배치할 것 — 다른 모듈에서 참조 금지 [ADR-0013]
 - unmappedTargetPolicy는 ERROR로 설정하여 매핑 누락을 컴파일 시 감지할 것 [ADR-0013]
+
+## 모듈 자동 조립 규칙 [ADR-0014]
+
+규칙 상세는 `rules/assembly.md` 참조. 요약:
+- 모든 모듈은 자체 AutoConfiguration으로 Bean을 등록할 것 [ADR-0014]
+- Boot 모듈에서 `@ComponentScan` 커스터마이징 및 `@Bean` 직접 등록 금지 [ADR-0014]
