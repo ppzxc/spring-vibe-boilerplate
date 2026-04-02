@@ -11,6 +11,28 @@ ADR 없이 규칙을 추가할 때:
 - 근거가 비자명하면 ADR 먼저 작성
 - 명백한 코딩 컨벤션은 ADR 없이 rules에 직접 추가 가능
 
+## Rules 작성 기준
+
+rules 파일은 **스켈레톤 가드레일**이다. 구현자가 매번 직접 작성해야 할 코드를 대신 지시하지 않는다.
+
+**허용** (원칙/제약):
+- `~할 것`, `~금지`, `~사용 금지` 형식의 한 문장
+- 레이어 경계 규칙, 의존성 방향 규칙, 도구 사용 원칙
+- 형식: `<원칙 한 문장> [ADR-NNNN]`
+
+**금지** (구현 디테일):
+- 클래스명, 메서드명, 어노테이션 이름
+- 상속/구현 대상 지정 (`extends`, `implements`)
+- yml/properties 설정 코드 블록 (boot 모듈 가드레일이 아닌 경우)
+- JSON/Java 코드 예시 블록
+- 파일 경로 지정 (모듈 배치 규칙 제외)
+
+예시:
+```
+✓ adapter-input-api에서 ProblemDetail(RFC 9457)로 예외를 변환할 것 [ADR-0007]
+✗ 클래스명: GlobalExceptionHandler, 어노테이션: @RestControllerAdvice, 상속: ResponseEntityExceptionHandler
+```
+
 ## 규칙 파일 크기 관리
 
 - 파일 하나당 **100줄 이하** 유지

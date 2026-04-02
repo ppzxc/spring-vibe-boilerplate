@@ -8,53 +8,11 @@
 | application | 순수 Java 예외 (domain 예외 전파 또는 재정의) | Spring, HTTP 예외 |
 | adapter (입력) | Spring `ResponseEntity`, `ProblemDetail` 변환 | 예외 노출 그대로 |
 
-## ErrorCode 규칙
+## 구현 원칙 [ADR-0007]
 
-- 위치: `io.github.ppzxc.template.domain` (template-domain 모듈)
-- 타입: 순수 Java `enum` (Spring 의존 금지)
-- 예시 값:
-
-```java
-public enum ErrorCode {
-    NOT_FOUND,
-    INVALID_ARGUMENT,
-    CONFLICT,
-    UNAUTHORIZED,
-    FORBIDDEN,
-    INTERNAL_ERROR
-}
-```
-
-## GlobalExceptionHandler 규칙
-
-- 위치: `template-adapter-input-api` 모듈
-- 클래스명: `GlobalExceptionHandler`
-- 어노테이션: `@RestControllerAdvice`
-- 상속: `ResponseEntityExceptionHandler`
-- Spring Boot 4 필수 설정 (`application.yml`):
-
-```yaml
-spring:
-  mvc:
-    problemdetails:
-      enabled: true
-```
-
-## 에러 응답 형식 (RFC 9457 + 확장)
-
-```json
-{
-  "type": "https://example.com/errors/invalid-argument",
-  "title": "Invalid Argument",
-  "status": 400,
-  "detail": "필드 'name'은 비워둘 수 없습니다.",
-  "instance": "/api/v1/orders",
-  "errorCode": "INVALID_ARGUMENT"
-}
-```
-
-- `errorCode` 필드: `ErrorCode` enum 값을 문자열로 포함 (클라이언트 분기 처리용)
-- `ProblemDetail.setProperty("errorCode", errorCode.name())` 으로 확장
+- domain 레이어에 ErrorCode enum을 정의할 것 (Spring 의존 금지)
+- adapter-input-api에서 ProblemDetail(RFC 9457)로 예외를 변환할 것
+- 에러 응답에 errorCode 필드를 포함할 것 (클라이언트 분기 처리용)
 
 ## 금지 패턴
 

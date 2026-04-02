@@ -89,16 +89,4 @@ dependencies {
 
 ## 모듈 간 의존 방향
 
-```
-template-boot-api (앱)
-  ├── template-application-autoconfiguration
-  ├── template-adapter-input-api ──→ template-application
-  ├── template-adapter-input-ws ───→ template-application
-  ├── template-adapter-output-persist → template-application
-  └── template-adapter-output-cache ──→ template-application
-                                            │
-                                            ↓
-                                      template-domain
-```
-
-**역방향 의존 금지.** adapter 간 상호 의존 전면 금지.
+의존성 방향 규칙은 `rules/architecture.md` 참조. 역방향 의존 금지. adapter 간 상호 의존 전면 금지.

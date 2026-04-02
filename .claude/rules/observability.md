@@ -23,12 +23,10 @@ logging:
 - 키-값 쌍은 `addKeyValue(key, value)` 로만 추가
 - 민감 정보(패스워드, 토큰)는 로그 키-값에서 제외
 
-## MDC 필수 필드
+## MDC 필수 필드 [ADR-0008]
 
-| 필드 | 설명 | 주입 위치 |
-|------|------|----------|
-| `requestId` | HTTP 요청 고유 ID (UUID) | `OncePerRequestFilter` |
-| `traceId` | OpenTelemetry 분산 추적 ID | Micrometer 자동 주입 |
+- 요청별 고유 ID(requestId)를 MDC에 주입할 것
+- traceId는 Micrometer가 자동 주입
 
 ## Actuator 엔드포인트 규칙
 
