@@ -6,26 +6,26 @@ decision-makers: ppzxc
 
 # 모듈 레이아웃: template/ 하위 플랫 구조
 
-## 배경 및 문제
+## Context and Problem Statement
 
 Hexagonal Architecture 기반 Gradle 멀티모듈 프로젝트에서 8개 모듈을 어떤 디렉토리 구조로 배치할지 결정해야 한다.
 모듈 이름 접두사(`template-adapter-*`, `template-boot-*`)가 이미 레이어 역할을 인코딩하고 있으므로,
 디렉토리 구조는 이 정보를 중복하지 않으면서 탐색이 간결해야 한다.
 
-## 결정 기준
+## Decision Drivers
 
 - 루트 디렉토리는 빌드/설정 파일만 배치 (모듈 폴더 혼재 금지)
 - 모듈 이름이 역할을 자체 설명할 것
 - 불필요한 중첩 제거
 - 새 모듈 추가가 단순할 것
 
-## 검토한 옵션
+## Considered Options
 
 - **A. template/ 하위 플랫 구조 (채택)** — `template/` 래퍼 안에 모든 모듈을 나란히 배치
 - **B. 루트 플랫 구조** — 모든 모듈을 프로젝트 루트에 직접 배치
 - **C. Hexagonal 레이어별 그룹** — `core/`, `adapters/`, `bootstrap/`로 그룹화
 
-## 결정
+## Decision Outcome
 
 **A. template/ 하위 플랫 구조** 채택.
 
@@ -77,7 +77,7 @@ module("template/<module-name>")
 # 3. build.gradle.kts 작성 (레이어별 의존성 규칙 적용)
 ```
 
-## 옵션 비교
+## Pros and Cons of the Options
 
 ### B. 루트 플랫 구조
 
@@ -90,7 +90,7 @@ module("template/<module-name>")
 - 단점: 모듈 이름과 폴더 이름이 중복 정보를 생성 (`adapters/template-adapter-*`)
 - 단점: 중첩 깊이가 A 대비 1단계 증가
 
-## 추가 정보
+## More Information
 
 **module() 헬퍼가 필요한 이유:**
 모듈이 `template/` 하위에 있으면 Gradle의 표준 `include()`는 프로젝트 루트에서 모듈을 찾는다.
