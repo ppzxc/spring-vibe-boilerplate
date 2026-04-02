@@ -9,18 +9,40 @@ Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 
 ## 목차
 
-1. [기술 스택](#기술-스택)
-2. [모듈 구조](#모듈-구조)
-3. [아키텍처](#아키텍처)
-4. [빠른 시작](#빠른-시작)
-5. [패키지 컨벤션](#패키지-컨벤션)
-6. [새 도메인 추가 가이드](#새-도메인-추가-가이드)
-7. [에러 처리](#에러-처리)
-8. [관측성](#관측성)
-9. [API 문서화](#api-문서화)
-10. [환경 설정](#환경-설정)
-11. [컨테이너화](#컨테이너화)
-12. [코드 품질 도구](#코드-품질-도구)
+1. [아키텍처 결정 기록 (ADR)](#아키텍처-결정-기록-adr)
+2. [기술 스택](#기술-스택)
+3. [모듈 구조](#모듈-구조)
+4. [아키텍처](#아키텍처)
+5. [빠른 시작](#빠른-시작)
+6. [패키지 컨벤션](#패키지-컨벤션)
+7. [새 도메인 추가 가이드](#새-도메인-추가-가이드)
+8. [에러 처리](#에러-처리)
+9. [관측성](#관측성)
+10. [API 문서화](#api-문서화)
+11. [환경 설정](#환경-설정)
+12. [컨테이너화](#컨테이너화)
+13. [코드 품질 도구](#코드-품질-도구)
+
+---
+
+## 아키텍처 결정 기록 (ADR)
+
+| ADR | 주제 | 상태 |
+|-----|------|------|
+| [ADR-0001](docs/decisions/0001-hexagonal-architecture-and-cqrs.md) | Hexagonal Architecture + CQRS 경계 분리 채택 | accepted |
+| [ADR-0002](docs/decisions/0002-flat-module-structure.md) | 모듈 레이아웃: template/ 하위 플랫 구조 | accepted |
+| [ADR-0003](docs/decisions/0003-package-structure-and-naming.md) | 패키지 구조 및 네이밍 컨벤션 | accepted |
+| [ADR-0004](docs/decisions/0004-architecture-testing-strategy.md) | 아키텍처 테스트 전략: ArchUnit | accepted |
+| [ADR-0005](docs/decisions/0005-code-quality-toolchain.md) | 코드 품질 도구 전략: Spotless + Checkstyle + ErrorProne + NullAway | accepted |
+| [ADR-0006](docs/decisions/0006-ci-pipeline-strategy.md) | CI 파이프라인 전략: Lefthook + GitHub Actions + JaCoCo + OpenRewrite | accepted |
+| [ADR-0007](docs/decisions/0007-error-handling-strategy.md) | 에러 처리 전략: ProblemDetail (RFC 9457) + 커스텀 ErrorCode enum | accepted |
+| [ADR-0008](docs/decisions/0008-observability-strategy.md) | 관측성 전략: 구조화 로깅 + SLF4J fluent API + Actuator + OTel OTLP | accepted |
+| [ADR-0009](docs/decisions/0009-api-documentation-strategy.md) | API 문서화 전략: springdoc-openapi + Redoc + Springwolf + AsyncAPI | accepted |
+| [ADR-0010](docs/decisions/0010-containerization-strategy.md) | 컨테이너화 전략: bootBuildImage + 멀티스테이지 Dockerfile + docker-compose | accepted |
+| [ADR-0011](docs/decisions/0011-configuration-strategy.md) | 환경 설정 전략: application-{profile}.yml 분리 + 환경변수 오버라이드 패턴 | accepted |
+| [ADR-0012](docs/decisions/0012-transaction-management-strategy.md) | 트랜잭션 관리 전략: AutoConfiguration 데코레이터 패턴 | accepted |
+| [ADR-0013](docs/decisions/0013-object-mapping-strategy.md) | 객체 변환 전략: 하이브리드 (MapStruct + static factory) | accepted |
+| [ADR-0014](docs/decisions/0014-module-autoconfiguration-assembly-strategy.md) | 모듈 자동 조립 전략: 모듈별 AutoConfiguration 자체 등록 | accepted |
 
 ---
 
@@ -39,16 +61,16 @@ Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 
 8개 모듈이 `template/` 하위에 플랫 구조로 배치됩니다.
 
-| 모듈 | 역할 | Spring | JPA |
-|------|------|--------|-----|
-| `template-domain` | 순수 도메인 모델 | ✗ | ✗ |
-| `template-application` | Port 인터페이스 + UseCase 구현체 | ✗ | ✗ |
-| `template-application-autoconfiguration` | UseCase Bean 등록 | ✓ | ✗ |
-| `template-adapter-input-api` | REST Controller + Security | ✓ | ✗ |
-| `template-adapter-input-ws` | WebSocket | ✓ | ✗ |
-| `template-adapter-output-persist` | 영속화 (사용자 선택) | ✓ | ✗ |
-| `template-adapter-output-cache` | Cache | ✓ | ✗ |
-| `template-boot-api` | Spring Boot 앱 (port 8080) | ✓ | ✗ |
+| 모듈 | 역할 | Spring |
+|------|------|--------|
+| `template-domain` | 순수 도메인 모델 | ✗ |
+| `template-application` | Port 인터페이스 + UseCase 구현체 | ✗ |
+| `template-application-autoconfiguration` | UseCase Bean 등록 | ✓ |
+| `template-adapter-input-api` | REST Controller + Security | ✓ |
+| `template-adapter-input-ws` | WebSocket | ✓ |
+| `template-adapter-output-persist` | 영속화 (사용자 선택) | ✓ |
+| `template-adapter-output-cache` | Cache | ✓ |
+| `template-boot-api` | Spring Boot 앱 (port 8080) | ✓ |
 
 ### 모듈 의존성
 
