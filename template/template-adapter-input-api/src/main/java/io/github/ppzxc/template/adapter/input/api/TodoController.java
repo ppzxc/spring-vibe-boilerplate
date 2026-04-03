@@ -9,11 +9,13 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Positive;
 import java.net.URI;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Tag(name = "Todos", description = "Todo CRUD API")
+@Validated
 @RestController
 @RequestMapping("/todos")
 @RequiredArgsConstructor
@@ -47,7 +50,7 @@ public class TodoController {
   @ApiResponse(responseCode = "200", description = "Todo found")
   @ApiResponse(responseCode = "404", description = "Todo not found")
   @GetMapping("/{id}")
-  ResponseEntity<TodoResponse> findById(@PathVariable long id) {
+  ResponseEntity<TodoResponse> findById(@Positive @PathVariable long id) {
     Todo todo = findTodoQuery.findById(id);
     return ResponseEntity.ok(TodoResponse.from(todo));
   }
@@ -68,7 +71,7 @@ public class TodoController {
   @ApiResponse(responseCode = "404", description = "Todo not found")
   @PatchMapping("/{id}")
   ResponseEntity<TodoResponse> update(
-      @PathVariable long id, @RequestBody UpdateTodoRequest request) {
+      @Positive @PathVariable long id, @Valid @RequestBody UpdateTodoRequest request) {
     Todo todo = updateTodoUseCase.update(id, request.title(), request.completed());
     return ResponseEntity.ok(TodoResponse.from(todo));
   }
@@ -76,7 +79,7 @@ public class TodoController {
   @Operation(summary = "Delete a todo")
   @ApiResponse(responseCode = "204", description = "Todo deleted")
   @DeleteMapping("/{id}")
-  ResponseEntity<Void> delete(@PathVariable long id) {
+  ResponseEntity<Void> delete(@Positive @PathVariable long id) {
     deleteTodoUseCase.delete(id);
     return ResponseEntity.noContent().build();
   }

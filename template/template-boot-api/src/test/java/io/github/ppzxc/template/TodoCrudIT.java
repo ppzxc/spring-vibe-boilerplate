@@ -4,13 +4,20 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest(
     properties =
@@ -19,7 +26,20 @@ import org.springframework.test.web.servlet.MvcResult;
             + "io.github.springwolf.plugins.stomp.configuration.SpringwolfStompAutoConfiguration,"
             + "io.github.springwolf.bindings.stomp.configuration.SpringwolfStompBindingAutoConfiguration")
 @AutoConfigureMockMvc(addFilters = false)
+@Testcontainers
+@Sql(statements = "DELETE FROM todo", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 class TodoCrudIT {
+
+  @Container static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17");
+
+  @DynamicPropertySource
+  static void configureProperties(DynamicPropertyRegistry registry) {
+    registry.add("spring.datasource.url", postgres::getJdbcUrl);
+    registry.add("spring.datasource.username", postgres::getUsername);
+    registry.add("spring.datasource.password", postgres::getPassword);
+    registry.add("spring.datasource.driver-class-name", postgres::getDriverClassName);
+    registry.add("spring.jooq.sql-dialect", () -> "POSTGRES");
+  }
 
   @Autowired MockMvc mockMvc;
 
@@ -38,7 +58,7 @@ class TodoCrudIT {
             .andExpect(jsonPath("$.completed").value(false))
             .andReturn();
 
-    String location = result.getResponse().getHeader("Location");
+    String location = Objects.requireNonNull(result.getResponse().getHeader("Location"));
     assertThat(location).startsWith("/todos/");
   }
 
@@ -53,7 +73,7 @@ class TodoCrudIT {
             .andExpect(status().isCreated())
             .andReturn();
 
-    String location = createResult.getResponse().getHeader("Location");
+    String location = Objects.requireNonNull(createResult.getResponse().getHeader("Location"));
 
     mockMvc
         .perform(get(location))
@@ -89,7 +109,7 @@ class TodoCrudIT {
             .andExpect(status().isCreated())
             .andReturn();
 
-    String location = createResult.getResponse().getHeader("Location");
+    String location = Objects.requireNonNull(createResult.getResponse().getHeader("Location"));
 
     mockMvc
         .perform(
@@ -112,7 +132,7 @@ class TodoCrudIT {
             .andExpect(status().isCreated())
             .andReturn();
 
-    String location = createResult.getResponse().getHeader("Location");
+    String location = Objects.requireNonNull(createResult.getResponse().getHeader("Location"));
 
     mockMvc.perform(delete(location)).andExpect(status().isNoContent());
 

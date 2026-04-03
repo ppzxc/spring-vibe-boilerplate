@@ -25,11 +25,10 @@ jobs:
           cache-read-only: ${{ github.ref != 'refs/heads/main' }}
 
       - name: Run code quality checks
-        run: >
-          ./gradlew
-          spotlessCheck
-          checkstyleMain
-          rewriteDryRun
+        run: ./gradlew spotlessCheck checkstyleMain
+
+      - name: Run OpenRewrite dry run
+        run: ./gradlew rewriteDryRun --no-configuration-cache
 
   unit-and-slice:
     name: Unit, Slice & Architecture Tests

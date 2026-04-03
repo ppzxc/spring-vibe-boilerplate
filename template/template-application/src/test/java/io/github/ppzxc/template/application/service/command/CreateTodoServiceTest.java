@@ -2,11 +2,11 @@ package io.github.ppzxc.template.application.service.command;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import io.github.ppzxc.template.application.port.output.command.SaveTodoPort;
 import io.github.ppzxc.template.domain.Todo;
+import io.github.ppzxc.template.domain.TodoFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,19 +17,15 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class CreateTodoServiceTest {
 
   @Mock SaveTodoPort saveTodoPort;
-  @InjectMocks CreateTodoService createTodoService;
+  @InjectMocks CreateTodoService service;
 
   @Test
-  void create_saves_and_returns_todo() {
-    Todo saved =
-        Todo.reconstitute(
-            1L, "Buy milk", false, java.time.LocalDateTime.now(), java.time.LocalDateTime.now());
-    when(saveTodoPort.save(any(Todo.class))).thenReturn(saved);
+  void create_delegates_to_save_port() {
+    Todo expected = TodoFixtures.savedTodo(1L, "Buy milk", false);
+    when(saveTodoPort.save(any(Todo.class))).thenReturn(expected);
 
-    Todo result = createTodoService.create("Buy milk");
+    Todo result = service.create("Buy milk");
 
-    assertThat(result.getId()).isEqualTo(1L);
-    assertThat(result.getTitle()).isEqualTo("Buy milk");
-    verify(saveTodoPort).save(any(Todo.class));
+    assertThat(result).isEqualTo(expected);
   }
 }
