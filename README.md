@@ -27,22 +27,23 @@ Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 
 ## 아키텍처 결정 기록 (ADR)
 
-| ADR | 주제 | 상태 |
-|-----|------|------|
-| [ADR-0001](docs/decisions/0001-hexagonal-architecture-and-cqrs.md) | Hexagonal Architecture + CQRS 경계 분리 채택 | accepted |
-| [ADR-0002](docs/decisions/0002-flat-module-structure.md) | 모듈 레이아웃: template/ 하위 플랫 구조 | accepted |
-| [ADR-0003](docs/decisions/0003-package-structure-and-naming.md) | 패키지 구조 및 네이밍 컨벤션 | accepted |
-| [ADR-0004](docs/decisions/0004-architecture-testing-strategy.md) | 아키텍처 테스트 전략: ArchUnit | accepted |
-| [ADR-0005](docs/decisions/0005-code-quality-toolchain.md) | 코드 품질 도구 전략: Spotless + Checkstyle + ErrorProne + NullAway | accepted |
-| [ADR-0006](docs/decisions/0006-ci-pipeline-strategy.md) | CI 파이프라인 전략: Lefthook + GitHub Actions + JaCoCo + OpenRewrite | accepted |
-| [ADR-0007](docs/decisions/0007-error-handling-strategy.md) | 에러 처리 전략: ProblemDetail (RFC 9457) + 커스텀 ErrorCode enum | accepted |
-| [ADR-0008](docs/decisions/0008-observability-strategy.md) | 관측성 전략: 구조화 로깅 + SLF4J fluent API + Actuator + OTel OTLP | accepted |
-| [ADR-0009](docs/decisions/0009-api-documentation-strategy.md) | API 문서화 전략: springdoc-openapi + Redoc + Springwolf + AsyncAPI | accepted |
-| [ADR-0010](docs/decisions/0010-containerization-strategy.md) | 컨테이너화 전략: bootBuildImage + 멀티스테이지 Dockerfile + docker-compose | accepted |
-| [ADR-0011](docs/decisions/0011-configuration-strategy.md) | 환경 설정 전략: application-{profile}.yml 분리 + 환경변수 오버라이드 패턴 | accepted |
-| [ADR-0012](docs/decisions/0012-transaction-management-strategy.md) | 트랜잭션 관리 전략: AutoConfiguration 데코레이터 패턴 | accepted |
-| [ADR-0013](docs/decisions/0013-object-mapping-strategy.md) | 객체 변환 전략: 하이브리드 (MapStruct + static factory) | accepted |
-| [ADR-0014](docs/decisions/0014-module-autoconfiguration-assembly-strategy.md) | 모듈 자동 조립 전략: 모듈별 AutoConfiguration 자체 등록 | accepted |
+| ADR | 주제 |
+|-----|------|
+| [ADR-0001](docs/decisions/0001-hexagonal-architecture-and-cqrs.md) | Hexagonal Architecture + CQRS 경계 분리 채택 |
+| [ADR-0002](docs/decisions/0002-flat-module-structure.md) | 모듈 레이아웃: template/ 하위 플랫 구조 |
+| [ADR-0003](docs/decisions/0003-package-structure-and-naming.md) | 패키지 구조 및 네이밍 컨벤션 |
+| [ADR-0004](docs/decisions/0004-architecture-testing-strategy.md) | 아키텍처 테스트 전략: ArchUnit |
+| [ADR-0005](docs/decisions/0005-code-quality-toolchain.md) | 코드 품질 도구 전략: Spotless + Checkstyle + ErrorProne + NullAway |
+| [ADR-0006](docs/decisions/0006-ci-pipeline-strategy.md) | CI 파이프라인 전략: Lefthook + GitHub Actions + JaCoCo + OpenRewrite |
+| [ADR-0007](docs/decisions/0007-error-handling-strategy.md) | 에러 처리 전략: ProblemDetail (RFC 9457) + 커스텀 ErrorCode enum |
+| [ADR-0008](docs/decisions/0008-observability-strategy.md) | 관측성 전략: 구조화 로깅 + SLF4J fluent API + Actuator + OTel OTLP |
+| [ADR-0009](docs/decisions/0009-api-documentation-strategy.md) | API 문서화 전략: springdoc-openapi + Redoc + Springwolf + AsyncAPI |
+| [ADR-0010](docs/decisions/0010-containerization-strategy.md) | 컨테이너화 전략: bootBuildImage + 멀티스테이지 Dockerfile + docker-compose |
+| [ADR-0011](docs/decisions/0011-configuration-strategy.md) | 환경 설정 전략: application-{profile}.yml 분리 + 환경변수 오버라이드 패턴 |
+| [ADR-0012](docs/decisions/0012-transaction-management-strategy.md) | 트랜잭션 관리 전략: AutoConfiguration 데코레이터 패턴 |
+| [ADR-0013](docs/decisions/0013-object-mapping-strategy.md) | 객체 변환 전략: 하이브리드 (MapStruct + static factory) |
+| [ADR-0014](docs/decisions/0014-module-autoconfiguration-assembly-strategy.md) | 모듈 자동 조립 전략: 모듈별 AutoConfiguration 자체 등록 |
+| [ADR-0015](docs/decisions/0015-multi-tenancy-strategy.md) | 멀티테넌시 전략: Row-level 테넌트 격리 (PostgreSQL RLS 기반) |
 
 ---
 
