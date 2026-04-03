@@ -3,3 +3,40 @@ dependencies {
   implementation(project(":template-application"))
   runtimeOnly(libs.com.h2database.h2)
 }
+
+jooq {
+  configuration {
+    generator {
+      database {
+        name = "org.jooq.meta.extensions.ddl.DDLDatabase"
+        properties {
+          property {
+            key = "scripts"
+            value = "src/main/resources/db/schema.sql"
+          }
+          property {
+            key = "sort"
+            value = "semantic"
+          }
+          property {
+            key = "unqualifiedSchema"
+            value = "none"
+          }
+          property {
+            key = "defaultNameCase"
+            value = "lower"
+          }
+        }
+      }
+      generate {
+        isDeprecated = false
+        isRecords = true
+        isFluentSetters = true
+      }
+      target {
+        packageName = "io.github.ppzxc.template.adapter.output.persist.jooq"
+        directory = "build/generated-sources/jooq"
+      }
+    }
+  }
+}
