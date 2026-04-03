@@ -23,6 +23,11 @@ spring:
   h2:
     console:
       enabled: false
+  autoconfigure:
+    exclude:
+      - io.github.springwolf.core.configuration.SpringwolfAutoConfiguration
+      - io.github.springwolf.plugins.stomp.configuration.SpringwolfStompAutoConfiguration
+      - io.github.springwolf.bindings.stomp.configuration.SpringwolfStompBindingAutoConfiguration
 
 logging:
   level:
