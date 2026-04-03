@@ -21,6 +21,7 @@
 | [ADR-0012](0012-transaction-management-strategy.md) | accepted | 트랜잭션 관리 전략: AutoConfiguration 데코레이터 패턴 |
 | [ADR-0013](0013-object-mapping-strategy.md) | accepted | 객체 변환 전략: 하이브리드 (MapStruct + static factory) |
 | [ADR-0014](0014-module-autoconfiguration-assembly-strategy.md) | accepted | 모듈 자동 조립 전략: 모듈별 AutoConfiguration 자체 등록 |
+| [ADR-0015](0015-multi-tenancy-strategy.md) | accepted | 멀티테넌시 전략: Row-level 테넌트 격리 (PostgreSQL RLS 기반) |
 
 ## 새 ADR 추가
 
