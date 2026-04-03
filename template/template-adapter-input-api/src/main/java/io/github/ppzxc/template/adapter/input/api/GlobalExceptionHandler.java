@@ -2,6 +2,7 @@ package io.github.ppzxc.template.adapter.input.api;
 
 import io.github.ppzxc.template.domain.DomainException;
 import io.github.ppzxc.template.domain.ErrorCode;
+import jakarta.validation.ConstraintViolationException;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,6 +56,34 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     return ResponseEntity.status(ErrorCode.INTERNAL.httpStatus()).body(problem);
   }
 
+  @ExceptionHandler(ConstraintViolationException.class)
+  ResponseEntity<ProblemDetail> handleConstraintViolationException(
+      ConstraintViolationException ex) {
+    List<FieldViolationDto> violations =
+        ex.getConstraintViolations().stream()
+            .map(
+                v -> {
+                  String field = v.getPropertyPath().toString();
+                  int dotIdx = field.lastIndexOf('.');
+                  String shortField = dotIdx >= 0 ? field.substring(dotIdx + 1) : field;
+                  return new FieldViolationDto(shortField, v.getMessage());
+                })
+            .toList();
+
+    ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+    problem.setTitle(ErrorCode.INVALID_ARGUMENT.title());
+    problem.setProperty("errorCode", ErrorCode.INVALID_ARGUMENT.name());
+    problem.setProperty("details", violations);
+
+    LOGGER
+        .atWarn()
+        .addKeyValue("errorCode", ErrorCode.INVALID_ARGUMENT.name())
+        .addKeyValue("violationCount", violations.size())
+        .log("Constraint violation");
+
+    return ResponseEntity.badRequest().body(problem);
+  }
+
   record FieldViolationDto(String field, String description) {}
 
   @Override
@@ -100,9 +129,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     ResponseEntity<Object> response =
         super.handleExceptionInternal(ex, body, headers, statusCode, request);
     if (response != null && response.getBody() instanceof ProblemDetail problemDetail) {
-      problemDetail.setProperty("errorCode", ErrorCode.INVALID_ARGUMENT.name());
+      ErrorCode errorCode = httpStatusToErrorCode(statusCode);
+      problemDetail.setProperty("errorCode", errorCode.name());
       problemDetail.setProperty("details", List.of());
     }
     return response;
+  }
+
+  private ErrorCode httpStatusToErrorCode(HttpStatusCode statusCode) {
+    int status = statusCode.value();
+    if (status == 404) return ErrorCode.NOT_FOUND;
+    if (status >= 400 && status < 500) return ErrorCode.INVALID_ARGUMENT;
+    return ErrorCode.INTERNAL;
   }
 }

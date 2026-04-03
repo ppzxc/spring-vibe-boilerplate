@@ -79,6 +79,14 @@ class GlobalExceptionHandlerTest {
         .andExpect(jsonPath("$.errorCode").value("INTERNAL"));
   }
 
+  @Test
+  void negative_id_returns_400() throws Exception {
+    mockMvc
+        .perform(get("/todos/-1"))
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errorCode").value("INVALID_ARGUMENT"));
+  }
+
   @SpringBootApplication
   static class TestApplication {}
 
