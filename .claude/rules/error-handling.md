@@ -14,6 +14,12 @@
 - adapter-input-api에서 ProblemDetail(RFC 9457)로 예외를 변환할 것
 - 에러 응답에 errorCode 필드를 포함할 것 (클라이언트 분기 처리용)
 
+## 에러 코드 체계 [ADR-0017]
+
+- ErrorCode enum은 AIP-193 canonical error codes를 따를 것 [ADR-0017]
+- ProblemDetail 확장 필드에 `errorCode` (AIP 코드명)과 `details` (FieldViolation 배열)을 포함할 것 [ADR-0017]
+- 새 에러 코드 추가 시 AIP-193 표준 코드를 우선 사용할 것 — 커스텀 코드는 표준으로 표현 불가능한 경우에만 추가 [ADR-0017]
+
 ## 금지 패턴
 
 - adapter 레이어 밖으로 `HttpStatus` 또는 `ResponseEntity` 누출 금지
