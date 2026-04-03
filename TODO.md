@@ -54,7 +54,7 @@
 - [ ] **Distributed Lock** — `LockPort` 구현 (Redis / DB 기반)
 - [ ] **CQRS Read Model** — 읽기 전용 모델 분리 (선택적 적용)
 - [ ] **Feature Flag** — (선택) 피처 플래그 시스템 연동
-- [ ] **Multi-tenancy** — Row-level + PostgreSQL RLS 구현 (ADR-0015, `rules/multi-tenancy.md`)
+- [ ] **Multi-tenancy 구현** — Row-level + PostgreSQL RLS 코드 구현 (ADR-0015 완료, `rules/multi-tenancy.md` 완료)
 
 ---
 
@@ -65,7 +65,7 @@
 - [x] 코드 품질 도구 7종 (Spotless, Checkstyle, ErrorProne, NullAway, OpenRewrite, ArchUnit, JaCoCo)
 - [x] CI 파이프라인 4단계 (quality → unit → integration → coverage)
 - [x] Virtual Thread 안전성 강제 (synchronized/ThreadLocal 금지)
-- [x] ADR 14개 + 규칙 파일 12개
+- [x] ADR 15개 + 규칙 파일 13개
 - [x] 구조화 로깅 설정 (Spring Boot 4 native)
 - [x] Actuator 엔드포인트 설정
 - [x] OTel 의존성 + OTLP 환경변수 설정
