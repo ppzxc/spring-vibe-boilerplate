@@ -7,15 +7,14 @@
 
 ## Phase 1: 기반 인프라 (템플릿을 실제로 쓸 수 있는 최소 요건)
 
-- [ ] **Security 기본 설정** — SecurityFilterChain, CORS, CSRF 정책, 인증 방식 선택(JWT / OAuth2)
-- [ ] **ErrorCode enum** — `template-domain`에 공통 에러 코드 정의
-- [ ] **GlobalExceptionHandler** — `template-adapter-input-api`에서 ProblemDetail(RFC 9457) 변환
-- [ ] **영속화 기술 선택 및 설정** — DB 선택(PostgreSQL 등), Spring Data JPA / R2DBC 의존성, HikariCP 설정
-- [ ] **DB Migration 도구** — Flyway 또는 Liquibase 설정 + 초기 마이그레이션 스크립트
+- [x] **ErrorCode enum** — `template-domain`에 AIP-193 기반 공통 에러 코드 정의
+- [x] **GlobalExceptionHandler** — `template-adapter-input-api`에서 AIP-193 + ProblemDetail(RFC 9457) 변환
+- [ ] **Security 기본 설정** — (ADR-0016 완료, 코드 미포함) 시나리오별 구현 가이드 참조
+- [ ] **영속화 기술 선택 및 설정** — (ADR-0018 완료, 코드 미포함) DB + ORM + Migration 선택 가이드 참조
 - [ ] **공통 Pagination/Sort DTO** — 페이지네이션 요청/응답 래퍼
 - [ ] **샘플 도메인 1개** — Domain → Port → UseCase → Adapter 전 레이어 관통 예제 (CRUD)
 - [ ] **레이어별 샘플 테스트** — 단위(Service), 슬라이스(@WebMvcTest), 통합(Testcontainers) 각 1개 이상
-- [ ] **docker-compose 인프라 서비스** — DB, (선택) Redis, (선택) MQ 서비스 추가 + health check
+- [ ] **docker-compose 인프라 서비스** — DB 서비스 추가 + health check (영속화 선택 후)
 
 ---
 
@@ -26,16 +25,15 @@
 - [ ] **Custom HealthIndicator** — DB 연결, 외부 서비스 상태 체크
 - [ ] **Custom Metrics** — Micrometer 커스텀 메트릭 (비즈니스 KPI 계측)
 - [ ] **Request/Response 로깅** — HTTP 요청/응답 구조화 로깅 (민감 정보 마스킹)
-- [ ] **MDC RequestId 필터** — 요청별 고유 ID MDC 주입 필터
-- [ ] **Graceful Shutdown** — Spring Boot graceful shutdown + 커넥션 드레인
-- [ ] **Cache 구현** — `template-adapter-output-cache`에 Redis/Caffeine 기반 캐시 어댑터
+- [ ] **MDC RequestId 필터** — (ADR-0008 구현 가이드 완료, 코드 미포함) 요청별 고유 ID MDC 주입 필터
+- [ ] **Cache 구현** — (ADR-0019 완료, 코드 미포함) Caffeine 기본 + Redis 확장 경로 참조
 - [ ] **API Versioning 전략** — URL/Header 기반 버전 관리 패턴 적용
 
 ---
 
 ## Phase 3: DevOps / 자동화 (CI/CD 완성)
 
-- [ ] **Dependabot 또는 Renovate** — 의존성 자동 업데이트 PR
+- [x] **Dependabot** — 의존성 자동 업데이트 PR (`.github/dependabot.yml`)
 - [ ] **CD 파이프라인** — GitHub Actions 배포 워크플로 (staging → production)
 - [ ] **Docker 이미지 빌드/푸시** — CI에서 이미지 빌드 + Container Registry 푸시
 - [ ] **Release 워크플로** — semantic-release 또는 수동 태그 기반 릴리스
@@ -65,7 +63,7 @@
 - [x] 코드 품질 도구 7종 (Spotless, Checkstyle, ErrorProne, NullAway, OpenRewrite, ArchUnit, JaCoCo)
 - [x] CI 파이프라인 4단계 (quality → unit → integration → coverage)
 - [x] Virtual Thread 안전성 강제 (synchronized/ThreadLocal 금지)
-- [x] ADR 15개 + 규칙 파일 13개
+- [x] ADR 19개 + 규칙 파일 13개
 - [x] 구조화 로깅 설정 (Spring Boot 4 native)
 - [x] Actuator 엔드포인트 설정
 - [x] OTel 의존성 + OTLP 환경변수 설정
@@ -73,3 +71,8 @@
 - [x] Lefthook Git Hooks (pre-commit, pre-push)
 - [x] MapStruct + Lombok 빌드 설정
 - [x] NullMarked (JSpecify) 전 모듈 적용
+- [x] AIP-193 + ProblemDetail 에러 모델 (ADR-0017)
+- [x] MDC RequestId 구현 가이드 (ADR-0008 보충)
+- [x] Graceful Shutdown 설정
+- [x] 환경변수 문서화 (`.env.example`)
+- [x] Dependabot 의존성 자동 업데이트

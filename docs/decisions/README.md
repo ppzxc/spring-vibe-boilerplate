@@ -22,6 +22,10 @@
 | [ADR-0013](0013-object-mapping-strategy.md) | accepted | 객체 변환 전략: 하이브리드 (MapStruct + static factory) |
 | [ADR-0014](0014-module-autoconfiguration-assembly-strategy.md) | accepted | 모듈 자동 조립 전략: 모듈별 AutoConfiguration 자체 등록 |
 | [ADR-0015](0015-multi-tenancy-strategy.md) | accepted | 멀티테넌시 전략: Row-level 테넌트 격리 (PostgreSQL RLS 기반) |
+| [ADR-0016](0016-authentication-strategy.md) | accepted | 인증 전략: 시나리오별 가이드 (Resource Server / Authorization Server / Custom Starter) |
+| [ADR-0017](0017-error-model-aip193-problemdetail.md) | accepted | 에러 모델 전략: AIP-193 에러 코드 + RFC 9457 ProblemDetail |
+| [ADR-0018](0018-persistence-technology-selection-guide.md) | accepted | 영속화 기술 선택 가이드: DB + ORM + Migration 조합 |
+| [ADR-0019](0019-cache-strategy.md) | accepted | 캐시 전략: Caffeine 기본 + Redis 확장 경로 |
 
 ## 새 ADR 추가
 

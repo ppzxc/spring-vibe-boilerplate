@@ -7,6 +7,8 @@ spring:
   mvc:
     problemdetails:
       enabled: true
+  lifecycle:
+    timeout-per-shutdown-phase: ${SHUTDOWN_TIMEOUT:30s}
 
 logging:
   level:
@@ -30,6 +32,7 @@ management:
 
 server:
   port: ${SERVER_PORT:8080}
+  shutdown: graceful
 
 springdoc:
   swagger-ui:

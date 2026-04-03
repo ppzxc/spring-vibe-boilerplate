@@ -64,6 +64,8 @@ configureByLabel("java") {
     annotationProcessor(rootProject.libs.org.projectlombok.lombok)
 
     testRuntimeOnly(rootProject.libs.org.junit.platform.launcher)
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("org.assertj:assertj-core")
     testImplementation(rootProject.libs.org.awaitility)
     testImplementation(rootProject.libs.com.tngtech.archunit.junit5)
 
