@@ -19,7 +19,7 @@ org-openrewrite-recipe-migrate-java = "3.31.1"
 org-openrewrite-recipe-spring = "6.28.1"
 
 # jooq
-org-jooq-codegen-gradle = "3.20.11"
+org-jooq-codegen-gradle = "3.19.30"
 
 # mapstruct
 org-mapstruct = "1.6.3"

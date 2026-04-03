@@ -4,6 +4,20 @@ dependencies {
   runtimeOnly(libs.com.h2database.h2)
 }
 
+tasks.matching { it.name != "jooqCodegen" && it.name != "clean" }.configureEach {
+  if (this is SourceTask) {
+    dependsOn(tasks.named("jooqCodegen"))
+  }
+}
+
+sourceSets {
+  main {
+    java {
+      srcDir("build/generated-sources/jooq")
+    }
+  }
+}
+
 jooq {
   configuration {
     generator {
