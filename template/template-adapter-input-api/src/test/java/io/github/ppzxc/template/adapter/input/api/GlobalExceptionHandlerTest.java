@@ -1,9 +1,14 @@
 package io.github.ppzxc.template.adapter.input.api;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import io.github.ppzxc.template.application.port.input.command.CreateTodoUseCase;
+import io.github.ppzxc.template.application.port.input.command.DeleteTodoUseCase;
+import io.github.ppzxc.template.application.port.input.command.UpdateTodoUseCase;
+import io.github.ppzxc.template.application.port.input.query.FindTodoQuery;
 import io.github.ppzxc.template.domain.DomainException;
 import io.github.ppzxc.template.domain.ErrorCode;
 import java.util.List;
@@ -13,14 +18,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@WebMvcTest(controllers = GlobalExceptionHandlerTest.TestController.class)
+@WebMvcTest(controllers = {GlobalExceptionHandlerTest.TestController.class, TodoController.class})
 @AutoConfigureMockMvc(addFilters = false)
 @Import({GlobalExceptionHandler.class, GlobalExceptionHandlerTest.TestController.class})
 class GlobalExceptionHandlerTest {
+
+  @MockitoBean private CreateTodoUseCase createTodoUseCase;
+  @MockitoBean private UpdateTodoUseCase updateTodoUseCase;
+  @MockitoBean private DeleteTodoUseCase deleteTodoUseCase;
+  @MockitoBean private FindTodoQuery findTodoQuery;
 
   @Autowired private MockMvc mockMvc;
 
@@ -44,6 +56,19 @@ class GlobalExceptionHandlerTest {
         .andExpect(jsonPath("$.errorCode").value("INVALID_ARGUMENT"))
         .andExpect(jsonPath("$.details[0].field").value("email"))
         .andExpect(jsonPath("$.details[0].description").value("must be a valid email"));
+  }
+
+  @Test
+  void validation_error_returns_400_with_field_details() throws Exception {
+    mockMvc
+        .perform(
+            post("/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"title\": \"\"}")) // blank title — @NotBlank 위반
+        .andExpect(status().isBadRequest())
+        .andExpect(jsonPath("$.errorCode").value("INVALID_ARGUMENT"))
+        .andExpect(jsonPath("$.details").isArray())
+        .andExpect(jsonPath("$.details[0].field").value("title"));
   }
 
   @Test

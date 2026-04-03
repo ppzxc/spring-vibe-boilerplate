@@ -6,10 +6,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -50,6 +53,41 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     LOGGER.atError().setCause(ex).log("Unexpected error");
 
     return ResponseEntity.status(ErrorCode.INTERNAL.httpStatus()).body(problem);
+  }
+
+  record FieldViolationDto(String field, String description) {}
+
+  @Override
+  protected @org.jspecify.annotations.Nullable ResponseEntity<Object> handleMethodArgumentNotValid(
+      @NonNull MethodArgumentNotValidException ex,
+      @NonNull HttpHeaders headers,
+      @NonNull HttpStatusCode status,
+      @NonNull WebRequest request) {
+    List<FieldViolationDto> violations =
+        ex.getBindingResult().getAllErrors().stream()
+            .filter(error -> error instanceof FieldError)
+            .map(error -> (FieldError) error)
+            .map(
+                fieldError ->
+                    new FieldViolationDto(
+                        fieldError.getField(),
+                        fieldError.getDefaultMessage() != null
+                            ? fieldError.getDefaultMessage()
+                            : "invalid value"))
+            .toList();
+
+    ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+    problem.setTitle(ErrorCode.INVALID_ARGUMENT.title());
+    problem.setProperty("errorCode", ErrorCode.INVALID_ARGUMENT.name());
+    problem.setProperty("details", violations);
+
+    LOGGER
+        .atWarn()
+        .addKeyValue("errorCode", ErrorCode.INVALID_ARGUMENT.name())
+        .addKeyValue("violationCount", violations.size())
+        .log("Validation failed");
+
+    return ResponseEntity.badRequest().body(problem);
   }
 
   @Override
