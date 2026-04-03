@@ -1,8 +1,7 @@
 // template-adapter-output-persist: Outbound Adapter (jOOQ + PostgreSQL via Flyway)
 dependencies {
   implementation(project(":template-application"))
-  runtimeOnly(libs.com.h2database.h2)
-  implementation(libs.org.springframework.boot.starter.flyway)
+  testImplementation(libs.org.springframework.boot.starter.flyway)
 
   testImplementation(rootProject.libs.org.testcontainers.junit.jupiter)
   testImplementation(rootProject.libs.org.testcontainers.postgresql)

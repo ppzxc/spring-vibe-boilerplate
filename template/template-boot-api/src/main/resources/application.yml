@@ -16,7 +16,6 @@ spring:
     password: ${DATASOURCE_PASSWORD:}
   flyway:
     locations: classpath:db/migration
-    enabled: true
   jooq:
     sql-dialect: ${JOOQ_DIALECT:H2}
   h2:
