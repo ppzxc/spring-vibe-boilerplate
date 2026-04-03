@@ -9,8 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest(
     properties =
@@ -19,7 +24,20 @@ import org.springframework.test.web.servlet.MvcResult;
             + "io.github.springwolf.plugins.stomp.configuration.SpringwolfStompAutoConfiguration,"
             + "io.github.springwolf.bindings.stomp.configuration.SpringwolfStompBindingAutoConfiguration")
 @AutoConfigureMockMvc(addFilters = false)
+@Testcontainers
 class TodoCrudIT {
+
+  @Container static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17");
+
+  @DynamicPropertySource
+  static void configureProperties(DynamicPropertyRegistry registry) {
+    registry.add("spring.datasource.url", postgres::getJdbcUrl);
+    registry.add("spring.datasource.username", postgres::getUsername);
+    registry.add("spring.datasource.password", postgres::getPassword);
+    registry.add("spring.datasource.driver-class-name", () -> "org.postgresql.Driver");
+    registry.add("spring.jooq.sql-dialect", () -> "POSTGRES");
+    registry.add("spring.sql.init.mode", () -> "always");
+  }
 
   @Autowired MockMvc mockMvc;
 

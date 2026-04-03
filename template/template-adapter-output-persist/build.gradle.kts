@@ -1,7 +1,11 @@
-// template-adapter-output-persist: Outbound Adapter (jOOQ + H2)
+// template-adapter-output-persist: Outbound Adapter (jOOQ + PostgreSQL)
 dependencies {
   implementation(project(":template-application"))
-  runtimeOnly(libs.com.h2database.h2)
+  runtimeOnly(libs.org.postgresql.postgresql)
+
+  testImplementation(rootProject.libs.org.testcontainers.junit.jupiter)
+  testImplementation(rootProject.libs.org.testcontainers.postgresql)
+  testRuntimeOnly(rootProject.libs.org.postgresql.postgresql)
 }
 
 tasks.matching { it.name != "jooqCodegen" && it.name != "clean" }.configureEach {
