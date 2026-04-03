@@ -2,9 +2,9 @@ services:
   postgres:
     image: postgres:17
     environment:
-      POSTGRES_DB: template
-      POSTGRES_USER: template
-      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: ${DB_NAME:-template}
+      POSTGRES_USER: ${DB_USERNAME:-template}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
     ports:
       - "${DB_PORT:-5432}:5432"
     volumes:
