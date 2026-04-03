@@ -5,7 +5,6 @@ dependencies {
 
   testImplementation(rootProject.libs.org.testcontainers.junit.jupiter)
   testImplementation(rootProject.libs.org.testcontainers.postgresql)
-  testRuntimeOnly(rootProject.libs.org.postgresql.postgresql)
 }
 
 tasks.matching { it.name != "jooqCodegen" && it.name != "clean" }.configureEach {
