@@ -44,6 +44,11 @@ Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 | [ADR-0013](docs/decisions/0013-object-mapping-strategy.md) | 객체 변환 전략: 하이브리드 (MapStruct + static factory) |
 | [ADR-0014](docs/decisions/0014-module-autoconfiguration-assembly-strategy.md) | 모듈 자동 조립 전략: 모듈별 AutoConfiguration 자체 등록 |
 | [ADR-0015](docs/decisions/0015-multi-tenancy-strategy.md) | 멀티테넌시 전략: Row-level 테넌트 격리 (PostgreSQL RLS 기반) |
+| [ADR-0016](docs/decisions/0016-authentication-strategy.md) | 인증 전략: 시나리오별 가이드 (Resource Server / Authorization Server / Custom Starter) |
+| [ADR-0017](docs/decisions/0017-error-model-aip193-problemdetail.md) | 에러 모델 전략: AIP-193 에러 코드 + RFC 9457 ProblemDetail |
+| [ADR-0018](docs/decisions/0018-persistence-technology-selection-guide.md) | 영속화 기술 선택 가이드: DB + ORM + Migration 조합 |
+| [ADR-0019](docs/decisions/0019-cache-strategy.md) | 캐시 전략: Caffeine 기본 + Redis 확장 경로 |
+| [ADR-0020](docs/decisions/0020-database-migration-strategy.md) | DB 마이그레이션 전략: Flyway 채택 |
 
 ---
 
