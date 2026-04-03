@@ -1,10 +1,12 @@
-// template-adapter-output-persist: Outbound Adapter (jOOQ + PostgreSQL)
+// template-adapter-output-persist: Outbound Adapter (jOOQ + PostgreSQL via Flyway)
 dependencies {
   implementation(project(":template-application"))
-  runtimeOnly(libs.org.postgresql.postgresql)
+  runtimeOnly(libs.com.h2database.h2)
+  implementation(libs.org.springframework.boot.starter.flyway)
 
   testImplementation(rootProject.libs.org.testcontainers.junit.jupiter)
   testImplementation(rootProject.libs.org.testcontainers.postgresql)
+  runtimeOnly(libs.org.postgresql.postgresql)
 }
 
 tasks.matching { it.name != "jooqCodegen" && it.name != "clean" }.configureEach {
@@ -29,11 +31,11 @@ jooq {
         properties {
           property {
             key = "scripts"
-            value = "src/main/resources/db/schema.sql"
+            value = "src/main/resources/db/migration"
           }
           property {
             key = "sort"
-            value = "semantic"
+            value = "flyway"
           }
           property {
             key = "unqualifiedSchema"

@@ -14,10 +14,9 @@ spring:
     driver-class-name: ${DATASOURCE_DRIVER:org.h2.Driver}
     username: ${DATASOURCE_USERNAME:sa}
     password: ${DATASOURCE_PASSWORD:}
-  sql:
-    init:
-      mode: embedded
-      schema-locations: classpath:db/schema.sql
+  flyway:
+    locations: classpath:db/migration
+    enabled: true
   jooq:
     sql-dialect: ${JOOQ_DIALECT:H2}
   h2:

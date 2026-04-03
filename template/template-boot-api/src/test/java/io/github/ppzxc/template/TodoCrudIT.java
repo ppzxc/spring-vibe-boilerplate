@@ -38,7 +38,6 @@ class TodoCrudIT {
     registry.add("spring.datasource.password", postgres::getPassword);
     registry.add("spring.datasource.driver-class-name", postgres::getDriverClassName);
     registry.add("spring.jooq.sql-dialect", () -> "POSTGRES");
-    registry.add("spring.sql.init.mode", () -> "always");
   }
 
   @Autowired MockMvc mockMvc;

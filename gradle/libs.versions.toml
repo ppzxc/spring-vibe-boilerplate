@@ -77,6 +77,7 @@ org-jooq-meta-extensions = { group = "org.jooq", name = "jooq-meta-extensions", 
 # database
 com-h2database-h2 = { group = "com.h2database", name = "h2" }
 org-postgresql-postgresql = { group = "org.postgresql", name = "postgresql" }
+org-springframework-boot-starter-flyway = { group = "org.springframework.boot", name = "spring-boot-starter-flyway" }
 
 # testcontainers (BOM)
 org-testcontainers-junit-jupiter = { group = "org.testcontainers", name = "testcontainers-junit-jupiter" }

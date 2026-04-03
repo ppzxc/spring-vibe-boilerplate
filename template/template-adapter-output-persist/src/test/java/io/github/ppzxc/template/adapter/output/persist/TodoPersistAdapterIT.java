@@ -10,19 +10,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration;
 import org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration;
 import org.springframework.boot.jooq.autoconfigure.JooqAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.jdbc.Sql;
 import org.testcontainers.containers.PostgreSQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest(classes = TodoPersistAdapterIT.TestConfig.class)
 @Testcontainers
-@Sql(scripts = "classpath:db/schema.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_CLASS)
 class TodoPersistAdapterIT {
 
   @Container static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17");
@@ -36,7 +35,11 @@ class TodoPersistAdapterIT {
     registry.add("spring.jooq.sql-dialect", () -> "POSTGRES");
   }
 
-  @ImportAutoConfiguration({DataSourceAutoConfiguration.class, JooqAutoConfiguration.class})
+  @ImportAutoConfiguration({
+    DataSourceAutoConfiguration.class,
+    JooqAutoConfiguration.class,
+    FlywayAutoConfiguration.class
+  })
   static class TestConfig {}
 
   @Autowired DSLContext dsl;
