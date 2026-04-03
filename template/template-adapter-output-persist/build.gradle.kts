@@ -2,6 +2,7 @@
 dependencies {
   implementation(project(":template-application"))
   testImplementation(libs.org.springframework.boot.starter.flyway)
+  testImplementation(libs.org.flywaydb.flyway.database.postgresql)
 
   testImplementation(rootProject.libs.org.testcontainers.junit.jupiter)
   testImplementation(rootProject.libs.org.testcontainers.postgresql)

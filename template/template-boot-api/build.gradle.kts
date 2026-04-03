@@ -12,6 +12,7 @@ dependencies {
   runtimeOnly(libs.com.h2database.h2)
   runtimeOnly(libs.org.postgresql.postgresql)
   implementation(libs.org.springframework.boot.starter.flyway)
+  runtimeOnly(libs.org.flywaydb.flyway.database.postgresql)
 
   // observability (ADR-0008)
   implementation(libs.org.springframework.boot.starter.actuator)
