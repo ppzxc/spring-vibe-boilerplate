@@ -8,6 +8,9 @@ dependencies {
   implementation(project(":template-adapter-output-persist"))
   implementation(project(":template-adapter-output-cache"))
 
+  // database
+  runtimeOnly(libs.com.h2database.h2)
+
   // observability (ADR-0008)
   implementation(libs.org.springframework.boot.starter.actuator)
   implementation(libs.io.micrometer.tracing.bridge.otel)

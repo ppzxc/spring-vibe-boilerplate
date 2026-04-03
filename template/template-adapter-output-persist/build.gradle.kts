@@ -1,4 +1,5 @@
-// template-adapter-output-persist: Outbound Adapter (영속화 기술 선택 후 의존성 추가)
+// template-adapter-output-persist: Outbound Adapter (jOOQ + H2)
 dependencies {
   implementation(project(":template-application"))
+  runtimeOnly(libs.com.h2database.h2)
 }

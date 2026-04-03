@@ -16,6 +16,7 @@ plugins {
   alias(libs.plugins.com.linecorp.build.recipe.plugin)
   alias(libs.plugins.net.ltgt.errorprone)
   alias(libs.plugins.com.google.protobuf) apply false
+  alias(libs.plugins.org.jooq.codegen.gradle) apply false
   alias(libs.plugins.com.diffplug.spotless) apply false
   alias(libs.plugins.org.openrewrite.rewrite) apply false
   alias(libs.plugins.com.fizzpod.lefthook)
@@ -180,5 +181,16 @@ configureByLabel("mapstruct") {
     implementation(rootProject.libs.org.mapstruct)
     annotationProcessor(rootProject.libs.org.projectlombok.mapstruct.binding)
     annotationProcessor(rootProject.libs.org.mapstruct.processor)
+  }
+}
+
+// ── jooq 라벨: jOOQ Codegen + H2 ──────────────────────────────────
+configureByLabel("jooq") {
+  apply(plugin = rootProject.libs.plugins.org.jooq.codegen.gradle.get().pluginId)
+
+  dependencies {
+    "jooqCodegen"(rootProject.libs.org.jooq.meta.extensions)
+    "jooqCodegen"(rootProject.libs.com.h2database.h2)
+    "implementation"(rootProject.libs.org.springframework.boot.starter.jooq)
   }
 }
