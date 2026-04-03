@@ -15,4 +15,8 @@ dependencies {
   implementation(libs.org.springframework.boot.starter.actuator)
   implementation(libs.io.micrometer.tracing.bridge.otel)
   implementation(libs.io.opentelemetry.exporter.otlp)
+
+  // test: MockMvc requires webmvc on compile classpath (adapter-input-api exposes it as implementation)
+  testImplementation(libs.org.springframework.boot.starter.web)
+  testImplementation(libs.org.springframework.boot.starter.webmvc.test)
 }
