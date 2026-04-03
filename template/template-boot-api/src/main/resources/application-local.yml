@@ -7,6 +7,5 @@ spring:
     url: jdbc:postgresql://localhost:5432/template
     driver-class-name: org.postgresql.Driver
     username: template
-    password: changeme
   jooq:
     sql-dialect: POSTGRES

@@ -16,7 +16,7 @@ spring:
     url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/template}
     driver-class-name: ${DATASOURCE_DRIVER:org.postgresql.Driver}
     username: ${DATASOURCE_USERNAME:template}
-    password: ${DATASOURCE_PASSWORD:changeme}
+    password: ${DATASOURCE_PASSWORD}
   flyway:
     locations: classpath:db/migration
   jooq:
