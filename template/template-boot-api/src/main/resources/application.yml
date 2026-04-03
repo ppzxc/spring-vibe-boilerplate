@@ -13,17 +13,14 @@ spring:
   lifecycle:
     timeout-per-shutdown-phase: ${SHUTDOWN_TIMEOUT:30s}
   datasource:
-    url: ${DATASOURCE_URL:jdbc:h2:mem:template;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE}
-    driver-class-name: ${DATASOURCE_DRIVER:org.h2.Driver}
-    username: ${DATASOURCE_USERNAME:sa}
-    password: ${DATASOURCE_PASSWORD:}
+    url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/template}
+    driver-class-name: ${DATASOURCE_DRIVER:org.postgresql.Driver}
+    username: ${DATASOURCE_USERNAME:template}
+    password: ${DATASOURCE_PASSWORD:changeme}
   flyway:
     locations: classpath:db/migration
   jooq:
-    sql-dialect: ${JOOQ_DIALECT:H2}
-  h2:
-    console:
-      enabled: false
+    sql-dialect: ${JOOQ_DIALECT:POSTGRES}
   autoconfigure:
     exclude:
       - io.github.springwolf.core.configuration.SpringwolfAutoConfiguration
