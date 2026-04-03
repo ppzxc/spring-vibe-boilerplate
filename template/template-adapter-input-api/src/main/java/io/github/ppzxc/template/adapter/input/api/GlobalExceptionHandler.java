@@ -138,8 +138,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
   private ErrorCode httpStatusToErrorCode(HttpStatusCode statusCode) {
     int status = statusCode.value();
-    if (status == 404) return ErrorCode.NOT_FOUND;
-    if (status >= 400 && status < 500) return ErrorCode.INVALID_ARGUMENT;
+    if (status == 404) {
+      return ErrorCode.NOT_FOUND;
+    }
+    if (status >= 400 && status < 500) {
+      return ErrorCode.INVALID_ARGUMENT;
+    }
     return ErrorCode.INTERNAL;
   }
 }
