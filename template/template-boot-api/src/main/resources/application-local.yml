@@ -1,3 +1,9 @@
 logging:
   level:
     io.github.ppzxc.template: DEBUG
+
+spring:
+  h2:
+    console:
+      enabled: true
+      path: /h2-console

@@ -9,6 +9,25 @@ spring:
       enabled: true
   lifecycle:
     timeout-per-shutdown-phase: ${SHUTDOWN_TIMEOUT:30s}
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:h2:mem:template;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE}
+    driver-class-name: ${DATASOURCE_DRIVER:org.h2.Driver}
+    username: ${DATASOURCE_USERNAME:sa}
+    password: ${DATASOURCE_PASSWORD:}
+  sql:
+    init:
+      mode: embedded
+      schema-locations: classpath:db/schema.sql
+  jooq:
+    sql-dialect: ${JOOQ_DIALECT:H2}
+  h2:
+    console:
+      enabled: false
+  autoconfigure:
+    exclude:
+      - io.github.springwolf.core.configuration.SpringwolfAutoConfiguration
+      - io.github.springwolf.plugins.stomp.configuration.SpringwolfStompAutoConfiguration
+      - io.github.springwolf.bindings.stomp.configuration.SpringwolfStompBindingAutoConfiguration
 
 logging:
   level:

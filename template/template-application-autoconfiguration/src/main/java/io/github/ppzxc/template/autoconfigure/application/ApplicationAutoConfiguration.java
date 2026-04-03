@@ -1,18 +1,65 @@
 package io.github.ppzxc.template.autoconfigure.application;
 
+import io.github.ppzxc.template.application.port.input.command.CreateTodoUseCase;
+import io.github.ppzxc.template.application.port.input.command.DeleteTodoUseCase;
+import io.github.ppzxc.template.application.port.input.command.UpdateTodoUseCase;
+import io.github.ppzxc.template.application.port.input.query.FindTodoQuery;
+import io.github.ppzxc.template.application.port.output.command.DeleteTodoPort;
+import io.github.ppzxc.template.application.port.output.command.SaveTodoPort;
+import io.github.ppzxc.template.application.port.output.query.FindTodoPort;
+import io.github.ppzxc.template.application.service.command.CreateTodoService;
+import io.github.ppzxc.template.application.service.command.DeleteTodoService;
+import io.github.ppzxc.template.application.service.command.UpdateTodoService;
+import io.github.ppzxc.template.application.service.query.FindTodoService;
+import java.util.Properties;
+import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 
-/**
- * UseCase 구현체를 Spring Bean으로 등록하는 AutoConfiguration.
- *
- * <p>Application 레이어는 Spring 의존이 금지되므로 {@code @Service} 대신 여기서 {@code @Bean}으로 등록한다.
- *
- * <pre>{@code
- * @Bean
- * CreateOrderUseCase createOrderUseCase(SaveOrderPort savePort) {
- *     return new CreateOrderService(savePort);
- * }
- * }</pre>
- */
 @AutoConfiguration
-public class ApplicationAutoConfiguration {}
+public class ApplicationAutoConfiguration {
+
+  @Bean
+  CreateTodoUseCase createTodoUseCase(
+      SaveTodoPort saveTodoPort, PlatformTransactionManager txManager) {
+    return txProxy(new CreateTodoService(saveTodoPort), CreateTodoUseCase.class, txManager, false);
+  }
+
+  @Bean
+  UpdateTodoUseCase updateTodoUseCase(
+      FindTodoPort findTodoPort, SaveTodoPort saveTodoPort, PlatformTransactionManager txManager) {
+    return txProxy(
+        new UpdateTodoService(findTodoPort, saveTodoPort),
+        UpdateTodoUseCase.class,
+        txManager,
+        false);
+  }
+
+  @Bean
+  DeleteTodoUseCase deleteTodoUseCase(
+      DeleteTodoPort deleteTodoPort, PlatformTransactionManager txManager) {
+    return txProxy(
+        new DeleteTodoService(deleteTodoPort), DeleteTodoUseCase.class, txManager, false);
+  }
+
+  @Bean
+  FindTodoQuery findTodoQuery(FindTodoPort findTodoPort, PlatformTransactionManager txManager) {
+    return txProxy(new FindTodoService(findTodoPort), FindTodoQuery.class, txManager, true);
+  }
+
+  private <T> T txProxy(
+      T target, Class<T> iface, PlatformTransactionManager txManager, boolean readOnly) {
+    TransactionInterceptor interceptor = new TransactionInterceptor();
+    interceptor.setTransactionManager(txManager);
+    Properties attrs = new Properties();
+    attrs.setProperty("*", readOnly ? "PROPAGATION_REQUIRED,readOnly" : "PROPAGATION_REQUIRED");
+    interceptor.setTransactionAttributes(attrs);
+
+    ProxyFactory factory = new ProxyFactory(target);
+    factory.addInterface(iface);
+    factory.addAdvice(interceptor);
+    return iface.cast(factory.getProxy());
+  }
+}
