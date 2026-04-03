@@ -9,6 +9,20 @@ spring:
       enabled: true
   lifecycle:
     timeout-per-shutdown-phase: ${SHUTDOWN_TIMEOUT:30s}
+  datasource:
+    url: ${DATASOURCE_URL:jdbc:h2:mem:template;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE}
+    driver-class-name: ${DATASOURCE_DRIVER:org.h2.Driver}
+    username: ${DATASOURCE_USERNAME:sa}
+    password: ${DATASOURCE_PASSWORD:}
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:db/schema.sql
+  jooq:
+    sql-dialect: ${JOOQ_DIALECT:H2}
+  h2:
+    console:
+      enabled: false
 
 logging:
   level:
