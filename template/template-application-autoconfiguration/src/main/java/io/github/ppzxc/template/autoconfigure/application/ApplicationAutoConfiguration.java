@@ -11,34 +11,55 @@ import io.github.ppzxc.template.application.service.command.CreateTodoService;
 import io.github.ppzxc.template.application.service.command.DeleteTodoService;
 import io.github.ppzxc.template.application.service.command.UpdateTodoService;
 import io.github.ppzxc.template.application.service.query.FindTodoService;
+import java.util.Properties;
+import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.context.annotation.Bean;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
 
 @AutoConfiguration
 public class ApplicationAutoConfiguration {
 
   @Bean
-  @Transactional
-  CreateTodoUseCase createTodoUseCase(SaveTodoPort saveTodoPort) {
-    return new CreateTodoService(saveTodoPort);
+  CreateTodoUseCase createTodoUseCase(
+      SaveTodoPort saveTodoPort, PlatformTransactionManager txManager) {
+    return txProxy(new CreateTodoService(saveTodoPort), CreateTodoUseCase.class, txManager, false);
   }
 
   @Bean
-  @Transactional
-  UpdateTodoUseCase updateTodoUseCase(FindTodoPort findTodoPort, SaveTodoPort saveTodoPort) {
-    return new UpdateTodoService(findTodoPort, saveTodoPort);
+  UpdateTodoUseCase updateTodoUseCase(
+      FindTodoPort findTodoPort, SaveTodoPort saveTodoPort, PlatformTransactionManager txManager) {
+    return txProxy(
+        new UpdateTodoService(findTodoPort, saveTodoPort),
+        UpdateTodoUseCase.class,
+        txManager,
+        false);
   }
 
   @Bean
-  @Transactional
-  DeleteTodoUseCase deleteTodoUseCase(DeleteTodoPort deleteTodoPort) {
-    return new DeleteTodoService(deleteTodoPort);
+  DeleteTodoUseCase deleteTodoUseCase(
+      DeleteTodoPort deleteTodoPort, PlatformTransactionManager txManager) {
+    return txProxy(
+        new DeleteTodoService(deleteTodoPort), DeleteTodoUseCase.class, txManager, false);
   }
 
   @Bean
-  @Transactional(readOnly = true)
-  FindTodoQuery findTodoQuery(FindTodoPort findTodoPort) {
-    return new FindTodoService(findTodoPort);
+  FindTodoQuery findTodoQuery(FindTodoPort findTodoPort, PlatformTransactionManager txManager) {
+    return txProxy(new FindTodoService(findTodoPort), FindTodoQuery.class, txManager, true);
+  }
+
+  private <T> T txProxy(
+      T target, Class<T> iface, PlatformTransactionManager txManager, boolean readOnly) {
+    TransactionInterceptor interceptor = new TransactionInterceptor();
+    interceptor.setTransactionManager(txManager);
+    Properties attrs = new Properties();
+    attrs.setProperty("*", readOnly ? "PROPAGATION_REQUIRED,readOnly" : "PROPAGATION_REQUIRED");
+    interceptor.setTransactionAttributes(attrs);
+
+    ProxyFactory factory = new ProxyFactory(target);
+    factory.addInterface(iface);
+    factory.addAdvice(interceptor);
+    return iface.cast(factory.getProxy());
   }
 }

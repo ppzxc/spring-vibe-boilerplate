@@ -42,13 +42,18 @@ public class TodoPersistAdapter implements SaveTodoPort, DeleteTodoPort, FindTod
   }
 
   private Todo update(Todo todo) {
+    Long id = todo.getId();
+    if (id == null) {
+      throw new IllegalStateException("Cannot update todo without id");
+    }
     dsl.update(TODO)
         .set(TODO.TITLE, todo.getTitle())
         .set(TODO.COMPLETED, todo.isCompleted())
         .set(TODO.UPDATED_AT, todo.getUpdatedAt())
-        .where(TODO.ID.eq(todo.getId()))
+        .where(TODO.ID.eq(id))
         .execute();
-    return todo;
+    return findById(id)
+        .orElseThrow(() -> new IllegalStateException("Failed to update todo: " + id));
   }
 
   @Override

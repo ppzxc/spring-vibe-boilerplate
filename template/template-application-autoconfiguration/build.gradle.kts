@@ -2,4 +2,5 @@
 dependencies {
   implementation(project(":template-application"))
   implementation("org.springframework:spring-tx")
+  implementation("org.springframework:spring-aop")
 }

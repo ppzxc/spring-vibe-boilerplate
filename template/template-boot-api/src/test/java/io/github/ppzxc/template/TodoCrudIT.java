@@ -4,10 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -22,13 +19,11 @@ import org.springframework.test.web.servlet.MvcResult;
             + "io.github.springwolf.plugins.stomp.configuration.SpringwolfStompAutoConfiguration,"
             + "io.github.springwolf.bindings.stomp.configuration.SpringwolfStompBindingAutoConfiguration")
 @AutoConfigureMockMvc(addFilters = false)
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class TodoCrudIT {
 
   @Autowired MockMvc mockMvc;
 
   @Test
-  @Order(1)
   void create_todo() throws Exception {
     MvcResult result =
         mockMvc
@@ -48,9 +43,7 @@ class TodoCrudIT {
   }
 
   @Test
-  @Order(2)
   void get_todo_by_id() throws Exception {
-    // Create first
     MvcResult createResult =
         mockMvc
             .perform(
@@ -62,7 +55,6 @@ class TodoCrudIT {
 
     String location = createResult.getResponse().getHeader("Location");
 
-    // Get
     mockMvc
         .perform(get(location))
         .andExpect(status().isOk())
@@ -70,19 +62,24 @@ class TodoCrudIT {
   }
 
   @Test
-  @Order(3)
   void get_all_todos() throws Exception {
+    mockMvc
+        .perform(
+            post("/todos")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"title\": \"List Test\"}"))
+        .andExpect(status().isCreated());
+
     mockMvc
         .perform(get("/todos"))
         .andExpect(status().isOk())
         .andExpect(header().exists("Total-Count"))
-        .andExpect(jsonPath("$").isArray());
+        .andExpect(jsonPath("$").isArray())
+        .andExpect(jsonPath("$").isNotEmpty());
   }
 
   @Test
-  @Order(4)
   void update_todo() throws Exception {
-    // Create
     MvcResult createResult =
         mockMvc
             .perform(
@@ -94,7 +91,6 @@ class TodoCrudIT {
 
     String location = createResult.getResponse().getHeader("Location");
 
-    // Update
     mockMvc
         .perform(
             patch(location)
@@ -106,9 +102,7 @@ class TodoCrudIT {
   }
 
   @Test
-  @Order(5)
   void delete_todo() throws Exception {
-    // Create
     MvcResult createResult =
         mockMvc
             .perform(
@@ -120,15 +114,12 @@ class TodoCrudIT {
 
     String location = createResult.getResponse().getHeader("Location");
 
-    // Delete
     mockMvc.perform(delete(location)).andExpect(status().isNoContent());
 
-    // Verify not found
     mockMvc.perform(get(location)).andExpect(status().isNotFound());
   }
 
   @Test
-  @Order(6)
   void get_nonexistent_todo_returns_404() throws Exception {
     mockMvc
         .perform(get("/todos/999999"))
