@@ -2,7 +2,7 @@
 
 **Spring Boot 4 + Hexagonal Architecture 범용 보일러플레이트**
 
-Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
+Java 21, Virtual Threads 기반의 프로덕션 레디 템플릿.
 헥사고날 아키텍처(Ports & Adapters), CQRS, ArchUnit 기반 아키텍처 테스트를 내장합니다.
 
 ---
@@ -56,8 +56,8 @@ Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 
 | 구성 요소 | 버전 |
 |----------|------|
-| Java | 25 |
-| Spring Boot | 4.0.3 |
+| Java | 21 |
+| Spring Boot | 4.0.5 |
 | Gradle | 9.3.1 (Kotlin DSL) |
 | Virtual Threads | 활성화 |
 
@@ -65,7 +65,7 @@ Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 
 ## 모듈 구조
 
-8개 모듈이 `template/` 하위에 플랫 구조로 배치됩니다.
+9개 모듈이 `boilerplate/` 하위에 플랫 구조로 배치됩니다.
 
 | 모듈 | 역할 | Spring |
 |------|------|--------|
@@ -76,6 +76,7 @@ Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 | `boilerplate-adapter-input-ws` | WebSocket | ✓ |
 | `boilerplate-adapter-output-persist` | 영속화 (사용자 선택) | ✓ |
 | `boilerplate-adapter-output-cache` | Cache | ✓ |
+| `boilerplate-adapter-output-external` | 외부 API 연동 (Resilience4j) | ✓ |
 | `boilerplate-boot-api` | Spring Boot 앱 (port 8080) | ✓ |
 
 ### 모듈 의존성
@@ -88,6 +89,7 @@ graph TD
     WS[boilerplate-adapter-input-ws]
     PERSIST[boilerplate-adapter-output-persist]
     CACHE[boilerplate-adapter-output-cache]
+    EXTERNAL[boilerplate-adapter-output-external]
     APP[boilerplate-application]
     DOMAIN[boilerplate-domain]
 
@@ -96,10 +98,12 @@ graph TD
     BOOT --> WS
     BOOT --> PERSIST
     BOOT --> CACHE
+    BOOT --> EXTERNAL
     API --> APP
     WS --> APP
     PERSIST --> APP
     CACHE --> APP
+    EXTERNAL --> APP
     AUTO --> APP
     APP --> DOMAIN
 ```
@@ -128,6 +132,7 @@ graph LR
     subgraph Outbound Adapters
         O1[Persistence\nboilerplate-adapter-output-persist]
         O2[Cache\nboilerplate-adapter-output-cache]
+        O3[External\nboilerplate-adapter-output-external]
     end
 
     A1 -->|calls| P1
@@ -136,6 +141,7 @@ graph LR
     SVC --> P2
     O1 -->|implements| P2
     O2 -->|implements| P2
+    O3 -->|implements| P2
 ```
 
 ### ArchUnit 강제 규칙
@@ -155,7 +161,7 @@ graph LR
 
 ### Prerequisites
 
-- Java 25
+- Java 21
 - Docker (Testcontainers 기반 통합 테스트용)
 
 ### 명령어

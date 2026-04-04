@@ -63,7 +63,7 @@ configureByLabel("java") {
   apply(plugin = "jacoco")
   apply(plugin = "jacoco-report-aggregation")
 
-  java.toolchain.languageVersion.set(JavaLanguageVersion.of(25))
+  java.toolchain.languageVersion.set(JavaLanguageVersion.of(21))
 
   dependencies {
     implementation(platform(rootProject.libs.org.testcontainers.bom))

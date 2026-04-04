@@ -27,8 +27,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(DomainException.class)
   ResponseEntity<ProblemDetail> handleDomainException(DomainException ex) {
     ErrorCode errorCode = ex.errorCode();
-    ProblemDetail problem = ProblemDetail.forStatus(errorCode.httpStatus());
-    problem.setTitle(errorCode.title());
+    HttpStatus status = errorCodeToHttpStatus(errorCode);
+    ProblemDetail problem = ProblemDetail.forStatus(status);
+    problem.setTitle(errorCodeToTitle(errorCode));
     problem.setDetail(ex.getMessage());
     problem.setProperty("errorCode", errorCode.name());
     problem.setProperty("details", ex.details());
@@ -36,23 +37,24 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     LOGGER
         .atWarn()
         .addKeyValue("errorCode", errorCode.name())
-        .addKeyValue("httpStatus", errorCode.httpStatus())
+        .addKeyValue("httpStatus", status.value())
         .log(ex.getMessage());
 
-    return ResponseEntity.status(errorCode.httpStatus()).body(problem);
+    return ResponseEntity.status(status).body(problem);
   }
 
   @ExceptionHandler(Exception.class)
   ResponseEntity<ProblemDetail> handleUnexpectedException(Exception ex) {
-    ProblemDetail problem = ProblemDetail.forStatus(ErrorCode.INTERNAL.httpStatus());
-    problem.setTitle(ErrorCode.INTERNAL.title());
+    HttpStatus status = errorCodeToHttpStatus(ErrorCode.INTERNAL);
+    ProblemDetail problem = ProblemDetail.forStatus(status);
+    problem.setTitle(errorCodeToTitle(ErrorCode.INTERNAL));
     problem.setDetail("An unexpected error occurred");
     problem.setProperty("errorCode", ErrorCode.INTERNAL.name());
     problem.setProperty("details", List.of());
 
     LOGGER.atError().setCause(ex).log("Unexpected error");
 
-    return ResponseEntity.status(ErrorCode.INTERNAL.httpStatus()).body(problem);
+    return ResponseEntity.status(status).body(problem);
   }
 
   @ExceptionHandler(ConstraintViolationException.class)
@@ -70,7 +72,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             .toList();
 
     ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-    problem.setTitle(ErrorCode.INVALID_ARGUMENT.title());
+    problem.setTitle(errorCodeToTitle(ErrorCode.INVALID_ARGUMENT));
     problem.setProperty("errorCode", ErrorCode.INVALID_ARGUMENT.name());
     problem.setProperty("details", violations);
 
@@ -103,7 +105,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
             .toList();
 
     ProblemDetail problem = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-    problem.setTitle(ErrorCode.INVALID_ARGUMENT.title());
+    problem.setTitle(errorCodeToTitle(ErrorCode.INVALID_ARGUMENT));
     problem.setProperty("errorCode", ErrorCode.INVALID_ARGUMENT.name());
     problem.setProperty("details", violations);
 
@@ -142,5 +144,39 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       return ErrorCode.INVALID_ARGUMENT;
     }
     return ErrorCode.INTERNAL;
+  }
+
+  HttpStatus errorCodeToHttpStatus(ErrorCode errorCode) {
+    return switch (errorCode) {
+      case INVALID_ARGUMENT, FAILED_PRECONDITION, OUT_OF_RANGE -> HttpStatus.BAD_REQUEST;
+      case UNAUTHENTICATED -> HttpStatus.UNAUTHORIZED;
+      case PERMISSION_DENIED -> HttpStatus.FORBIDDEN;
+      case NOT_FOUND -> HttpStatus.NOT_FOUND;
+      case ALREADY_EXISTS, ABORTED -> HttpStatus.CONFLICT;
+      case RESOURCE_EXHAUSTED -> HttpStatus.TOO_MANY_REQUESTS;
+      case CANCELLED -> HttpStatus.valueOf(499);
+      case INTERNAL, DATA_LOSS -> HttpStatus.INTERNAL_SERVER_ERROR;
+      case UNAVAILABLE -> HttpStatus.SERVICE_UNAVAILABLE;
+      case DEADLINE_EXCEEDED -> HttpStatus.GATEWAY_TIMEOUT;
+    };
+  }
+
+  String errorCodeToTitle(ErrorCode errorCode) {
+    return switch (errorCode) {
+      case INVALID_ARGUMENT -> "Invalid Argument";
+      case FAILED_PRECONDITION -> "Failed Precondition";
+      case OUT_OF_RANGE -> "Out of Range";
+      case UNAUTHENTICATED -> "Unauthenticated";
+      case PERMISSION_DENIED -> "Permission Denied";
+      case NOT_FOUND -> "Not Found";
+      case ALREADY_EXISTS -> "Already Exists";
+      case ABORTED -> "Aborted";
+      case RESOURCE_EXHAUSTED -> "Resource Exhausted";
+      case CANCELLED -> "Cancelled";
+      case INTERNAL -> "Internal";
+      case DATA_LOSS -> "Data Loss";
+      case UNAVAILABLE -> "Unavailable";
+      case DEADLINE_EXCEEDED -> "Deadline Exceeded";
+    };
   }
 }
