@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -93,9 +92,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
       @NonNull HttpStatusCode status,
       @NonNull WebRequest request) {
     List<FieldViolationDto> violations =
-        ex.getBindingResult().getAllErrors().stream()
-            .filter(error -> error instanceof FieldError)
-            .map(error -> (FieldError) error)
+        ex.getBindingResult().getFieldErrors().stream()
             .map(
                 fieldError ->
                     new FieldViolationDto(

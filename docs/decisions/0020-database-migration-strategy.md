@@ -28,6 +28,12 @@ decision-makers: ppzxc
 
 ### Consequences
 
-- 신규 스키마 변경은 반드시 Flyway 마이그레이션 스크립트로 추가
-- `spring.sql.init.*` 설정 제거
+Good, because:
+- SQL 마이그레이션 스크립트로 스키마 버전 관리 가능
+- Spring Boot 네이티브 통합으로 별도 설정 불필요
+- jOOQ DDLDatabase codegen과 자연스럽게 조합됨
 - Testcontainers 통합 테스트에서 Flyway가 자동 실행됨
+
+Bad, because:
+- 신규 스키마 변경 시 반드시 Flyway 마이그레이션 스크립트 추가 필요 (직접 DDL 편집 불가)
+- 기존 `spring.sql.init.*` 설정 제거 및 `schema.sql` 마이그레이션 작업 필요

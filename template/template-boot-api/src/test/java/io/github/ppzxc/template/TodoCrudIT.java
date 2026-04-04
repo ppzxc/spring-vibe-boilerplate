@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -58,7 +57,8 @@ class TodoCrudIT {
             .andExpect(jsonPath("$.completed").value(false))
             .andReturn();
 
-    String location = Objects.requireNonNull(result.getResponse().getHeader("Location"));
+    String location = result.getResponse().getHeader("Location");
+    assertThat(location).isNotNull();
     assertThat(location).startsWith("/todos/");
   }
 
@@ -73,7 +73,8 @@ class TodoCrudIT {
             .andExpect(status().isCreated())
             .andReturn();
 
-    String location = Objects.requireNonNull(createResult.getResponse().getHeader("Location"));
+    String location = createResult.getResponse().getHeader("Location");
+    assertThat(location).isNotNull();
 
     mockMvc
         .perform(get(location))
@@ -109,7 +110,8 @@ class TodoCrudIT {
             .andExpect(status().isCreated())
             .andReturn();
 
-    String location = Objects.requireNonNull(createResult.getResponse().getHeader("Location"));
+    String location = createResult.getResponse().getHeader("Location");
+    assertThat(location).isNotNull();
 
     mockMvc
         .perform(
@@ -132,7 +134,8 @@ class TodoCrudIT {
             .andExpect(status().isCreated())
             .andReturn();
 
-    String location = Objects.requireNonNull(createResult.getResponse().getHeader("Location"));
+    String location = createResult.getResponse().getHeader("Location");
+    assertThat(location).isNotNull();
 
     mockMvc.perform(delete(location)).andExpect(status().isNoContent());
 
