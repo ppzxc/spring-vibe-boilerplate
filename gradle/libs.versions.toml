@@ -1,6 +1,6 @@
 [versions]
 # plugins
-org-springframework-boot = "4.0.3"
+org-springframework-boot = "4.0.5"
 com-diffplug-spotless = "8.4.0"
 org-openrewrite-rewrite = "7.29.0"
 com-fizzpod-lefthook = "0.4.0"
