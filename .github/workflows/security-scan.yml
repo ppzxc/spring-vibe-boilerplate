@@ -25,7 +25,7 @@ jobs:
         run: ./gradlew dependencyCheckAnalyze --no-configuration-cache
 
       - name: Upload OWASP report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: owasp-report
@@ -51,7 +51,7 @@ jobs:
         run: ./gradlew cyclonedxBom --no-configuration-cache
 
       - name: Upload SBOM
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: sbom
           path: build/reports/bom.*
