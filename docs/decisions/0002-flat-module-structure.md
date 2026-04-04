@@ -67,16 +67,6 @@ template/
 
 상세 절차는 `rules/module-add.md` 참조.
 
-```bash
-# 1. 디렉토리 생성
-mkdir -p template/<module-name>/src/main/java/io/github/ppzxc/template/<layer>
-
-# 2. settings.gradle.kts 에 한 줄 추가
-module("template/<module-name>")
-
-# 3. build.gradle.kts 작성 (레이어별 의존성 규칙 적용)
-```
-
 ## Pros and Cons of the Options
 
 ### B. 루트 플랫 구조
