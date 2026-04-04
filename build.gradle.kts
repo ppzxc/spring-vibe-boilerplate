@@ -29,7 +29,7 @@ plugins {
 }
 
 allprojects {
-  group = "io.github.ppzxc.template"
+  group = "io.github.ppzxc.boilerplate"
   version = "0.0.1"
 
   repositories {
@@ -110,7 +110,7 @@ configureByLabel("java") {
     options.errorprone.enabled.set(true)
     options.errorprone.disableWarningsInGeneratedCode.set(true)
     options.errorprone {
-      option("NullAway:AnnotatedPackages", "io.github.ppzxc.template")
+      option("NullAway:AnnotatedPackages", "io.github.ppzxc.boilerplate")
       excludedPaths = ".*/build/generated/.*"
     }
   }
@@ -159,7 +159,7 @@ configureByLabel("java") {
   apply(plugin = "org.openrewrite.rewrite")
   configure<RewriteExtension> {
     configFile = rootProject.file("rewrite.yml")
-    activeRecipe("io.github.ppzxc.template.CodeQuality")
+    activeRecipe("io.github.ppzxc.boilerplate.CodeQuality")
   }
   dependencies {
     add("rewrite", versionCatalog.findLibrary("org-openrewrite-recipe-static-analysis").get())

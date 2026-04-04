@@ -4,7 +4,7 @@
     "https://checkstyle.org/dtds/configuration_1_3.dtd">
 
 <!--
-  Checkstyle configuration for template project.
+  Checkstyle configuration for boilerplate project.
   Role: Naming + Forbidden patterns + Javadoc + Code structure.
   Formatting (indent, whitespace) is handled by Spotless/google-java-format.
   Bug patterns handled by Error Prone. Null safety by NullAway.

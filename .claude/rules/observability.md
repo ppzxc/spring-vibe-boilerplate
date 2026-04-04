@@ -47,7 +47,7 @@ management:
 
 ## OpenTelemetry 의존성 규칙
 
-- 의존성 위치: `template-boot-api` 모듈
+- 의존성 위치: `boilerplate-boot-api` 모듈
 - 필수 의존성:
   - `micrometer-tracing-bridge-otel`
   - `opentelemetry-exporter-otlp`

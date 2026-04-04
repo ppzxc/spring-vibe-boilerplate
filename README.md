@@ -1,4 +1,4 @@
-# java-spring-template
+# spring-vibe-boilerplate
 
 **Spring Boot 4 + Hexagonal Architecture 범용 보일러플레이트**
 
@@ -69,27 +69,27 @@ Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 
 | 모듈 | 역할 | Spring |
 |------|------|--------|
-| `template-domain` | 순수 도메인 모델 | ✗ |
-| `template-application` | Port 인터페이스 + UseCase 구현체 | ✗ |
-| `template-application-autoconfiguration` | UseCase Bean 등록 | ✓ |
-| `template-adapter-input-api` | REST Controller + Security | ✓ |
-| `template-adapter-input-ws` | WebSocket | ✓ |
-| `template-adapter-output-persist` | 영속화 (사용자 선택) | ✓ |
-| `template-adapter-output-cache` | Cache | ✓ |
-| `template-boot-api` | Spring Boot 앱 (port 8080) | ✓ |
+| `boilerplate-domain` | 순수 도메인 모델 | ✗ |
+| `boilerplate-application` | Port 인터페이스 + UseCase 구현체 | ✗ |
+| `boilerplate-application-autoconfiguration` | UseCase Bean 등록 | ✓ |
+| `boilerplate-adapter-input-api` | REST Controller + Security | ✓ |
+| `boilerplate-adapter-input-ws` | WebSocket | ✓ |
+| `boilerplate-adapter-output-persist` | 영속화 (사용자 선택) | ✓ |
+| `boilerplate-adapter-output-cache` | Cache | ✓ |
+| `boilerplate-boot-api` | Spring Boot 앱 (port 8080) | ✓ |
 
 ### 모듈 의존성
 
 ```mermaid
 graph TD
-    BOOT[template-boot-api]
-    AUTO[template-application-autoconfiguration]
-    API[template-adapter-input-api]
-    WS[template-adapter-input-ws]
-    PERSIST[template-adapter-output-persist]
-    CACHE[template-adapter-output-cache]
-    APP[template-application]
-    DOMAIN[template-domain]
+    BOOT[boilerplate-boot-api]
+    AUTO[boilerplate-application-autoconfiguration]
+    API[boilerplate-adapter-input-api]
+    WS[boilerplate-adapter-input-ws]
+    PERSIST[boilerplate-adapter-output-persist]
+    CACHE[boilerplate-adapter-output-cache]
+    APP[boilerplate-application]
+    DOMAIN[boilerplate-domain]
 
     BOOT --> AUTO
     BOOT --> API
@@ -115,8 +115,8 @@ graph TD
 ```mermaid
 graph LR
     subgraph Inbound Adapters
-        A1[REST API\ntemplate-adapter-input-api]
-        A2[WebSocket\ntemplate-adapter-input-ws]
+        A1[REST API\nboilerplate-adapter-input-api]
+        A2[WebSocket\nboilerplate-adapter-input-ws]
     end
 
     subgraph Application Core
@@ -126,8 +126,8 @@ graph LR
     end
 
     subgraph Outbound Adapters
-        O1[Persistence\ntemplate-adapter-output-persist]
-        O2[Cache\ntemplate-adapter-output-cache]
+        O1[Persistence\nboilerplate-adapter-output-persist]
+        O2[Cache\nboilerplate-adapter-output-cache]
     end
 
     A1 -->|calls| P1
@@ -142,8 +142,8 @@ graph LR
 
 | 규칙 | 내용 |
 |------|------|
-| domain 순수성 | `template-domain`에 Spring/JPA 의존 금지 |
-| application 순수성 | `template-application`에 Spring 의존 금지 |
+| domain 순수성 | `boilerplate-domain`에 Spring/JPA 의존 금지 |
+| application 순수성 | `boilerplate-application`에 Spring 의존 금지 |
 | Outbound Port | `..port.output..*`는 반드시 interface |
 | CQRS 경계 | Query Service → Command Outbound Port 의존 금지 |
 
@@ -168,33 +168,33 @@ graph LR
 ./gradlew build
 
 # 아키텍처 테스트
-./gradlew :template-domain:test :template-application:test
+./gradlew :boilerplate-domain:test :boilerplate-application:test
 
 # 전체 테스트
 ./gradlew test
 
 # API 서버 실행 (local 프로파일)
-./gradlew :template-boot-api:bootRun
+./gradlew :boilerplate-boot-api:bootRun
 ```
 
 ---
 
 ## 패키지 컨벤션
 
-베이스 패키지: `io.github.ppzxc.template`
+베이스 패키지: `io.github.ppzxc.boilerplate`
 
 | 레이어 | 패키지 |
 |--------|--------|
-| Domain | `io.github.ppzxc.template.domain` |
-| Application UseCase | `io.github.ppzxc.template.application` |
-| Inbound Command Port | `io.github.ppzxc.template.application.port.input.command` |
-| Inbound Query Port | `io.github.ppzxc.template.application.port.input.query` |
-| Outbound Command Port | `io.github.ppzxc.template.application.port.output.command` |
-| Outbound Query Port | `io.github.ppzxc.template.application.port.output.query` |
-| API Adapter | `io.github.ppzxc.template.adapter.input.api` |
-| WS Adapter | `io.github.ppzxc.template.adapter.input.ws` |
-| Persist Adapter | `io.github.ppzxc.template.adapter.output.persist` |
-| Cache Adapter | `io.github.ppzxc.template.adapter.output.cache` |
+| Domain | `io.github.ppzxc.boilerplate.domain` |
+| Application UseCase | `io.github.ppzxc.boilerplate.application` |
+| Inbound Command Port | `io.github.ppzxc.boilerplate.application.port.input.command` |
+| Inbound Query Port | `io.github.ppzxc.boilerplate.application.port.input.query` |
+| Outbound Command Port | `io.github.ppzxc.boilerplate.application.port.output.command` |
+| Outbound Query Port | `io.github.ppzxc.boilerplate.application.port.output.query` |
+| API Adapter | `io.github.ppzxc.boilerplate.adapter.input.api` |
+| WS Adapter | `io.github.ppzxc.boilerplate.adapter.input.ws` |
+| Persist Adapter | `io.github.ppzxc.boilerplate.adapter.output.persist` |
+| Cache Adapter | `io.github.ppzxc.boilerplate.adapter.output.cache` |
 
 ### 네이밍 규칙
 
@@ -212,12 +212,12 @@ graph LR
 
 ## 새 도메인 추가 가이드
 
-1. `template-domain`에 도메인 모델 추가
-2. `template-application/port/`에 Port 인터페이스 추가
-3. `template-application/`에 UseCase 인터페이스 및 Service 구현체 추가
+1. `boilerplate-domain`에 도메인 모델 추가
+2. `boilerplate-application/port/`에 Port 인터페이스 추가
+3. `boilerplate-application/`에 UseCase 인터페이스 및 Service 구현체 추가
 4. `ApplicationAutoConfiguration`에 UseCase Bean 등록
-5. `template-adapter-output-persist`에 영속화 기술에 맞는 Adapter 추가
-6. `template-adapter-input-api`에 Controller 추가
+5. `boilerplate-adapter-output-persist`에 영속화 기술에 맞는 Adapter 추가
+6. `boilerplate-adapter-input-api`에 Controller 추가
 
 ---
 
@@ -236,8 +236,8 @@ RFC 9457 `ProblemDetail` + 커스텀 `ErrorCode` enum을 사용합니다.
 }
 ```
 
-- `ErrorCode` enum 위치: `io.github.ppzxc.template.domain` (template-domain 모듈)
-- 예외 변환 위치: `GlobalExceptionHandler` (`@RestControllerAdvice`, template-adapter-input-api)
+- `ErrorCode` enum 위치: `io.github.ppzxc.boilerplate.domain` (boilerplate-domain 모듈)
+- 예외 변환 위치: `GlobalExceptionHandler` (`@RestControllerAdvice`, boilerplate-adapter-input-api)
 - domain/application 레이어는 순수 Java 예외만 사용
 
 > 상세: [`.claude/rules/error-handling.md`](.claude/rules/error-handling.md), [ADR-0007](docs/decisions/0007-error-handling-strategy.md)

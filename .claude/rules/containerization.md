@@ -7,7 +7,7 @@
 ./gradlew bootBuildImage
 
 # 대안: Dockerfile (직접 제어 필요 시)
-docker build -t template-api .
+docker build -t boilerplate-api .
 ```
 
 ## docker-compose 구성 규칙
@@ -18,7 +18,7 @@ docker build -t template-api .
 ```yaml
 services:
   app:
-    image: template-api
+    image: boilerplate-api
     ports:
       - "8080:8080"
     environment:

@@ -1,6 +1,6 @@
 type: specs.openrewrite.org/v1beta/recipe
-name: io.github.ppzxc.template.CodeQuality
-displayName: Template Code Quality
+name: io.github.ppzxc.boilerplate.CodeQuality
+displayName: Boilerplate Code Quality
 description: >
   Static analysis, Java best practices, and Spring Boot best practice recipes
   for the template hexagonal architecture project.

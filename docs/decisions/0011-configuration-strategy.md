@@ -26,7 +26,7 @@ Spring Cloud Config 같은 별도 서버는 소규모 프로젝트에 과도한 
 
 ### 설정 파일 구조
 
-파일 위치: `template-boot-api/src/main/resources/`
+파일 위치: `boilerplate-boot-api/src/main/resources/`
 
 | 파일 | 용도 |
 |------|------|

@@ -8,7 +8,7 @@ decision-makers: ppzxc
 
 ## Context and Problem Statement
 
-`template-adapter-output-cache` 모듈에 `spring-boot-starter-cache`만 존재하고
+`boilerplate-adapter-output-cache` 모듈에 `spring-boot-starter-cache`만 존재하고
 구체적인 캐시 구현체가 미정이다.
 업계 표준에 기반한 기본 선택지를 제공하되, 분산 캐시로의 확장 경로도 안내해야 한다.
 
@@ -70,7 +70,7 @@ Redis로의 확장은 별도 경로로 안내한다.
 
 ### Redis 추가 시 구현 방향
 
-* `template-adapter-output-cache` 모듈에 `spring-boot-starter-data-redis` 추가
+* `boilerplate-adapter-output-cache` 모듈에 `spring-boot-starter-data-redis` 추가
 * `CompositeCacheManager` 또는 커스텀 `CacheManager`로 L1(Caffeine)/L2(Redis) 조합
 * 캐시 무효화(invalidation) 전략은 프로젝트 요구사항에 따라 선택
 
@@ -84,5 +84,5 @@ Redis로의 확장은 별도 경로로 안내한다.
 
 ## More Information
 
-→ [ADR-0002](0002-flat-module-structure.md) — 모듈 레이아웃 (template-adapter-output-cache)
+→ [ADR-0002](0002-flat-module-structure.md) — 모듈 레이아웃 (boilerplate-adapter-output-cache)
 → [architecture.md](../../.claude/rules/architecture.md) — 레이어 의존성 규칙

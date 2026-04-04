@@ -1,0 +1,11 @@
+logging:
+  level:
+    io.github.ppzxc.boilerplate: DEBUG
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/boilerplate
+    driver-class-name: org.postgresql.Driver
+    username: boilerplate
+  jooq:
+    sql-dialect: POSTGRES

@@ -9,7 +9,7 @@
 
 - domain/application 레이어는 테넌트를 인식하지 않을 것 — 테넌트 식별은 adapter 관심사
 - 테넌트 컨텍스트는 `ScopedValue`로 전파할 것 (`ThreadLocal` 금지 — ADR-0005)
-- 테넌트 식별 필터(`TenantResolutionFilter`)는 `template-adapter-input-api`에 배치할 것
+- 테넌트 식별 필터(`TenantResolutionFilter`)는 `boilerplate-adapter-input-api`에 배치할 것
 
 ## 스키마 설계 규칙 [ADR-0015]
 

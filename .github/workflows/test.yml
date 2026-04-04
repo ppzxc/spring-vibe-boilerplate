@@ -50,13 +50,13 @@ jobs:
       - name: Run unit, slice & architecture tests
         run: >
           ./gradlew
-          :template-domain:test
-          :template-application:test
-          :template-application-autoconfiguration:test
-          :template-adapter-output-cache:test
-          :template-adapter-output-external:test
-          :template-adapter-input-ws:test
-          :template-adapter-input-api:test
+          :boilerplate-domain:test
+          :boilerplate-application:test
+          :boilerplate-application-autoconfiguration:test
+          :boilerplate-adapter-output-cache:test
+          :boilerplate-adapter-output-external:test
+          :boilerplate-adapter-input-ws:test
+          :boilerplate-adapter-input-api:test
 
       - name: Upload test results
         uses: actions/upload-artifact@v7
@@ -95,8 +95,8 @@ jobs:
       - name: Run integration tests (Testcontainers)
         run: >
           ./gradlew
-          :template-adapter-output-persist:test
-          :template-boot-api:test
+          :boilerplate-adapter-output-persist:test
+          :boilerplate-boot-api:test
 
       - name: Upload test results
         uses: actions/upload-artifact@v7
@@ -136,8 +136,8 @@ jobs:
       - name: Run mutation tests
         run: >
           ./gradlew
-          :template-domain:pitest
-          :template-application:pitest
+          :boilerplate-domain:pitest
+          :boilerplate-application:pitest
 
       - name: Upload PIT reports
         uses: actions/upload-artifact@v7

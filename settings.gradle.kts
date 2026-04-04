@@ -6,7 +6,7 @@ pluginManagement {
   }
 }
 
-rootProject.name = "template"
+rootProject.name = "boilerplate"
 
 val modules: MutableList<Module> = mutableListOf()
 
@@ -17,19 +17,19 @@ fun module(name: String, path: String) {
 data class Module(val name: String, val path: String)
 
 // ── Apps (실행 가능한 애플리케이션) ────────────────────────────────────
-module(name = ":template-boot-api", path = "template/template-boot-api")
+module(name = ":boilerplate-boot-api", path = "boilerplate/boilerplate-boot-api")
 
 // ── Core (도메인 모듈) ──────────────────────────────────────────────────
-module(name = ":template-domain", path = "template/template-domain")
-module(name = ":template-application", path = "template/template-application")
-module(name = ":template-application-autoconfiguration", path = "template/template-application-autoconfiguration")
+module(name = ":boilerplate-domain", path = "boilerplate/boilerplate-domain")
+module(name = ":boilerplate-application", path = "boilerplate/boilerplate-application")
+module(name = ":boilerplate-application-autoconfiguration", path = "boilerplate/boilerplate-application-autoconfiguration")
 
 // ── Adapters ───────────────────────────────────────────────────────────
-module(name = ":template-adapter-input-api", path = "template/template-adapter-input-api")
-module(name = ":template-adapter-input-ws", path = "template/template-adapter-input-ws")
-module(name = ":template-adapter-output-persist", path = "template/template-adapter-output-persist")
-module(name = ":template-adapter-output-cache", path = "template/template-adapter-output-cache")
-module(name = ":template-adapter-output-external", path = "template/template-adapter-output-external")
+module(name = ":boilerplate-adapter-input-api", path = "boilerplate/boilerplate-adapter-input-api")
+module(name = ":boilerplate-adapter-input-ws", path = "boilerplate/boilerplate-adapter-input-ws")
+module(name = ":boilerplate-adapter-output-persist", path = "boilerplate/boilerplate-adapter-output-persist")
+module(name = ":boilerplate-adapter-output-cache", path = "boilerplate/boilerplate-adapter-output-cache")
+module(name = ":boilerplate-adapter-output-external", path = "boilerplate/boilerplate-adapter-output-external")
 
 modules.forEach {
   include(it.name)

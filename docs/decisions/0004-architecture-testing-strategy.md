@@ -35,7 +35,7 @@ Chosen option: "ArchUnit (1.3.0)", because JUnit 5 통합, 선언적 DSL, 빌드
 
 ## 강제하는 규칙 목록
 
-### Domain 레이어 (`template-domain`)
+### Domain 레이어 (`boilerplate-domain`)
 
 | 규칙 | 이유 |
 |------|------|
@@ -43,7 +43,7 @@ Chosen option: "ArchUnit (1.3.0)", because JUnit 5 통합, 선언적 DSL, 빌드
 | JPA 의존 금지 | 영속성 기술은 Outbound Adapter 책임 |
 | 허용 패키지: `domain`, `java`, `javax`, `jakarta.validation`, `lombok`, `jspecify` | 최소 의존 유지 |
 
-### Application 레이어 (`template-application`)
+### Application 레이어 (`boilerplate-application`)
 
 | 규칙 | 이유 |
 |------|------|
@@ -58,8 +58,8 @@ Chosen option: "ArchUnit (1.3.0)", because JUnit 5 통합, 선언적 DSL, 빌드
 
 | 테스트 클래스 | 모듈 | 패키지 |
 |-------------|------|--------|
-| `DomainArchitectureTest` | `template-domain` | `io.github.ppzxc.template.domain.architecture` |
-| `ApplicationArchitectureTest` | `template-application` | `io.github.ppzxc.template.application.architecture` |
+| `DomainArchitectureTest` | `boilerplate-domain` | `io.github.ppzxc.boilerplate.domain.architecture` |
+| `ApplicationArchitectureTest` | `boilerplate-application` | `io.github.ppzxc.boilerplate.application.architecture` |
 
 ## 향후 규칙 추가 지침
 

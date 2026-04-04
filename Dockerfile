@@ -10,10 +10,10 @@ RUN ./gradlew --version
 
 COPY build.gradle.kts settings.gradle.kts gradle.properties rewrite.yml ./
 COPY config/ config/
-COPY template/ template/
+COPY boilerplate/ boilerplate/
 
-RUN ./gradlew :template-boot-api:bootJar -x test --no-daemon && \
-    java -Djarmode=tools -jar template/template-boot-api/build/libs/template-boot-api-0.0.1.jar extract --layers --launcher --destination /workspace/extracted
+RUN ./gradlew :boilerplate-boot-api:bootJar -x test --no-daemon && \
+    java -Djarmode=tools -jar boilerplate/boilerplate-boot-api/build/libs/boilerplate-boot-api-0.0.1.jar extract --layers --launcher --destination /workspace/extracted
 
 # ---- runtime ----
 FROM eclipse-temurin:25-jre AS runtime
