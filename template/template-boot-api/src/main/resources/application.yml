@@ -43,6 +43,13 @@ management:
   endpoint:
     health:
       show-details: when-authorized
+      probes:
+        enabled: true
+      group:
+        liveness:
+          include: livenessState
+        readiness:
+          include: readinessState, db
   otlp:
     tracing:
       endpoint: ${OTLP_ENDPOINT:}
