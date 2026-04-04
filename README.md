@@ -2,7 +2,7 @@
 
 **Spring Boot 4 + Hexagonal Architecture 범용 보일러플레이트**
 
-Java 21, Virtual Threads 기반의 프로덕션 레디 템플릿.
+Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 헥사고날 아키텍처(Ports & Adapters), CQRS, ArchUnit 기반 아키텍처 테스트를 내장합니다.
 
 ---
@@ -56,7 +56,7 @@ Java 21, Virtual Threads 기반의 프로덕션 레디 템플릿.
 
 | 구성 요소 | 버전 |
 |----------|------|
-| Java | 21 |
+| Java | 25 |
 | Spring Boot | 4.0.5 |
 | Gradle | 9.3.1 (Kotlin DSL) |
 | Virtual Threads | 활성화 |
@@ -161,7 +161,7 @@ graph LR
 
 ### Prerequisites
 
-- Java 21
+- Java 25
 - Docker (Testcontainers 기반 통합 테스트용)
 
 ### 명령어
