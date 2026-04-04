@@ -123,6 +123,12 @@ configureByLabel("java") {
     resolutionStrategy {
       force("com.google.errorprone:error_prone_annotations:2.36.0")
       force("org.checkerframework:checker-qual:3.48.4")
+      eachDependency {
+        if (requested.group == "org.junit.platform" && requested.name == "junit-platform-launcher") {
+          useVersion("6.0.3")
+          because("Spring Boot 4 / JUnit 6 requires junit-platform-launcher 6.0.3")
+        }
+      }
     }
   }
 

@@ -125,7 +125,6 @@ io-github-resilience4j-ratelimiter = { group = "io.github.resilience4j", name = 
 io-github-resilience4j-micrometer = { group = "io.github.resilience4j", name = "resilience4j-micrometer", version.ref = "io-github-resilience4j" }
 net-jqwik = { group = "net.jqwik", name = "jqwik", version.ref = "net-jqwik" }
 spring-cloud-contract-verifier = { group = "org.springframework.cloud", name = "spring-cloud-contract-verifier", version.ref = "spring-cloud-contract" }
-spring-cloud-contract-stub-runner = { group = "org.springframework.cloud", name = "spring-cloud-contract-stub-runner", version.ref = "spring-cloud-contract" }
 io-rest-assured-spring-mock-mvc = { group = "io.rest-assured", name = "spring-mock-mvc", version.ref = "io-rest-assured" }
 
 # openrewrite recipes
