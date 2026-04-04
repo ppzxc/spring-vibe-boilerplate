@@ -32,7 +32,6 @@ Spring Cloud Config 같은 별도 서버는 소규모 프로젝트에 과도한 
 |------|------|
 | `application.yml` | 공통 설정 + 환경변수 플레이스홀더 |
 | `application-local.yml` | 로컬 개발 설정 (개발자 기본값) |
-| `application-test.yml` | 테스트 설정 (Testcontainers 연동) |
 | `application-prod.yml` | 프로덕션 — 환경변수 주입 중심, 비밀 없음 |
 
 핵심 제약:
@@ -40,7 +39,7 @@ Spring Cloud Config 같은 별도 서버는 소규모 프로젝트에 과도한 
 1. **환경변수 플레이스홀더**: `application.yml`에 기본값 포함 형식 사용 (`${VAR:default}`)
 2. **비밀 정보 금지**: DB 패스워드 등 비밀은 반드시 환경변수로 주입, yml 평문 저장 금지
 3. **prod 설정**: `application-prod.yml`은 환경변수 레퍼런스만 포함, 실제 값 없음
-4. **test 설정**: `application-test.yml`은 Testcontainers 동적 포트 연동 패턴 사용
+4. **test 설정**: Testcontainers 동적 포트 연동이 필요한 경우 `application-test.yml` 추가
 5. **Spring Cloud Config 미채택**: 별도 서버 필요, 소규모 프로젝트에 과도
 6. **Vault 미채택**: 운영 복잡도 증가 — 선택적 확장으로만 언급, 기본 전략에서 제외
 7. **프로파일 활성화**: `SPRING_PROFILES_ACTIVE=prod` 환경변수로 컨테이너에서 설정
