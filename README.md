@@ -30,7 +30,7 @@ Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 | ADR | 주제 |
 |-----|------|
 | [ADR-0001](docs/decisions/0001-hexagonal-architecture-and-cqrs.md) | Hexagonal Architecture + CQRS 경계 분리 채택 |
-| [ADR-0002](docs/decisions/0002-flat-module-structure.md) | 모듈 레이아웃: template/ 하위 플랫 구조 |
+| [ADR-0002](docs/decisions/0002-flat-module-structure.md) | 모듈 레이아웃: boilerplate/ 하위 플랫 구조 |
 | [ADR-0003](docs/decisions/0003-package-structure-and-naming.md) | 패키지 구조 및 네이밍 컨벤션 |
 | [ADR-0004](docs/decisions/0004-architecture-testing-strategy.md) | 아키텍처 테스트 전략: ArchUnit |
 | [ADR-0005](docs/decisions/0005-code-quality-toolchain.md) | 코드 품질 도구 전략: Spotless + Checkstyle + ErrorProne + NullAway |
@@ -65,7 +65,7 @@ Java 25, Virtual Threads 기반의 프로덕션 레디 템플릿.
 
 ## 모듈 구조
 
-8개 모듈이 `template/` 하위에 플랫 구조로 배치됩니다.
+8개 모듈이 `boilerplate/` 하위에 플랫 구조로 배치됩니다.
 
 | 모듈 | 역할 | Spring |
 |------|------|--------|

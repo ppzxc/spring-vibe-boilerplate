@@ -8,7 +8,7 @@
 | ADR | 상태 | 주제 |
 |-----|------|------|
 | [ADR-0001](0001-hexagonal-architecture-and-cqrs.md) | accepted | Hexagonal Architecture + CQRS 경계 분리 채택 |
-| [ADR-0002](0002-flat-module-structure.md) | accepted | 모듈 레이아웃: template/ 하위 플랫 구조 |
+| [ADR-0002](0002-flat-module-structure.md) | accepted | 모듈 레이아웃: boilerplate/ 하위 플랫 구조 |
 | [ADR-0003](0003-package-structure-and-naming.md) | accepted | 패키지 구조 및 네이밍 컨벤션 |
 | [ADR-0004](0004-architecture-testing-strategy.md) | accepted | 아키텍처 테스트 전략: ArchUnit |
 | [ADR-0005](0005-code-quality-toolchain.md) | accepted | 코드 품질 도구 전략: Spotless + Checkstyle + ErrorProne + NullAway |
