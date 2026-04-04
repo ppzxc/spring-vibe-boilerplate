@@ -3,14 +3,29 @@ package io.github.ppzxc.template.domain.architecture;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 import com.tngtech.archunit.core.importer.ImportOption;
+import com.tngtech.archunit.core.importer.Location;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+import java.util.regex.Pattern;
 
 @AnalyzeClasses(
     packages = "io.github.ppzxc.template.domain",
-    importOptions = ImportOption.DoNotIncludeTests.class)
+    importOptions = {
+      ImportOption.DoNotIncludeTests.class,
+      DomainArchitectureTest.DoNotIncludeTestFixtures.class
+    })
 class DomainArchitectureTest {
+
+  static final class DoNotIncludeTestFixtures implements ImportOption {
+    // Matches both Gradle directory (testFixtures) and JAR artifact (test-fixtures)
+    private static final Pattern PATTERN = Pattern.compile(".*(testFixtures|test-fixtures).*");
+
+    @Override
+    public boolean includes(Location location) {
+      return !location.matches(PATTERN);
+    }
+  }
 
   @ArchTest
   static final ArchRule noSpringDependency =
