@@ -3,14 +3,25 @@ package io.github.ppzxc.template.domain.architecture;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 
 import com.tngtech.archunit.core.importer.ImportOption;
+import com.tngtech.archunit.core.importer.Location;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
 
 @AnalyzeClasses(
     packages = "io.github.ppzxc.template.domain",
-    importOptions = ImportOption.DoNotIncludeTests.class)
+    importOptions = {
+      ImportOption.DoNotIncludeTests.class,
+      DomainArchitectureTest.DoNotIncludeTestFixtures.class
+    })
 class DomainArchitectureTest {
+
+  static final class DoNotIncludeTestFixtures implements ImportOption {
+    @Override
+    public boolean includes(Location location) {
+      return !location.contains("testFixtures");
+    }
+  }
 
   @ArchTest
   static final ArchRule noSpringDependency =
