@@ -54,6 +54,7 @@ jobs:
           :template-application:test
           :template-application-autoconfiguration:test
           :template-adapter-output-cache:test
+          :template-adapter-output-external:test
           :template-adapter-input-ws:test
           :template-adapter-input-api:test
 

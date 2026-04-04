@@ -40,6 +40,7 @@ org-springdoc-openapi = "2.8.6"
 io-github-springwolf = "1.12.0"
 io-grpc = "1.72.0"
 com-google-protobuf = "4.31.1"
+io-github-resilience4j = "2.2.0"
 
 [libraries]
 # spring boot (common - java label)
@@ -112,6 +113,12 @@ org-junit-platform-launcher = { group = "org.junit.platform", name = "junit-plat
 org-awaitility = { group = "org.awaitility", name = "awaitility", version.ref = "org-awaitility" }
 com-tngtech-archunit-junit5 = { group = "com.tngtech.archunit", name = "archunit-junit5", version.ref = "com-tngtech-archunit" }
 com-navercorp-fixture-monkey-starter = { group = "com.navercorp.fixturemonkey", name = "fixture-monkey-starter", version.ref = "com-navercorp-fixture-monkey" }
+
+# resilience4j
+io-github-resilience4j-circuitbreaker = { group = "io.github.resilience4j", name = "resilience4j-circuitbreaker", version.ref = "io-github-resilience4j" }
+io-github-resilience4j-retry = { group = "io.github.resilience4j", name = "resilience4j-retry", version.ref = "io-github-resilience4j" }
+io-github-resilience4j-ratelimiter = { group = "io.github.resilience4j", name = "resilience4j-ratelimiter", version.ref = "io-github-resilience4j" }
+io-github-resilience4j-micrometer = { group = "io.github.resilience4j", name = "resilience4j-micrometer", version.ref = "io-github-resilience4j" }
 
 # openrewrite recipes
 org-openrewrite-recipe-static-analysis = { group = "org.openrewrite.recipe", name = "rewrite-static-analysis", version.ref = "org-openrewrite-recipe-static-analysis" }

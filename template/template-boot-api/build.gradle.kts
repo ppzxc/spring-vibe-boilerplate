@@ -7,6 +7,7 @@ dependencies {
   implementation(project(":template-adapter-input-ws"))
   implementation(project(":template-adapter-output-persist"))
   implementation(project(":template-adapter-output-cache"))
+  implementation(project(":template-adapter-output-external"))
 
   // database
   testRuntimeOnly(libs.com.h2database.h2)

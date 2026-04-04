@@ -29,6 +29,7 @@ module(name = ":template-adapter-input-api", path = "template/template-adapter-i
 module(name = ":template-adapter-input-ws", path = "template/template-adapter-input-ws")
 module(name = ":template-adapter-output-persist", path = "template/template-adapter-output-persist")
 module(name = ":template-adapter-output-cache", path = "template/template-adapter-output-cache")
+module(name = ":template-adapter-output-external", path = "template/template-adapter-output-external")
 
 modules.forEach {
   include(it.name)
