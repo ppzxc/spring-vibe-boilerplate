@@ -28,6 +28,8 @@
 | [ADR-0019](0019-cache-strategy.md) | accepted | 캐시 전략: Caffeine 기본 + Redis 확장 경로 |
 | [ADR-0020](0020-database-migration-strategy.md) | accepted | DB 마이그레이션 전략: Flyway 채택 |
 | [ADR-0021](0021-resilience-strategy.md) | accepted | 외부 서비스 내결함성 전략: Resilience4j core + 프로그래매틱 API |
+| [ADR-0022](0022-contract-testing-strategy.md) | accepted | Spring Cloud Contract로 API 계약 테스트 도입 |
+| [ADR-0023](0023-mutation-testing-strategy.md) | accepted | Mutation Testing으로 테스트 품질 검증 |
 
 ## 새 ADR 추가
 

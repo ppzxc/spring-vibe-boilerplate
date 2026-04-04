@@ -41,6 +41,10 @@ io-github-springwolf = "1.12.0"
 io-grpc = "1.72.0"
 com-google-protobuf = "4.31.1"
 io-github-resilience4j = "2.2.0"
+net-jqwik = "1.9.2"
+info-solidsoft-pitest = "1.19.0"
+spring-cloud-contract = "5.0.2"
+io-rest-assured = "5.5.7"
 
 [libraries]
 # spring boot (common - java label)
@@ -119,6 +123,10 @@ io-github-resilience4j-circuitbreaker = { group = "io.github.resilience4j", name
 io-github-resilience4j-retry = { group = "io.github.resilience4j", name = "resilience4j-retry", version.ref = "io-github-resilience4j" }
 io-github-resilience4j-ratelimiter = { group = "io.github.resilience4j", name = "resilience4j-ratelimiter", version.ref = "io-github-resilience4j" }
 io-github-resilience4j-micrometer = { group = "io.github.resilience4j", name = "resilience4j-micrometer", version.ref = "io-github-resilience4j" }
+net-jqwik = { group = "net.jqwik", name = "jqwik", version.ref = "net-jqwik" }
+spring-cloud-contract-verifier = { group = "org.springframework.cloud", name = "spring-cloud-contract-verifier", version.ref = "spring-cloud-contract" }
+spring-cloud-contract-stub-runner = { group = "org.springframework.cloud", name = "spring-cloud-contract-stub-runner", version.ref = "spring-cloud-contract" }
+io-rest-assured-spring-mock-mvc = { group = "io.rest-assured", name = "spring-mock-mvc", version.ref = "io-rest-assured" }
 
 # openrewrite recipes
 org-openrewrite-recipe-static-analysis = { group = "org.openrewrite.recipe", name = "rewrite-static-analysis", version.ref = "org-openrewrite-recipe-static-analysis" }
@@ -137,3 +145,5 @@ com-google-protobuf = { id = "com.google.protobuf", version.ref = "com-google-pr
 org-jooq-codegen-gradle = { id = "org.jooq.jooq-codegen-gradle", version.ref = "org-jooq-codegen-gradle" }
 org-owasp-dependencycheck = { id = "org.owasp.dependencycheck", version.ref = "org-owasp-dependencycheck" }
 org-cyclonedx-bom = { id = "org.cyclonedx.bom", version.ref = "org-cyclonedx-bom" }
+pitest = { id = "info.solidsoft.pitest", version.ref = "info-solidsoft-pitest" }
+spring-cloud-contract = { id = "org.springframework.cloud.contract", version.ref = "spring-cloud-contract" }
