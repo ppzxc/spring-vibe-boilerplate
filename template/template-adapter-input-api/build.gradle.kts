@@ -1,4 +1,16 @@
 // template-adapter-input-api: REST Controller, Spring Security (Inbound Adapter)
+apply(plugin = rootProject.libs.plugins.spring.cloud.contract.get().pluginId)
+
+configure<org.springframework.cloud.contract.verifier.plugin.ContractVerifierExtension> {
+  testMode.set(org.springframework.cloud.contract.verifier.config.TestMode.MOCKMVC)
+  baseClassForTests.set("io.github.ppzxc.template.adapter.input.api.ContractBaseTest")
+  nameSuffixForTests.set("ContractTest")
+  failOnInProgress.set(false)
+  contractsDslDir.set(
+    project.layout.projectDirectory.dir("src/test/resources/contracts")
+  )
+}
+
 dependencies {
   implementation(project(":template-application"))
   implementation(libs.org.springframework.boot.starter.web)
@@ -7,4 +19,6 @@ dependencies {
 
   testImplementation(libs.org.springframework.boot.starter.webmvc.test)
   testImplementation(libs.org.springframework.security.test)
+  testImplementation(rootProject.libs.spring.cloud.contract.verifier)
+  testImplementation(rootProject.libs.io.rest.assured.spring.mock.mvc)
 }

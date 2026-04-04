@@ -20,6 +20,7 @@ plugins {
   alias(libs.plugins.org.owasp.dependencycheck) apply false
   alias(libs.plugins.org.cyclonedx.bom) apply false
   alias(libs.plugins.pitest) apply false
+  alias(libs.plugins.spring.cloud.contract) apply false
   alias(libs.plugins.com.diffplug.spotless) apply false
   alias(libs.plugins.org.openrewrite.rewrite) apply false
   alias(libs.plugins.com.fizzpod.lefthook)
