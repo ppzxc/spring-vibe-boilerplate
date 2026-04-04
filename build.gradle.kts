@@ -107,7 +107,7 @@ configureByLabel("java") {
   }
 
   tasks.withType<JavaCompile>().configureEach {
-    options.errorprone.isEnabled.set(true)
+    options.errorprone.enabled.set(true)
     options.errorprone.disableWarningsInGeneratedCode.set(true)
     options.errorprone {
       option("NullAway:AnnotatedPackages", "io.github.ppzxc.template")
