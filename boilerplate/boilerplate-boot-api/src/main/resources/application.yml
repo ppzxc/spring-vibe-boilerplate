@@ -15,7 +15,7 @@ spring:
   datasource:
     url: ${DATASOURCE_URL:jdbc:postgresql://localhost:5432/boilerplate}
     driver-class-name: ${DATASOURCE_DRIVER:org.postgresql.Driver}
-    username: ${DATASOURCE_USERNAME:template}
+    username: ${DATASOURCE_USERNAME:boilerplate}
     password: ${DATASOURCE_PASSWORD}
   flyway:
     locations: classpath:db/migration

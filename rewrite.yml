@@ -3,7 +3,7 @@ name: io.github.ppzxc.boilerplate.CodeQuality
 displayName: Boilerplate Code Quality
 description: >
   Static analysis, Java best practices, and Spring Boot best practice recipes
-  for the template hexagonal architecture project.
+  for the boilerplate hexagonal architecture project.
 recipeList:
   # Static analysis
   - org.openrewrite.staticanalysis.CommonStaticAnalysis

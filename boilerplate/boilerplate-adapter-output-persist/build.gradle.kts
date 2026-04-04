@@ -1,4 +1,4 @@
-// template-adapter-output-persist: Outbound Adapter (jOOQ + PostgreSQL via Flyway)
+// boilerplate-adapter-output-persist: Outbound Adapter (jOOQ + PostgreSQL via Flyway)
 dependencies {
   implementation(project(":boilerplate-application"))
   testImplementation(libs.org.springframework.boot.starter.flyway)

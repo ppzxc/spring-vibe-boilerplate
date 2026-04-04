@@ -7,15 +7,15 @@
 ### 1. 디렉토리 및 기본 파일 생성
 
 ```
-template/<module-name>/
+boilerplate/<module-name>/
   build.gradle.kts
   gradle.properties
-  src/main/java/io/github/ppzxc/template/<layer>/package-info.java
+  src/main/java/io/github/ppzxc/boilerplate/<layer>/package-info.java
 ```
 
 ### 2. `settings.gradle.kts` 등록
 
-`module("template/<module-name>")` 한 줄 추가.
+`module("boilerplate/<module-name>")` 한 줄 추가.
 
 ### 3. `build.gradle.kts` 작성
 
@@ -45,7 +45,7 @@ dependencies {
 }
 ```
 
-**template-adapter-input-grpc 패턴 (gRPC 확장 시):**
+**boilerplate-adapter-input-grpc 패턴 (gRPC 확장 시):**
 ```kotlin
 // gradle.properties: label=java,spring,proto
 dependencies {
@@ -59,12 +59,12 @@ dependencies {
 `proto` 라벨이 Protobuf 플러그인과 코드 생성을 자동 적용한다.
 `.proto` 파일은 `src/main/proto/`에 배치.
 
-**template-boot-grpc 패턴 (gRPC 전용 서버 필요 시):**
+**boilerplate-boot-grpc 패턴 (gRPC 전용 서버 필요 시):**
 ```kotlin
 // gradle.properties: label=java,spring,boot
 dependencies {
     implementation(project(":boilerplate-application-autoconfiguration"))
-    implementation(project(":template-adapter-input-grpc"))
+    implementation(project(":boilerplate-adapter-input-grpc"))
     // 필요에 따라 output adapter 추가
 }
 ```
