@@ -53,6 +53,7 @@ org-springframework-boot-starter-web = { group = "org.springframework.boot", nam
 org-springframework-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
 org-springframework-boot-starter-websocket = { group = "org.springframework.boot", name = "spring-boot-starter-websocket" }
 org-springframework-boot-starter-cache = { group = "org.springframework.boot", name = "spring-boot-starter-cache" }
+com-github-ben-manes-caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine" }
 org-springframework-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
 org-springframework-boot-starter-webmvc-test = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc-test" }
 org-springframework-security-test = { group = "org.springframework.security", name = "spring-security-test" }
