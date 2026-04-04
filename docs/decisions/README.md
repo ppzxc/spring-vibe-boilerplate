@@ -27,6 +27,7 @@
 | [ADR-0018](0018-persistence-technology-selection-guide.md) | accepted | 영속화 기술 선택 가이드: DB + ORM + Migration 조합 |
 | [ADR-0019](0019-cache-strategy.md) | accepted | 캐시 전략: Caffeine 기본 + Redis 확장 경로 |
 | [ADR-0020](0020-database-migration-strategy.md) | accepted | DB 마이그레이션 전략: Flyway 채택 |
+| [ADR-0021](0021-resilience-strategy.md) | accepted | 외부 서비스 내결함성 전략: Resilience4j core + 프로그래매틱 API |
 
 ## 새 ADR 추가
 

@@ -17,6 +17,8 @@ plugins {
   alias(libs.plugins.net.ltgt.errorprone)
   alias(libs.plugins.com.google.protobuf) apply false
   alias(libs.plugins.org.jooq.codegen.gradle) apply false
+  alias(libs.plugins.org.owasp.dependencycheck) apply false
+  alias(libs.plugins.org.cyclonedx.bom) apply false
   alias(libs.plugins.com.diffplug.spotless) apply false
   alias(libs.plugins.org.openrewrite.rewrite) apply false
   alias(libs.plugins.com.fizzpod.lefthook)
@@ -36,6 +38,16 @@ allprojects {
   tasks.withType<BootJar> {
     enabled = false
   }
+}
+
+// ── OWASP Dependency Check + CycloneDX SBOM ───────────────────────
+apply(plugin = libs.plugins.org.owasp.dependencycheck.get().pluginId)
+apply(plugin = libs.plugins.org.cyclonedx.bom.get().pluginId)
+
+configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
+  failBuildOnCVSS = 7.0f
+  analyzers.assemblyEnabled = false
+  formats = listOf("HTML", "JSON")
 }
 
 // ── java 라벨: Java 25 + 공통 빌드 설정 ─────────────────────────────
