@@ -34,8 +34,8 @@ public class ExternalAdapterAutoConfiguration {
 
   @Bean(name = "externalRestClient")
   @ConditionalOnMissingBean(name = "externalRestClient")
-  RestClient externalRestClient(RestClient.Builder builder) {
-    return builder.build();
+  RestClient externalRestClient() {
+    return RestClient.create();
   }
 
   @Bean
