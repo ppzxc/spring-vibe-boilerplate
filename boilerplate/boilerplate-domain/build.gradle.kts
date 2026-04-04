@@ -1,4 +1,4 @@
-// template-domain: 순수 도메인 모델 — Spring/JPA 의존 금지
+// boilerplate-domain: 순수 도메인 모델 — Spring/JPA 의존 금지
 apply(plugin = rootProject.libs.plugins.pitest.get().pluginId)
 
 extensions.configure<info.solidsoft.gradle.pitest.PitestPluginExtension> {

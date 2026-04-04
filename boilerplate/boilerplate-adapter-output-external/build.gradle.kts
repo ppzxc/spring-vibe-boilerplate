@@ -1,4 +1,4 @@
-// template-adapter-output-external: External API Outbound Adapter (Resilience4j)
+// boilerplate-adapter-output-external: External API Outbound Adapter (Resilience4j)
 dependencies {
   implementation(project(":boilerplate-application"))
   implementation(libs.org.springframework.boot.starter.web)

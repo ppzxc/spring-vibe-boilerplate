@@ -1,4 +1,4 @@
-// template-adapter-input-api: REST Controller, Spring Security (Inbound Adapter)
+// boilerplate-adapter-input-api: REST Controller, Spring Security (Inbound Adapter)
 apply(plugin = rootProject.libs.plugins.spring.cloud.contract.get().pluginId)
 
 configure<org.springframework.cloud.contract.verifier.plugin.ContractVerifierExtension> {
