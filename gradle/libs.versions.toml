@@ -42,6 +42,7 @@ io-grpc = "1.72.0"
 com-google-protobuf = "4.31.1"
 io-github-resilience4j = "2.2.0"
 net-jqwik = "1.9.2"
+info-solidsoft-pitest = "1.19.0"
 
 [libraries]
 # spring boot (common - java label)
@@ -139,3 +140,4 @@ com-google-protobuf = { id = "com.google.protobuf", version.ref = "com-google-pr
 org-jooq-codegen-gradle = { id = "org.jooq.jooq-codegen-gradle", version.ref = "org-jooq-codegen-gradle" }
 org-owasp-dependencycheck = { id = "org.owasp.dependencycheck", version.ref = "org-owasp-dependencycheck" }
 org-cyclonedx-bom = { id = "org.cyclonedx.bom", version.ref = "org-cyclonedx-bom" }
+pitest = { id = "info.solidsoft.pitest", version.ref = "info-solidsoft-pitest" }
