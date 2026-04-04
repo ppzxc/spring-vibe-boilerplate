@@ -7,6 +7,7 @@ import com.tngtech.archunit.core.importer.Location;
 import com.tngtech.archunit.junit.AnalyzeClasses;
 import com.tngtech.archunit.junit.ArchTest;
 import com.tngtech.archunit.lang.ArchRule;
+import java.util.regex.Pattern;
 
 @AnalyzeClasses(
     packages = "io.github.ppzxc.template.domain",
@@ -17,9 +18,12 @@ import com.tngtech.archunit.lang.ArchRule;
 class DomainArchitectureTest {
 
   static final class DoNotIncludeTestFixtures implements ImportOption {
+    // Matches both Gradle directory (testFixtures) and JAR artifact (test-fixtures)
+    private static final Pattern PATTERN = Pattern.compile(".*(testFixtures|test-fixtures).*");
+
     @Override
     public boolean includes(Location location) {
-      return !location.contains("testFixtures");
+      return !location.matches(PATTERN);
     }
   }
 
