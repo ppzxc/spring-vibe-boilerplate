@@ -6,27 +6,27 @@
 
 | 모듈 | 레이어 | Spring | JPA |
 |------|--------|--------|-----|
-| `template-domain` | Domain | ✗ | ✗ |
-| `template-application` | Application | ✗ | ✗ |
-| `template-application-autoconfiguration` | Application | ✓ | ✗ |
-| `template-adapter-input-api` | Inbound Adapter | ✓ | ✗ |
-| `template-adapter-input-ws` | Inbound Adapter | ✓ | ✗ |
-| `template-adapter-output-persist` | Outbound Adapter | ✓ | ✓ |
-| `template-adapter-output-cache` | Outbound Adapter | ✓ | ✗ |
-| `template-boot-api` | Boot | ✓ | ✗ |
+| `boilerplate-domain` | Domain | ✗ | ✗ |
+| `boilerplate-application` | Application | ✗ | ✗ |
+| `boilerplate-application-autoconfiguration` | Application | ✓ | ✗ |
+| `boilerplate-adapter-input-api` | Inbound Adapter | ✓ | ✗ |
+| `boilerplate-adapter-input-ws` | Inbound Adapter | ✓ | ✗ |
+| `boilerplate-adapter-output-persist` | Outbound Adapter | ✓ | ✓ |
+| `boilerplate-adapter-output-cache` | Outbound Adapter | ✓ | ✗ |
+| `boilerplate-boot-api` | Boot | ✓ | ✗ |
 
 ## 의존성 방향 규칙 [ADR-0001]
 
 ```
-template-boot-api
-  ├── template-application-autoconfiguration
-  ├── template-adapter-input-api ──────────→ template-application
-  ├── template-adapter-input-ws ───────────→ template-application
-  ├── template-adapter-output-persist ─────→ template-application
-  └── template-adapter-output-cache ───────→ template-application
+boilerplate-boot-api
+  ├── boilerplate-application-autoconfiguration
+  ├── boilerplate-adapter-input-api ──────────→ boilerplate-application
+  ├── boilerplate-adapter-input-ws ───────────→ boilerplate-application
+  ├── boilerplate-adapter-output-persist ─────→ boilerplate-application
+  └── boilerplate-adapter-output-cache ───────→ boilerplate-application
                                                    │
                                                    ↓
-                                           template-domain
+                                           boilerplate-domain
 ```
 
 ### 금지 규칙 [ADR-0001]
@@ -40,9 +40,9 @@ template-boot-api
 ## 패키지 구조 규칙 [ADR-0003]
 
 ```
-io.github.ppzxc.template
-├── domain/                          ← template-domain 모듈
-├── application/                     ← template-application 모듈
+io.github.ppzxc.boilerplate
+├── domain/                          ← boilerplate-domain 모듈
+├── application/                     ← boilerplate-application 모듈
 │   ├── port/
 │   │   ├── input/
 │   │   │   ├── command/   *UseCase  ← Inbound Command Port (interface)
@@ -54,10 +54,10 @@ io.github.ppzxc.template
 │   └── service/
 │       ├── command/       *Service  ← Command UseCase 구현체
 │       └── query/         *Service  ← Query UseCase 구현체
-├── adapter/input/api/               ← template-adapter-input-api 모듈
-├── adapter/input/ws/                ← template-adapter-input-ws 모듈
-├── adapter/output/persist/          ← template-adapter-output-persist 모듈
-└── adapter/output/cache/            ← template-adapter-output-cache 모듈
+├── adapter/input/api/               ← boilerplate-adapter-input-api 모듈
+├── adapter/input/ws/                ← boilerplate-adapter-input-ws 모듈
+├── adapter/output/persist/          ← boilerplate-adapter-output-persist 모듈
+└── adapter/output/cache/            ← boilerplate-adapter-output-cache 모듈
 ```
 
 ## Port 인터페이스 규칙 [ADR-0003]
@@ -72,8 +72,8 @@ io.github.ppzxc.template
 
 | 테스트 클래스 | 모듈 | 검증 규칙 |
 |-------------|------|----------|
-| `DomainArchitectureTest` | `template-domain` | Spring/JPA 금지, 허용 패키지 |
-| `ApplicationArchitectureTest` | `template-application` | Spring 금지, Port interface, query→command port 금지 |
+| `DomainArchitectureTest` | `boilerplate-domain` | Spring/JPA 금지, 허용 패키지 |
+| `ApplicationArchitectureTest` | `boilerplate-application` | Spring 금지, Port interface, query→command port 금지 |
 
 새 레이어 규칙 추가 시 해당 ArchUnit 테스트도 함께 추가.
 
@@ -83,19 +83,19 @@ io.github.ppzxc.template
 
 ## 트랜잭션 관리 규칙 [ADR-0012]
 
-- 트랜잭션 경계는 `template-application-autoconfiguration`에서 데코레이터로 적용할 것
+- 트랜잭션 경계는 `boilerplate-application-autoconfiguration`에서 데코레이터로 적용할 것
 - Command UseCase Bean: `@Transactional`, Query UseCase Bean: `@Transactional(readOnly = true)`
 - application 레이어에서 Spring 트랜잭션 직접 사용 금지
 
 ## 에러 처리 레이어 규칙 [ADR-0007]
 
 - domain/application 레이어: 순수 Java 예외만 던짐
-- adapter 레이어(template-adapter-input-api): 예외를 `ProblemDetail`로 변환
+- adapter 레이어(boilerplate-adapter-input-api): 예외를 `ProblemDetail`로 변환
 
 ## 관측성 의존성 배치 규칙 [ADR-0008]
 
-- Actuator, OpenTelemetry 의존성: `template-boot-api` 모듈에 배치
-- 로깅 설정 파일 (`logback-spring.xml`, `application.yml`): `template-boot-api/src/main/resources/`
+- Actuator, OpenTelemetry 의존성: `boilerplate-boot-api` 모듈에 배치
+- 로깅 설정 파일 (`logback-spring.xml`, `application.yml`): `boilerplate-boot-api/src/main/resources/`
 
 ## 객체 변환 규칙 [ADR-0013]
 

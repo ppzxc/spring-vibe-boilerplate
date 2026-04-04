@@ -35,7 +35,7 @@
 ./gradlew rewriteRun
 
 # 아키텍처 테스트만
-./gradlew :template-domain:test :template-application:test
+./gradlew :boilerplate-domain:test :boilerplate-application:test
 
 # 전체 테스트
 ./gradlew test

@@ -31,7 +31,7 @@ AsyncAPI가 CNCF 프로젝트로 비동기 API의 표준으로 자리잡았다.
 1. **OpenAPI 생성**: springdoc-openapi가 `/v3/api-docs` JSON 자동 생성
 2. **렌더링**: Redoc static HTML 1개 파일로 통합 (`/redoc.html` 경로)
 3. **Swagger UI 비활성화**: `springdoc.swagger-ui.enabled: false`
-4. **의존성 위치**: springdoc 의존성 + Redoc HTML은 `template-adapter-input-api` 모듈 (Controller와 응집)
+4. **의존성 위치**: springdoc 의존성 + Redoc HTML은 `boilerplate-adapter-input-api` 모듈 (Controller와 응집)
 5. **어노테이션 필수**: Controller에 `@Operation`, `@ApiResponse` 어노테이션 작성
 6. **Spring Boot 4 호환성**: 구현 시 springdoc 버전 호환성 확인 필요
 
@@ -39,7 +39,7 @@ AsyncAPI가 CNCF 프로젝트로 비동기 API의 표준으로 자리잡았다.
 
 7. **도구**: Springwolf로 AsyncAPI 스펙 자동 생성
 8. **스펙 버전**: AsyncAPI 3.0 (2023 stable)
-9. **의존성 위치**: `template-adapter-input-ws` 모듈
+9. **의존성 위치**: `boilerplate-adapter-input-ws` 모듈
 
 ## Pros and Cons of the Options
 

@@ -4,19 +4,19 @@
 
 Spring Boot 4 + Hexagonal Architecture 범용 보일러플레이트.
 Java 25, Virtual Threads 기반.
-베이스 패키지: `io.github.ppzxc.template`
+베이스 패키지: `io.github.ppzxc.boilerplate`
 
 ## 모듈 구성 (8개)
 
 ```
-template-domain                        # 순수 Java (Spring/JPA 금지)
-template-application                   # 순수 Java (Spring 금지)
-template-application-autoconfiguration # UseCase Bean 등록
-template-adapter-input-api             # REST Controller + Security
-template-adapter-input-ws              # WebSocket
-template-adapter-output-persist        # Outbound Adapter (영속화 기술 선택)
-template-adapter-output-cache          # Cache
-template-boot-api                      # Spring Boot 앱 (port 8080)
+boilerplate-domain                        # 순수 Java (Spring/JPA 금지)
+boilerplate-application                   # 순수 Java (Spring 금지)
+boilerplate-application-autoconfiguration # UseCase Bean 등록
+boilerplate-adapter-input-api             # REST Controller + Security
+boilerplate-adapter-input-ws              # WebSocket
+boilerplate-adapter-output-persist        # Outbound Adapter (영속화 기술 선택)
+boilerplate-adapter-output-cache          # Cache
+boilerplate-boot-api                      # Spring Boot 앱 (port 8080)
 ```
 
 ## 빠른 참조

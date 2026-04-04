@@ -4,14 +4,14 @@
 
 | 도구 | 모듈 |
 |------|------|
-| springdoc-openapi | `template-adapter-input-api` |
-| Redoc HTML | `template-adapter-input-api` |
-| Springwolf | `template-adapter-input-ws` |
+| springdoc-openapi | `boilerplate-adapter-input-api` |
+| Redoc HTML | `boilerplate-adapter-input-api` |
+| Springwolf | `boilerplate-adapter-input-ws` |
 
 ## springdoc 설정 규칙
 
 ```yaml
-# template-boot-api/src/main/resources/application.yml
+# boilerplate-boot-api/src/main/resources/application.yml
 springdoc:
   swagger-ui:
     enabled: false       # Swagger UI 비활성화 (Redoc 사용)

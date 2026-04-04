@@ -35,25 +35,25 @@ Hexagonal Architecture 기반 Gradle 멀티모듈 프로젝트에서 8개 모듈
 
 | 모듈 | 레이어 | 역할 |
 |------|--------|------|
-| `template-domain` | Domain | 순수 도메인 모델 (Spring/JPA 금지) |
-| `template-application` | Application | Inbound/Outbound Port + UseCase 구현체 (Spring 금지) |
-| `template-application-autoconfiguration` | Application | UseCase를 Spring Bean으로 등록 |
-| `template-adapter-input-api` | Inbound Adapter | REST Controller + Spring Security |
-| `template-adapter-input-ws` | Inbound Adapter | WebSocket Handler |
-| `template-adapter-output-persist` | Outbound Adapter | JPA + Flyway |
-| `template-adapter-output-cache` | Outbound Adapter | Cache |
-| `template-boot-api` | Boot | Spring Boot 애플리케이션 진입점 (port 8080) |
+| `boilerplate-domain` | Domain | 순수 도메인 모델 (Spring/JPA 금지) |
+| `boilerplate-application` | Application | Inbound/Outbound Port + UseCase 구현체 (Spring 금지) |
+| `boilerplate-application-autoconfiguration` | Application | UseCase를 Spring Bean으로 등록 |
+| `boilerplate-adapter-input-api` | Inbound Adapter | REST Controller + Spring Security |
+| `boilerplate-adapter-input-ws` | Inbound Adapter | WebSocket Handler |
+| `boilerplate-adapter-output-persist` | Outbound Adapter | JPA + Flyway |
+| `boilerplate-adapter-output-cache` | Outbound Adapter | Cache |
+| `boilerplate-boot-api` | Boot | Spring Boot 애플리케이션 진입점 (port 8080) |
 
 ```
 template/
-  template-domain/
-  template-application/
-  template-application-autoconfiguration/
-  template-adapter-input-api/
-  template-adapter-input-ws/
-  template-adapter-output-persist/
-  template-adapter-output-cache/
-  template-boot-api/
+  boilerplate-domain/
+  boilerplate-application/
+  boilerplate-application-autoconfiguration/
+  boilerplate-adapter-input-api/
+  boilerplate-adapter-input-ws/
+  boilerplate-adapter-output-persist/
+  boilerplate-adapter-output-cache/
+  boilerplate-boot-api/
 ```
 
 ### 구조의 이점
@@ -84,4 +84,4 @@ template/
 
 **module() 헬퍼가 필요한 이유:**
 모듈이 `template/` 하위에 있으면 Gradle의 표준 `include()`는 프로젝트 루트에서 모듈을 찾는다.
-`module()` 헬퍼가 `projectDir`을 설정하여 Gradle 모듈명(`:template-domain`)을 실제 경로(`template/template-domain/`)에 매핑한다.
+`module()` 헬퍼가 `projectDir`을 설정하여 Gradle 모듈명(`:boilerplate-domain`)을 실제 경로(`template/boilerplate-domain/`)에 매핑한다.

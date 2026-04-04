@@ -2,7 +2,7 @@
 
 ## 프로파일 구조 [ADR-0011]
 
-파일 위치: `template-boot-api/src/main/resources/`
+파일 위치: `boilerplate-boot-api/src/main/resources/`
 
 | 파일 | 용도 |
 |------|------|
@@ -37,7 +37,7 @@ management:
 | 변수 | 설명 | 기본값 |
 |------|------|--------|
 | `SPRING_PROFILES_ACTIVE` | 활성 프로파일 | `local` |
-| `APP_NAME` | 애플리케이션 이름 | `template-api` |
+| `APP_NAME` | 애플리케이션 이름 | `boilerplate-api` |
 | `SERVER_PORT` | 서버 포트 | `8080` |
 | `LOG_LEVEL_ROOT` | 루트 로그 레벨 | `INFO` |
 | `LOG_LEVEL_APP` | 앱 패키지 로그 레벨 | `INFO` |

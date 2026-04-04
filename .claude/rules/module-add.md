@@ -21,7 +21,7 @@ template/<module-name>/
 
 레이어별 의존성 규칙:
 
-**template-domain 계열:**
+**boilerplate-domain 계열:**
 ```kotlin
 dependencies {
     // Spring/JPA 의존 추가 금지
@@ -29,18 +29,18 @@ dependencies {
 }
 ```
 
-**template-application 계열:**
+**boilerplate-application 계열:**
 ```kotlin
 dependencies {
-    api(project(":template-domain"))
+    api(project(":boilerplate-domain"))
     // Spring 의존 추가 금지
 }
 ```
 
-**template-adapter-output-persist 패턴:**
+**boilerplate-adapter-output-persist 패턴:**
 ```kotlin
 dependencies {
-    implementation(project(":template-application"))
+    implementation(project(":boilerplate-application"))
     // 사용할 영속화 기술에 맞는 의존성 추가 (JPA, R2DBC, MongoDB 등)
 }
 ```
@@ -49,7 +49,7 @@ dependencies {
 ```kotlin
 // gradle.properties: label=java,spring,proto
 dependencies {
-    implementation(project(":template-application"))
+    implementation(project(":boilerplate-application"))
     implementation(libs.io.grpc.netty.shaded)
     implementation(libs.io.grpc.protobuf)
     implementation(libs.io.grpc.stub)
@@ -63,7 +63,7 @@ dependencies {
 ```kotlin
 // gradle.properties: label=java,spring,boot
 dependencies {
-    implementation(project(":template-application-autoconfiguration"))
+    implementation(project(":boilerplate-application-autoconfiguration"))
     implementation(project(":template-adapter-input-grpc"))
     // 필요에 따라 output adapter 추가
 }
@@ -75,10 +75,10 @@ dependencies {
 에 AutoConfiguration 클래스 FQCN 추가.
 
 AutoConfiguration 클래스 패키지 네이밍 규칙 [ADR-0014]:
-- application 모듈: `io.github.ppzxc.template.autoconfigure.application`
-- adapter 모듈: `io.github.ppzxc.template.autoconfigure.adapter.{direction}.{type}`
-  - 예: `io.github.ppzxc.template.autoconfigure.adapter.input.api`
-  - 예: `io.github.ppzxc.template.autoconfigure.adapter.output.persist`
+- application 모듈: `io.github.ppzxc.boilerplate.autoconfigure.application`
+- adapter 모듈: `io.github.ppzxc.boilerplate.autoconfigure.adapter.{direction}.{type}`
+  - 예: `io.github.ppzxc.boilerplate.autoconfigure.adapter.input.api`
+  - 예: `io.github.ppzxc.boilerplate.autoconfigure.adapter.output.persist`
 
 ### 5. ArchUnit 테스트 추가 (domain, application 레이어)
 

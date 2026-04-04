@@ -2,21 +2,21 @@
 
 ## 패키지 구조
 
-베이스 패키지: `io.github.ppzxc.template`
+베이스 패키지: `io.github.ppzxc.boilerplate`
 
 | 레이어 | 패키지 |
 |--------|--------|
-| Domain | `io.github.ppzxc.template.domain` |
-| Application UseCase | `io.github.ppzxc.template.application` |
-| Inbound Command Port | `io.github.ppzxc.template.application.port.input.command` |
-| Inbound Query Port | `io.github.ppzxc.template.application.port.input.query` |
-| Outbound Command Port | `io.github.ppzxc.template.application.port.output.command` |
-| Outbound Query Port | `io.github.ppzxc.template.application.port.output.query` |
-| Shared Port | `io.github.ppzxc.template.application.port.output.shared` |
-| API Adapter | `io.github.ppzxc.template.adapter.input.api` |
-| WS Adapter | `io.github.ppzxc.template.adapter.input.ws` |
-| Persist Adapter | `io.github.ppzxc.template.adapter.output.persist` |
-| Cache Adapter | `io.github.ppzxc.template.adapter.output.cache` |
+| Domain | `io.github.ppzxc.boilerplate.domain` |
+| Application UseCase | `io.github.ppzxc.boilerplate.application` |
+| Inbound Command Port | `io.github.ppzxc.boilerplate.application.port.input.command` |
+| Inbound Query Port | `io.github.ppzxc.boilerplate.application.port.input.query` |
+| Outbound Command Port | `io.github.ppzxc.boilerplate.application.port.output.command` |
+| Outbound Query Port | `io.github.ppzxc.boilerplate.application.port.output.query` |
+| Shared Port | `io.github.ppzxc.boilerplate.application.port.output.shared` |
+| API Adapter | `io.github.ppzxc.boilerplate.adapter.input.api` |
+| WS Adapter | `io.github.ppzxc.boilerplate.adapter.input.ws` |
+| Persist Adapter | `io.github.ppzxc.boilerplate.adapter.output.persist` |
+| Cache Adapter | `io.github.ppzxc.boilerplate.adapter.output.cache` |
 
 ## 네이밍 규칙
 

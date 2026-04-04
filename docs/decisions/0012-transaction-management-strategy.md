@@ -27,7 +27,7 @@ Hexagonal Architecture 원칙(ADR-0001)에 따라 application layer는 Spring에
 
 ## Decision Outcome
 
-Chosen option: "Option 2: AutoConfiguration 데코레이터", because application layer 코드를 전혀 변경하지 않고 트랜잭션 경계를 적용할 수 있으며, 이미 UseCase Bean을 등록하는 역할을 하는 `template-application-autoconfiguration` 모듈과 책임이 일치한다.
+Chosen option: "Option 2: AutoConfiguration 데코레이터", because application layer 코드를 전혀 변경하지 않고 트랜잭션 경계를 적용할 수 있으며, 이미 UseCase Bean을 등록하는 역할을 하는 `boilerplate-application-autoconfiguration` 모듈과 책임이 일치한다.
 
 ### Consequences
 
@@ -55,7 +55,7 @@ Chosen option: "Option 2: AutoConfiguration 데코레이터", because applicatio
 
 ### Option 2: AutoConfiguration 데코레이터
 
-`template-application-autoconfiguration`에서 UseCase Bean 등록 시 `@Transactional`이 적용된 Spring AOP 프록시로 감싸 반환한다.
+`boilerplate-application-autoconfiguration`에서 UseCase Bean 등록 시 `@Transactional`이 적용된 Spring AOP 프록시로 감싸 반환한다.
 
 * Good, because application 코드 변경 없이 트랜잭션 적용 가능
 * Good, because 이미 UseCase Bean 등록을 담당하는 모듈이므로 책임 일치

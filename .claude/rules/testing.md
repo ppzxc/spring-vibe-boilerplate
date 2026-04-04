@@ -4,7 +4,7 @@
 
 ### 1. 아키텍처 테스트 (ArchUnit) [ADR-0004]
 
-- 위치: `template-domain`, `template-application` 모듈
+- 위치: `boilerplate-domain`, `boilerplate-application` 모듈
 - 도구: `archunit-junit5`
 - 역할: 레이어 의존성 규칙 강제
 - `allowEmptyShould(true)` 필수 — 초기 빈 상태에서도 통과해야 함
@@ -63,7 +63,7 @@ MyDomain domain = fixture.giveMeOne(MyDomain.class);
 
 ```bash
 # 아키텍처 테스트만
-./gradlew :template-domain:test :template-application:test
+./gradlew :boilerplate-domain:test :boilerplate-application:test
 
 # 전체 테스트
 ./gradlew test
