@@ -35,7 +35,7 @@ import org.springframework.test.web.servlet.MockMvc;
 @Import({TodoController.class, ContractBaseTest.JacksonConfig.class})
 public abstract class ContractBaseTest {
 
-  static final LocalDateTime NOW = LocalDateTime.of(2026, 1, 1, 0, 0);
+  private static final LocalDateTime NOW = LocalDateTime.of(2026, 1, 1, 0, 0);
 
   @Autowired MockMvc mockMvc;
 
