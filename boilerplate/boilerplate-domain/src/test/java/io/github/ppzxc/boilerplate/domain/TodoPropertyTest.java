@@ -104,6 +104,7 @@ class TodoPropertyTest {
    *
    * <p>complete(), uncomplete(), updateTitle() 호출 후에도 원본 Todo의 상태는 변하지 않아야 한다.
    */
+  @SuppressWarnings("ResultOfMethodCallIgnored")
   @Property
   void mutation_methods_do_not_modify_original(
       @ForAll @AlphaChars @StringLength(min = 1, max = 50) String title,

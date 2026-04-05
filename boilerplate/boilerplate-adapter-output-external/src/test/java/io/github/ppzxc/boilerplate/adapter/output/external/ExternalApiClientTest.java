@@ -46,7 +46,7 @@ class ExternalApiClientTest {
   }
 
   @Test
-  void fetchById_retries_on_failure_then_propagates() {
+  void fetchById_retry_metrics_recorded_when_circuit_breaker_rejects() {
     CircuitBreakerConfig cbConfig =
         CircuitBreakerConfig.custom()
             .slidingWindowSize(2)

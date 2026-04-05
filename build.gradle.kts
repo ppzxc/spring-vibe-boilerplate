@@ -206,6 +206,26 @@ configureByLabel("mapstruct") {
   }
 }
 
+// ── coverage-gate 라벨: JaCoCo 80% 라인 커버리지 게이트 ──────────────
+// domain, application 모듈에만 적용 (adapter/boot 모듈 제외)
+configureByLabel("coverage-gate") {
+  tasks.jacocoTestCoverageVerification {
+    dependsOn(tasks.jacocoTestReport)
+    violationRules {
+      rule {
+        limit {
+          counter = "LINE"
+          minimum = "0.80".toBigDecimal()
+        }
+      }
+    }
+  }
+
+  tasks.named("check") {
+    dependsOn(tasks.jacocoTestCoverageVerification)
+  }
+}
+
 // ── jooq 라벨: jOOQ Codegen + H2 ──────────────────────────────────
 configureByLabel("jooq") {
   apply(plugin = rootProject.libs.plugins.org.jooq.codegen.gradle.get().pluginId)

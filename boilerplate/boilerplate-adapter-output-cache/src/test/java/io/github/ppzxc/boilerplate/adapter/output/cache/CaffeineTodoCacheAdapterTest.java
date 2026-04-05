@@ -1,6 +1,7 @@
 package io.github.ppzxc.boilerplate.adapter.output.cache;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -73,8 +74,7 @@ class CaffeineTodoCacheAdapterTest {
     Todo todo = TodoFixtures.savedTodo(1L, "title", false);
     when(cacheManager.getCache("todos")).thenReturn(null);
 
-    adapter.put(todo);
-    // 예외 없이 종료
+    assertThatCode(() -> adapter.put(todo)).doesNotThrowAnyException();
   }
 
   @Test
@@ -90,7 +90,6 @@ class CaffeineTodoCacheAdapterTest {
   void evict_does_nothing_when_cache_is_null() {
     when(cacheManager.getCache("todos")).thenReturn(null);
 
-    adapter.evict(1L);
-    // 예외 없이 종료
+    assertThatCode(() -> adapter.evict(1L)).doesNotThrowAnyException();
   }
 }
