@@ -6,7 +6,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import io.github.ppzxc.boilerplate.application.port.output.command.SaveTodoPort;
+import io.github.ppzxc.boilerplate.application.port.output.shared.PublishEventPort;
 import io.github.ppzxc.boilerplate.domain.Todo;
+import io.github.ppzxc.boilerplate.domain.TodoCreatedEvent;
 import io.github.ppzxc.boilerplate.domain.TodoFixtures;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,6 +21,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class CreateTodoServiceTest {
 
   @Mock SaveTodoPort saveTodoPort;
+  @Mock PublishEventPort publishEventPort;
   @InjectMocks CreateTodoService service;
 
   @Test
@@ -42,5 +45,15 @@ class CreateTodoServiceTest {
     verify(saveTodoPort).save(captor.capture());
     assertThat(captor.getValue().getTitle()).isEqualTo("Walk the dog");
     assertThat(captor.getValue().isCompleted()).isFalse();
+  }
+
+  @Test
+  void create_publishes_todo_created_event() {
+    Todo saved = TodoFixtures.savedTodo(1L, "Buy milk", false);
+    when(saveTodoPort.save(any(Todo.class))).thenReturn(saved);
+
+    service.create("Buy milk");
+
+    verify(publishEventPort).publish(new TodoCreatedEvent(1L, "Buy milk"));
   }
 }
