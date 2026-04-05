@@ -1,6 +1,21 @@
 // boilerplate-application: Inbound Port + Outbound Port + UseCase 구현체 — Spring 의존 금지
 apply(plugin = rootProject.libs.plugins.pitest.get().pluginId)
 
+tasks.jacocoTestCoverageVerification {
+  violationRules {
+    rule {
+      limit {
+        counter = "LINE"
+        value = "COVEREDRATIO"
+        minimum = "0.80".toBigDecimal()
+      }
+    }
+  }
+  classDirectories.setFrom(
+    classDirectories.files.map { fileTree(it) { exclude("**/generated/**") } }
+  )
+}
+
 extensions.configure<info.solidsoft.gradle.pitest.PitestPluginExtension> {
   targetClasses.set(listOf("io.github.ppzxc.boilerplate.application.*"))
   targetTests.set(listOf("io.github.ppzxc.boilerplate.application.*"))

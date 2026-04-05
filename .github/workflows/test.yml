@@ -66,6 +66,12 @@ jobs:
           path: '**/build/test-results/test/*.xml'
           retention-days: 7
 
+      - name: Verify coverage thresholds (domain & application)
+        run: >
+          ./gradlew
+          :boilerplate-domain:jacocoTestCoverageVerification
+          :boilerplate-application:jacocoTestCoverageVerification
+
       - name: Upload JaCoCo reports
         uses: actions/upload-artifact@v7
         if: always()
@@ -152,8 +158,6 @@ jobs:
     name: Coverage Report
     needs: [unit-and-slice, integration-test]
     runs-on: ubuntu-latest
-    # 템플릿 프로젝트이므로 커버리지 실패가 워크플로우를 차단하지 않도록 설정
-    continue-on-error: true
     steps:
       - uses: actions/checkout@v6
 
