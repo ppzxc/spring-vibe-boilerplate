@@ -71,6 +71,54 @@ class TodoPropertyTest {
     assertThat(updated.getTitle()).isEqualTo(inner);
   }
 
+  /**
+   * 불변식 5: complete()는 멱등하다.
+   *
+   * <p>이미 완료된 Todo에 complete()를 한 번 더 호출해도 completed=true이다.
+   */
+  @Property
+  void complete_is_idempotent(@ForAll @AlphaChars @StringLength(min = 1, max = 50) String title) {
+    Todo todo = Todo.create(title);
+
+    boolean result = todo.complete().complete().isCompleted();
+
+    assertThat(result).isTrue();
+  }
+
+  /**
+   * 불변식 6: uncomplete()는 멱등하다.
+   *
+   * <p>이미 미완료인 Todo에 uncomplete()를 한 번 더 호출해도 completed=false이다.
+   */
+  @Property
+  void uncomplete_is_idempotent(@ForAll @AlphaChars @StringLength(min = 1, max = 50) String title) {
+    Todo todo = Todo.create(title);
+
+    boolean result = todo.uncomplete().uncomplete().isCompleted();
+
+    assertThat(result).isFalse();
+  }
+
+  /**
+   * 불변식 7: Todo의 상태 변환 메서드는 원본을 변경하지 않는다 (불변성).
+   *
+   * <p>complete(), uncomplete(), updateTitle() 호출 후 원본 Todo의 상태는 그대로여야 한다.
+   */
+  @Property
+  void state_transitions_do_not_mutate_original(
+      @ForAll @AlphaChars @StringLength(min = 1, max = 50) String title) {
+    Todo original = Todo.create(title);
+    String originalTitle = original.getTitle();
+    boolean originalCompleted = original.isCompleted();
+
+    original.complete();
+    original.uncomplete();
+    original.updateTitle("changed title");
+
+    assertThat(original.getTitle()).isEqualTo(originalTitle);
+    assertThat(original.isCompleted()).isEqualTo(originalCompleted);
+  }
+
   @Provide
   Arbitrary<String> blankStrings() {
     return Arbitraries.strings().withChars(' ', '\t', '\n', '\r').ofMinLength(1).ofMaxLength(20);
