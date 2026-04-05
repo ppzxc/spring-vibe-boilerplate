@@ -13,6 +13,22 @@ extensions.configure<info.solidsoft.gradle.pitest.PitestPluginExtension> {
   jvmArgs.set(listOf("-XX:+EnableDynamicAgentLoading"))
 }
 
+tasks.jacocoTestCoverageVerification {
+  dependsOn(tasks.jacocoTestReport)
+  violationRules {
+    rule {
+      limit {
+        counter = "LINE"
+        minimum = "0.80".toBigDecimal()
+      }
+    }
+  }
+}
+
+tasks.named("check") {
+  dependsOn(tasks.jacocoTestCoverageVerification)
+}
+
 dependencies {
   api(project(":boilerplate-domain"))
   testImplementation(testFixtures(project(":boilerplate-domain")))
