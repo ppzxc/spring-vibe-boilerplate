@@ -9,3 +9,6 @@ spring:
     username: boilerplate
   jooq:
     sql-dialect: POSTGRES
+
+cors:
+  allowed-origins: http://localhost:3000

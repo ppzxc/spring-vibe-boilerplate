@@ -2,6 +2,7 @@
 // spring 라벨이 spring-boot-starter, spring-boot-starter-test 처리
 // boot 라벨이 BootJar 활성화 처리
 dependencies {
+  implementation(project(":boilerplate-application"))
   implementation(project(":boilerplate-application-autoconfiguration"))
   implementation(project(":boilerplate-adapter-input-api"))
   implementation(project(":boilerplate-adapter-input-ws"))

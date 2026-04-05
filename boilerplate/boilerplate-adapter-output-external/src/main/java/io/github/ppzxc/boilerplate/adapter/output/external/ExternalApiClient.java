@@ -1,5 +1,6 @@
 package io.github.ppzxc.boilerplate.adapter.output.external;
 
+import io.github.ppzxc.boilerplate.application.port.output.shared.CheckExternalServiceHealthPort;
 import io.github.ppzxc.boilerplate.application.port.output.shared.ExternalDataPort;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
@@ -17,7 +18,7 @@ import org.springframework.web.client.RestClient;
  * <p>CircuitBreaker + Retry + RateLimiter 패턴 예시. 실제 외부 API 연동 시 이 클래스를 참조하여 구현.
  */
 @SuppressWarnings("UnusedVariable")
-public class ExternalApiClient implements ExternalDataPort {
+public class ExternalApiClient implements ExternalDataPort, CheckExternalServiceHealthPort {
 
   private static final String COMPONENT_NAME = "externalApi";
 
@@ -51,5 +52,11 @@ public class ExternalApiClient implements ExternalDataPort {
     // 예: return Optional.ofNullable(
     //       restClient.get().uri("/resources/{id}", id).retrieve().body(String.class));
     return Optional.empty();
+  }
+
+  @Override
+  public boolean isHealthy() {
+    // CircuitBreaker 상태가 OPEN이면 외부 서비스 장애로 판단
+    return circuitBreaker.getState() != CircuitBreaker.State.OPEN;
   }
 }
