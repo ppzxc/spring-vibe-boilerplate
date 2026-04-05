@@ -1,18 +1,27 @@
 package io.github.ppzxc.boilerplate.autoconfigure.application;
 
+import io.github.ppzxc.boilerplate.application.port.input.command.CreateTagUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.CreateTodoUseCase;
+import io.github.ppzxc.boilerplate.application.port.input.command.DeleteTagUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.DeleteTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.UpdateTodoUseCase;
+import io.github.ppzxc.boilerplate.application.port.input.query.FindTagQuery;
 import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoQuery;
 import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoSummariesQuery;
+import io.github.ppzxc.boilerplate.application.port.output.command.DeleteTagPort;
 import io.github.ppzxc.boilerplate.application.port.output.command.DeleteTodoPort;
+import io.github.ppzxc.boilerplate.application.port.output.command.SaveTagPort;
 import io.github.ppzxc.boilerplate.application.port.output.command.SaveTodoPort;
+import io.github.ppzxc.boilerplate.application.port.output.query.FindTagPort;
 import io.github.ppzxc.boilerplate.application.port.output.query.FindTodoPort;
 import io.github.ppzxc.boilerplate.application.port.output.query.LoadTodoSummariesPort;
 import io.github.ppzxc.boilerplate.application.port.output.shared.PublishEventPort;
+import io.github.ppzxc.boilerplate.application.service.command.CreateTagService;
 import io.github.ppzxc.boilerplate.application.service.command.CreateTodoService;
+import io.github.ppzxc.boilerplate.application.service.command.DeleteTagService;
 import io.github.ppzxc.boilerplate.application.service.command.DeleteTodoService;
 import io.github.ppzxc.boilerplate.application.service.command.UpdateTodoService;
+import io.github.ppzxc.boilerplate.application.service.query.FindTagService;
 import io.github.ppzxc.boilerplate.application.service.query.FindTodoService;
 import io.github.ppzxc.boilerplate.application.service.query.FindTodoSummariesService;
 import java.util.Properties;
@@ -81,6 +90,25 @@ public class ApplicationAutoConfiguration {
         FindTodoSummariesQuery.class,
         txManager,
         true);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  CreateTagUseCase createTagUseCase(SaveTagPort saveTagPort, PlatformTransactionManager txManager) {
+    return txProxy(new CreateTagService(saveTagPort), CreateTagUseCase.class, txManager, false);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  DeleteTagUseCase deleteTagUseCase(
+      DeleteTagPort deleteTagPort, PlatformTransactionManager txManager) {
+    return txProxy(new DeleteTagService(deleteTagPort), DeleteTagUseCase.class, txManager, false);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  FindTagQuery findTagQuery(FindTagPort findTagPort, PlatformTransactionManager txManager) {
+    return txProxy(new FindTagService(findTagPort), FindTagQuery.class, txManager, true);
   }
 
   private <T> T txProxy(

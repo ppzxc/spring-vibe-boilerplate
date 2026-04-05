@@ -1,10 +1,14 @@
 package io.github.ppzxc.boilerplate.autoconfigure.adapter.input.api;
 
 import io.github.ppzxc.boilerplate.adapter.input.api.GlobalExceptionHandler;
+import io.github.ppzxc.boilerplate.adapter.input.api.TagController;
 import io.github.ppzxc.boilerplate.adapter.input.api.TodoController;
+import io.github.ppzxc.boilerplate.application.port.input.command.CreateTagUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.CreateTodoUseCase;
+import io.github.ppzxc.boilerplate.application.port.input.command.DeleteTagUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.DeleteTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.UpdateTodoUseCase;
+import io.github.ppzxc.boilerplate.application.port.input.query.FindTagQuery;
 import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoQuery;
 import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoSummariesQuery;
 import java.util.Arrays;
@@ -77,5 +81,14 @@ public class ApiAdapterAutoConfiguration {
         deleteTodoUseCase,
         findTodoQuery,
         findTodoSummariesQuery);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  TagController tagController(
+      CreateTagUseCase createTagUseCase,
+      DeleteTagUseCase deleteTagUseCase,
+      FindTagQuery findTagQuery) {
+    return new TagController(createTagUseCase, deleteTagUseCase, findTagQuery);
   }
 }
