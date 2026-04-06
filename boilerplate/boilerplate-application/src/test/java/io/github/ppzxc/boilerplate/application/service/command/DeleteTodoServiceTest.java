@@ -20,4 +20,10 @@ class DeleteTodoServiceTest {
     deleteTodoService.delete(1L);
     verify(deleteTodoPort).deleteById(1L);
   }
+
+  @Test
+  void delete_delegates_correct_id_to_port() {
+    deleteTodoService.delete(42L);
+    verify(deleteTodoPort).deleteById(42L);
+  }
 }
