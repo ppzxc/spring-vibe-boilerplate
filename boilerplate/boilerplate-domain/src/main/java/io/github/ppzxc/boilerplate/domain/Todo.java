@@ -1,7 +1,7 @@
 package io.github.ppzxc.boilerplate.domain;
 
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,23 +21,24 @@ public class Todo {
     if (title == null || title.isBlank()) {
       throw new DomainException(ErrorCode.INVALID_ARGUMENT, "Title must not be blank");
     }
-    LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
+    LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
     return new Todo(null, title.strip(), false, now, now);
   }
 
   public static Todo reconstitute(
       Long id, String title, boolean completed, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    if (title == null || title.isBlank()) {
+      throw new DomainException(ErrorCode.INVALID_ARGUMENT, "Title must not be blank");
+    }
     return new Todo(id, title, completed, createdAt, updatedAt);
   }
 
   public Todo complete() {
-    return new Todo(
-        this.id, this.title, true, this.createdAt, LocalDateTime.now(ZoneId.systemDefault()));
+    return new Todo(this.id, this.title, true, this.createdAt, LocalDateTime.now(ZoneOffset.UTC));
   }
 
   public Todo uncomplete() {
-    return new Todo(
-        this.id, this.title, false, this.createdAt, LocalDateTime.now(ZoneId.systemDefault()));
+    return new Todo(this.id, this.title, false, this.createdAt, LocalDateTime.now(ZoneOffset.UTC));
   }
 
   public Todo updateTitle(String newTitle) {
@@ -49,6 +50,6 @@ public class Todo {
         newTitle.strip(),
         this.completed,
         this.createdAt,
-        LocalDateTime.now(ZoneId.systemDefault()));
+        LocalDateTime.now(ZoneOffset.UTC));
   }
 }

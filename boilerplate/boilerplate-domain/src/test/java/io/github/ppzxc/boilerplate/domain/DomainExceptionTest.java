@@ -1,6 +1,7 @@
 package io.github.ppzxc.boilerplate.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -34,5 +35,26 @@ class DomainExceptionTest {
     var exception = new DomainException(ErrorCode.INTERNAL, "Internal error", cause);
 
     assertThat(exception.getCause()).isEqualTo(cause);
+  }
+
+  @Test
+  void constructor_throws_when_errorCode_is_null() {
+    assertThatThrownBy(() -> new DomainException(null, "msg"))
+        .isInstanceOf(NullPointerException.class)
+        .hasMessageContaining("errorCode");
+  }
+
+  @Test
+  void constructor_with_cause_throws_when_errorCode_is_null() {
+    assertThatThrownBy(() -> new DomainException(null, "msg", new RuntimeException()))
+        .isInstanceOf(NullPointerException.class)
+        .hasMessageContaining("errorCode");
+  }
+
+  @Test
+  void withDetails_throws_when_errorCode_is_null() {
+    assertThatThrownBy(() -> DomainException.withDetails(null, "msg", List.of()))
+        .isInstanceOf(NullPointerException.class)
+        .hasMessageContaining("errorCode");
   }
 }
