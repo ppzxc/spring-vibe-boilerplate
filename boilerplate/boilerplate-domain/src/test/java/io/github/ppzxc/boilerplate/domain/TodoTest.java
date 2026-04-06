@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import org.junit.jupiter.api.Test;
 
 class TodoTest {
@@ -77,14 +78,14 @@ class TodoTest {
 
   @Test
   void reconstitute_throws_when_title_is_null() {
-    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
     assertThatThrownBy(() -> Todo.reconstitute(1L, null, false, now, now))
         .isInstanceOf(DomainException.class);
   }
 
   @Test
   void reconstitute_throws_when_title_is_blank() {
-    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
     assertThatThrownBy(() -> Todo.reconstitute(1L, "  ", false, now, now))
         .isInstanceOf(DomainException.class);
   }
