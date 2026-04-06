@@ -29,5 +29,8 @@ docs/superpowers/
 docs/plans/
 docs/specs/
 
+# AI context map
+.context-map.md
+
 # Git worktrees
 .worktrees/
