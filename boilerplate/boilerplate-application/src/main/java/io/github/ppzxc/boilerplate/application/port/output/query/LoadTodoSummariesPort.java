@@ -4,5 +4,5 @@ import io.github.ppzxc.boilerplate.application.dto.TodoSummary;
 import java.util.List;
 
 public interface LoadTodoSummariesPort {
-    List<TodoSummary> loadAllSummaries();
+  List<TodoSummary> loadAllSummaries();
 }
