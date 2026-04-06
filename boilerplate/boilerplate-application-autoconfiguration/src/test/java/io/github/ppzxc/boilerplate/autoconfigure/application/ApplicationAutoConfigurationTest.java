@@ -72,13 +72,6 @@ class ApplicationAutoConfigurationTest {
     assertThat(Proxy.isProxyClass(context.getBean(FindTodoQuery.class).getClass())).isTrue();
   }
 
-  @TestConfiguration
-  static class CustomCreateTodoConfig {
-    // Used in conditional_on_missing_bean_test below — a separate nested class approach
-    // is not needed here because we verify the main context contains the AutoConfig beans.
-    // A @ConditionalOnMissingBean override test requires a separate context; see below.
-  }
-
   @Test
   void conditional_on_missing_bean_annotation_is_present_on_create_bean() throws Exception {
     var method =
@@ -92,6 +85,25 @@ class ApplicationAutoConfigurationTest {
     var method =
         ApplicationAutoConfiguration.class.getDeclaredMethod(
             "findTodoQuery", FindTodoPort.class, PlatformTransactionManager.class);
+    assertThat(method.isAnnotationPresent(ConditionalOnMissingBean.class)).isTrue();
+  }
+
+  @Test
+  void conditional_on_missing_bean_annotation_is_present_on_update_bean() throws Exception {
+    var method =
+        ApplicationAutoConfiguration.class.getDeclaredMethod(
+            "updateTodoUseCase",
+            FindTodoPort.class,
+            SaveTodoPort.class,
+            PlatformTransactionManager.class);
+    assertThat(method.isAnnotationPresent(ConditionalOnMissingBean.class)).isTrue();
+  }
+
+  @Test
+  void conditional_on_missing_bean_annotation_is_present_on_delete_bean() throws Exception {
+    var method =
+        ApplicationAutoConfiguration.class.getDeclaredMethod(
+            "deleteTodoUseCase", DeleteTodoPort.class, PlatformTransactionManager.class);
     assertThat(method.isAnnotationPresent(ConditionalOnMissingBean.class)).isTrue();
   }
 }
