@@ -9,6 +9,7 @@ import io.github.ppzxc.boilerplate.application.port.input.command.CreateTodoUseC
 import io.github.ppzxc.boilerplate.application.port.input.command.DeleteTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.UpdateTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoQuery;
+import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoSummariesQuery;
 import io.github.ppzxc.boilerplate.domain.Todo;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,6 +32,7 @@ class TodoControllerTest {
   @MockitoBean UpdateTodoUseCase updateTodoUseCase;
   @MockitoBean DeleteTodoUseCase deleteTodoUseCase;
   @MockitoBean FindTodoQuery findTodoQuery;
+  @MockitoBean FindTodoSummariesQuery findTodoSummariesQuery;
 
   static final LocalDateTime NOW = LocalDateTime.of(2026, 1, 1, 0, 0);
 

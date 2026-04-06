@@ -9,6 +9,7 @@ import io.github.ppzxc.boilerplate.application.port.input.command.CreateTodoUseC
 import io.github.ppzxc.boilerplate.application.port.input.command.DeleteTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.UpdateTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoQuery;
+import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoSummariesQuery;
 import io.github.ppzxc.boilerplate.domain.DomainException;
 import io.github.ppzxc.boilerplate.domain.ErrorCode;
 import java.util.List;
@@ -33,6 +34,7 @@ class GlobalExceptionHandlerTest {
   @MockitoBean private UpdateTodoUseCase updateTodoUseCase;
   @MockitoBean private DeleteTodoUseCase deleteTodoUseCase;
   @MockitoBean private FindTodoQuery findTodoQuery;
+  @MockitoBean private FindTodoSummariesQuery findTodoSummariesQuery;
 
   @Autowired private MockMvc mockMvc;
 

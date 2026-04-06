@@ -2,8 +2,10 @@ package io.github.ppzxc.boilerplate.adapter.output.external;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.Mockito.RETURNS_DEEP_STUBS;
 import static org.mockito.Mockito.mock;
 
+import io.github.ppzxc.boilerplate.domain.DomainException;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
@@ -37,12 +39,14 @@ class ExternalApiClientTest {
     cbRegistry.circuitBreaker(COMPONENT).transitionToOpenState();
     ExternalApiClient client =
         new ExternalApiClient(
-            mock(RestClient.class),
+            mock(RestClient.class, RETURNS_DEEP_STUBS),
             cbRegistry,
             RetryRegistry.ofDefaults(),
             RateLimiterRegistry.ofDefaults());
 
-    assertThatThrownBy(() -> client.fetchById("id")).isInstanceOf(CallNotPermittedException.class);
+    assertThatThrownBy(() -> client.fetchById("id"))
+        .isInstanceOf(DomainException.class)
+        .hasCauseInstanceOf(CallNotPermittedException.class);
   }
 
   @Test
@@ -61,9 +65,14 @@ class ExternalApiClientTest {
 
     ExternalApiClient client =
         new ExternalApiClient(
-            mock(RestClient.class), cbRegistry, retryRegistry, RateLimiterRegistry.ofDefaults());
+            mock(RestClient.class, RETURNS_DEEP_STUBS),
+            cbRegistry,
+            retryRegistry,
+            RateLimiterRegistry.ofDefaults());
 
-    assertThatThrownBy(() -> client.fetchById("id")).isInstanceOf(CallNotPermittedException.class);
+    assertThatThrownBy(() -> client.fetchById("id"))
+        .isInstanceOf(DomainException.class)
+        .hasCauseInstanceOf(CallNotPermittedException.class);
 
     assertThat(retryRegistry.retry(COMPONENT).getMetrics().getNumberOfFailedCallsWithRetryAttempt())
         .isGreaterThanOrEqualTo(1);
@@ -81,7 +90,7 @@ class ExternalApiClientTest {
 
     ExternalApiClient client =
         new ExternalApiClient(
-            mock(RestClient.class),
+            mock(RestClient.class, RETURNS_DEEP_STUBS),
             CircuitBreakerRegistry.ofDefaults(),
             RetryRegistry.ofDefaults(),
             rlRegistry);
@@ -99,7 +108,7 @@ class ExternalApiClientTest {
 
     ExternalApiClient client =
         new ExternalApiClient(
-            mock(RestClient.class),
+            mock(RestClient.class, RETURNS_DEEP_STUBS),
             cbRegistry,
             RetryRegistry.ofDefaults(),
             RateLimiterRegistry.ofDefaults());
@@ -111,7 +120,7 @@ class ExternalApiClientTest {
 
   private ExternalApiClient clientWithDefaults() {
     return new ExternalApiClient(
-        mock(RestClient.class),
+        mock(RestClient.class, RETURNS_DEEP_STUBS),
         CircuitBreakerRegistry.ofDefaults(),
         RetryRegistry.ofDefaults(),
         RateLimiterRegistry.ofDefaults());
