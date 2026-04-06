@@ -1,6 +1,7 @@
 package io.github.ppzxc.boilerplate.autoconfigure.adapter.output.persist;
 
 import io.github.ppzxc.boilerplate.adapter.output.persist.TodoPersistAdapter;
+import io.github.ppzxc.boilerplate.adapter.output.persist.TodoSummaryDirectProjectionAdapter;
 import org.jooq.DSLContext;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -14,5 +15,11 @@ public class PersistAdapterAutoConfiguration {
   @ConditionalOnMissingBean
   TodoPersistAdapter todoPersistAdapter(DSLContext dslContext) {
     return new TodoPersistAdapter(dslContext);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  TodoSummaryDirectProjectionAdapter todoSummaryDirectProjectionAdapter(DSLContext dslContext) {
+    return new TodoSummaryDirectProjectionAdapter(dslContext);
   }
 }

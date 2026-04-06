@@ -1,9 +1,11 @@
 package io.github.ppzxc.boilerplate.adapter.input.api;
 
+import io.github.ppzxc.boilerplate.application.dto.TodoSummary;
 import io.github.ppzxc.boilerplate.application.port.input.command.CreateTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.DeleteTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.UpdateTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoQuery;
+import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoSummariesQuery;
 import io.github.ppzxc.boilerplate.domain.Todo;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -36,6 +38,7 @@ public class TodoController {
   private final UpdateTodoUseCase updateTodoUseCase;
   private final DeleteTodoUseCase deleteTodoUseCase;
   private final FindTodoQuery findTodoQuery;
+  private final FindTodoSummariesQuery findTodoSummariesQuery;
 
   @Operation(summary = "Create a new todo")
   @ApiResponse(responseCode = "201", description = "Todo created")
@@ -66,6 +69,16 @@ public class TodoController {
     return ResponseEntity.ok().headers(headers).body(responses);
   }
 
+  @Operation(summary = "Get all todo summaries (Direct Projection)")
+  @ApiResponse(responseCode = "200", description = "Todo summaries retrieved")
+  @GetMapping("/summaries")
+  ResponseEntity<List<TodoSummary>> findAllSummaries() {
+    List<TodoSummary> summaries = findTodoSummariesQuery.findAllSummaries();
+    HttpHeaders headers = new HttpHeaders();
+    headers.set("Total-Count", String.valueOf(summaries.size()));
+    return ResponseEntity.ok().headers(headers).body(summaries);
+  }
+
   @Operation(summary = "Update a todo")
   @ApiResponse(responseCode = "200", description = "Todo updated")
   @ApiResponse(responseCode = "404", description = "Todo not found")
@@ -78,6 +91,7 @@ public class TodoController {
 
   @Operation(summary = "Delete a todo")
   @ApiResponse(responseCode = "204", description = "Todo deleted")
+  @ApiResponse(responseCode = "404", description = "Todo not found")
   @DeleteMapping("/{id}")
   ResponseEntity<Void> delete(@Positive @PathVariable long id) {
     deleteTodoUseCase.delete(id);
