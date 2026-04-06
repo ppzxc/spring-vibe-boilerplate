@@ -28,13 +28,7 @@ public class CacheAdapterAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  CaffeineTodoCacheAdapter caffeineTodoCacheAdapter(CacheManager cacheManager) {
+  TodoCachePort todoCacheAdapter(CacheManager cacheManager) {
     return new CaffeineTodoCacheAdapter(cacheManager);
-  }
-
-  @Bean
-  @ConditionalOnMissingBean
-  TodoCachePort todoCachePort(CaffeineTodoCacheAdapter caffeineTodoCacheAdapter) {
-    return caffeineTodoCacheAdapter;
   }
 }

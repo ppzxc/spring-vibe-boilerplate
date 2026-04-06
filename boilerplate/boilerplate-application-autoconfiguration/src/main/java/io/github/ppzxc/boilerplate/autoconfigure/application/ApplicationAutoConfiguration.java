@@ -14,6 +14,7 @@ import io.github.ppzxc.boilerplate.application.service.query.FindTodoService;
 import java.util.Properties;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
@@ -22,12 +23,14 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
 public class ApplicationAutoConfiguration {
 
   @Bean
+  @ConditionalOnMissingBean
   CreateTodoUseCase createTodoUseCase(
       SaveTodoPort saveTodoPort, PlatformTransactionManager txManager) {
     return txProxy(new CreateTodoService(saveTodoPort), CreateTodoUseCase.class, txManager, false);
   }
 
   @Bean
+  @ConditionalOnMissingBean
   UpdateTodoUseCase updateTodoUseCase(
       FindTodoPort findTodoPort, SaveTodoPort saveTodoPort, PlatformTransactionManager txManager) {
     return txProxy(
@@ -38,6 +41,7 @@ public class ApplicationAutoConfiguration {
   }
 
   @Bean
+  @ConditionalOnMissingBean
   DeleteTodoUseCase deleteTodoUseCase(
       DeleteTodoPort deleteTodoPort, PlatformTransactionManager txManager) {
     return txProxy(
@@ -45,6 +49,7 @@ public class ApplicationAutoConfiguration {
   }
 
   @Bean
+  @ConditionalOnMissingBean
   FindTodoQuery findTodoQuery(FindTodoPort findTodoPort, PlatformTransactionManager txManager) {
     return txProxy(new FindTodoService(findTodoPort), FindTodoQuery.class, txManager, true);
   }
