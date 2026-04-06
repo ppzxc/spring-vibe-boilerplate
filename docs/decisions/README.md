@@ -33,6 +33,28 @@
 | [ADR-0024](0024-virtual-threads-hikari-pool-sizing.md) | accepted | Virtual Threads 환경 HikariCP Pool Size 결정 기준 |
 | [ADR-0025](0025-stub-module-retention-strategy.md) | accepted | 스텁 모듈(ws, external) 유지 및 예외 변환 패턴 추가 결정 |
 
+## 언제 ADR을 써야 하는가
+
+ADR은 **되돌리기 어렵거나 팀 전체에 영향을 미치는 기술 결정**에 작성한다.
+
+| 작성 O | 작성 X |
+|--------|--------|
+| 기술 스택 선택 (DB, 프레임워크, 언어) | 특정 클래스 구현 방식 |
+| 아키텍처 패턴 채택 (헥사고날, CQRS 등) | 변수명, 메서드명 선택 |
+| 팀 규칙 변경 (코드 포맷, 테스트 전략) | 일반적인 버그 수정 |
+| 외부 서비스 연동 방식 결정 | 리팩토링 (동일 패턴 유지 시) |
+| 보안/규정 준수 결정 | 기존 ADR로 이미 커버되는 결정 |
+
+**판단 기준:** "6개월 후 이 결정을 왜 했는지 기억할 수 없을 것 같다" → ADR 작성.
+
+### ADR 작성 프로세스
+
+1. **발견** — 팀이 결정해야 할 아키텍처 문제를 인식한다
+2. **논의** — 2개 이상의 옵션을 비교하고 트레이드오프를 분석한다
+3. **결정** — 결정 참여자가 합의에 도달한다
+4. **기록** — `.claude/rules/rules-maintenance.md` 형식으로 ADR을 작성한다
+5. **규칙 동기화** — 결정에서 나온 제약을 `.claude/rules/` 파일에 추가한다
+
 ## 새 ADR 추가
 
 `.claude/rules/rules-maintenance.md` 의 MADR 작성 형식을 따른다.
