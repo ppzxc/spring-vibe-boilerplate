@@ -14,20 +14,24 @@ import io.github.ppzxc.boilerplate.application.service.query.FindTodoService;
 import java.util.Properties;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+/** Application AutoConfiguration — UseCase Bean을 트랜잭션 프록시로 등록. */
 @AutoConfiguration
 public class ApplicationAutoConfiguration {
 
   @Bean
+  @ConditionalOnMissingBean
   CreateTodoUseCase createTodoUseCase(
       SaveTodoPort saveTodoPort, PlatformTransactionManager txManager) {
     return txProxy(new CreateTodoService(saveTodoPort), CreateTodoUseCase.class, txManager, false);
   }
 
   @Bean
+  @ConditionalOnMissingBean
   UpdateTodoUseCase updateTodoUseCase(
       FindTodoPort findTodoPort, SaveTodoPort saveTodoPort, PlatformTransactionManager txManager) {
     return txProxy(
@@ -38,6 +42,7 @@ public class ApplicationAutoConfiguration {
   }
 
   @Bean
+  @ConditionalOnMissingBean
   DeleteTodoUseCase deleteTodoUseCase(
       DeleteTodoPort deleteTodoPort, PlatformTransactionManager txManager) {
     return txProxy(
@@ -45,6 +50,7 @@ public class ApplicationAutoConfiguration {
   }
 
   @Bean
+  @ConditionalOnMissingBean
   FindTodoQuery findTodoQuery(FindTodoPort findTodoPort, PlatformTransactionManager txManager) {
     return txProxy(new FindTodoService(findTodoPort), FindTodoQuery.class, txManager, true);
   }

@@ -1,6 +1,7 @@
 package io.github.ppzxc.boilerplate.domain;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * 도메인 레이어 기본 예외.
@@ -14,19 +15,19 @@ public class DomainException extends RuntimeException {
 
   public DomainException(ErrorCode errorCode, String message) {
     super(message);
-    this.errorCode = errorCode;
+    this.errorCode = Objects.requireNonNull(errorCode, "errorCode");
     this.details = List.of();
   }
 
   public DomainException(ErrorCode errorCode, String message, Throwable cause) {
     super(message, cause);
-    this.errorCode = errorCode;
+    this.errorCode = Objects.requireNonNull(errorCode, "errorCode");
     this.details = List.of();
   }
 
   private DomainException(ErrorCode errorCode, String message, List<FieldViolation> details) {
     super(message);
-    this.errorCode = errorCode;
+    this.errorCode = Objects.requireNonNull(errorCode, "errorCode");
     this.details = List.copyOf(details);
   }
 

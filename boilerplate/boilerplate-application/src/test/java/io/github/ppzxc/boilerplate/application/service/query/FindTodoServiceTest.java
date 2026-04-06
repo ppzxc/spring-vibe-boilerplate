@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import io.github.ppzxc.boilerplate.application.port.output.query.FindTodoPort;
 import io.github.ppzxc.boilerplate.domain.DomainException;
 import io.github.ppzxc.boilerplate.domain.Todo;
-import java.time.LocalDateTime;
+import io.github.ppzxc.boilerplate.domain.TodoFixtures;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.Test;
@@ -24,8 +24,7 @@ class FindTodoServiceTest {
 
   @Test
   void findById_returns_todo() {
-    LocalDateTime now = LocalDateTime.now();
-    Todo todo = Todo.reconstitute(1L, "Buy milk", false, now, now);
+    Todo todo = TodoFixtures.savedTodo(1L, "Buy milk", false);
     when(findTodoPort.findById(1L)).thenReturn(Optional.of(todo));
 
     Todo result = findTodoService.findById(1L);
@@ -42,8 +41,7 @@ class FindTodoServiceTest {
 
   @Test
   void findAll_returns_list() {
-    LocalDateTime now = LocalDateTime.now();
-    when(findTodoPort.findAll()).thenReturn(List.of(Todo.reconstitute(1L, "A", false, now, now)));
+    when(findTodoPort.findAll()).thenReturn(List.of(TodoFixtures.savedTodo(1L, "A", false)));
 
     List<Todo> result = findTodoService.findAll();
 
