@@ -6,6 +6,7 @@ import io.github.ppzxc.boilerplate.application.port.input.command.CreateTodoUseC
 import io.github.ppzxc.boilerplate.application.port.input.command.DeleteTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.UpdateTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoQuery;
+import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoSummariesQuery;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -68,8 +69,13 @@ public class ApiAdapterAutoConfiguration {
       CreateTodoUseCase createTodoUseCase,
       UpdateTodoUseCase updateTodoUseCase,
       DeleteTodoUseCase deleteTodoUseCase,
-      FindTodoQuery findTodoQuery) {
+      FindTodoQuery findTodoQuery,
+      FindTodoSummariesQuery findTodoSummariesQuery) {
     return new TodoController(
-        createTodoUseCase, updateTodoUseCase, deleteTodoUseCase, findTodoQuery);
+        createTodoUseCase,
+        updateTodoUseCase,
+        deleteTodoUseCase,
+        findTodoQuery,
+        findTodoSummariesQuery);
   }
 }

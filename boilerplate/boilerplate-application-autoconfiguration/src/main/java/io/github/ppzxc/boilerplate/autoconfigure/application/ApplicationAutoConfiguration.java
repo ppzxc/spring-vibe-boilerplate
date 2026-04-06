@@ -4,13 +4,16 @@ import io.github.ppzxc.boilerplate.application.port.input.command.CreateTodoUseC
 import io.github.ppzxc.boilerplate.application.port.input.command.DeleteTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.command.UpdateTodoUseCase;
 import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoQuery;
+import io.github.ppzxc.boilerplate.application.port.input.query.FindTodoSummariesQuery;
 import io.github.ppzxc.boilerplate.application.port.output.command.DeleteTodoPort;
 import io.github.ppzxc.boilerplate.application.port.output.command.SaveTodoPort;
 import io.github.ppzxc.boilerplate.application.port.output.query.FindTodoPort;
+import io.github.ppzxc.boilerplate.application.port.output.query.LoadTodoSummariesPort;
 import io.github.ppzxc.boilerplate.application.service.command.CreateTodoService;
 import io.github.ppzxc.boilerplate.application.service.command.DeleteTodoService;
 import io.github.ppzxc.boilerplate.application.service.command.UpdateTodoService;
 import io.github.ppzxc.boilerplate.application.service.query.FindTodoService;
+import io.github.ppzxc.boilerplate.application.service.query.FindTodoSummariesService;
 import java.util.Properties;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
@@ -53,6 +56,17 @@ public class ApplicationAutoConfiguration {
   @ConditionalOnMissingBean
   FindTodoQuery findTodoQuery(FindTodoPort findTodoPort, PlatformTransactionManager txManager) {
     return txProxy(new FindTodoService(findTodoPort), FindTodoQuery.class, txManager, true);
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  FindTodoSummariesQuery findTodoSummariesQuery(
+      LoadTodoSummariesPort loadTodoSummariesPort, PlatformTransactionManager txManager) {
+    return txProxy(
+        new FindTodoSummariesService(loadTodoSummariesPort),
+        FindTodoSummariesQuery.class,
+        txManager,
+        true);
   }
 
   private <T> T txProxy(
