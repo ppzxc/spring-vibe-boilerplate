@@ -3,7 +3,7 @@ package io.github.ppzxc.boilerplate.domain;
 import com.navercorp.fixturemonkey.FixtureMonkey;
 import com.navercorp.fixturemonkey.api.introspector.FieldReflectionArbitraryIntrospector;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.ZoneOffset;
 
 /**
  * Todo 도메인 테스트 픽스처 팩토리.
@@ -35,7 +35,7 @@ public class TodoFixtures {
 
   /** 특정 값으로 구성된 저장된 Todo. reconstitute()를 직접 사용하므로 도메인 검증 없이 원하는 상태를 만들 수 있음. */
   public static Todo savedTodo(long id, String title, boolean completed) {
-    LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
+    LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
     return Todo.reconstitute(id, title, completed, now, now);
   }
 }
