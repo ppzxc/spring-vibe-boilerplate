@@ -44,7 +44,7 @@ io-github-resilience4j = "2.2.0"
 net-jqwik = "1.9.2"
 info-solidsoft-pitest = "1.19.0"
 spring-cloud-contract = "5.0.2"
-io-rest-assured = "5.5.7"
+io-rest-assured = "6.0.0"
 
 [libraries]
 # spring boot (common - java label)
