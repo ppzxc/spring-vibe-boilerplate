@@ -9,6 +9,7 @@ import io.github.ppzxc.boilerplate.application.port.output.command.DeleteTodoPor
 import io.github.ppzxc.boilerplate.application.port.output.command.SaveTodoPort;
 import io.github.ppzxc.boilerplate.application.port.output.query.FindTodoPort;
 import io.github.ppzxc.boilerplate.application.port.output.query.LoadTodoSummariesPort;
+import io.github.ppzxc.boilerplate.application.port.output.shared.PublishEventPort;
 import io.github.ppzxc.boilerplate.application.service.command.CreateTodoService;
 import io.github.ppzxc.boilerplate.application.service.command.DeleteTodoService;
 import io.github.ppzxc.boilerplate.application.service.command.UpdateTodoService;
@@ -18,6 +19,7 @@ import java.util.Properties;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
@@ -28,9 +30,21 @@ public class ApplicationAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
+  PublishEventPort publishEventPort(ApplicationEventPublisher publisher) {
+    return publisher::publishEvent;
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
   CreateTodoUseCase createTodoUseCase(
-      SaveTodoPort saveTodoPort, PlatformTransactionManager txManager) {
-    return txProxy(new CreateTodoService(saveTodoPort), CreateTodoUseCase.class, txManager, false);
+      SaveTodoPort saveTodoPort,
+      PublishEventPort publishEventPort,
+      PlatformTransactionManager txManager) {
+    return txProxy(
+        new CreateTodoService(saveTodoPort, publishEventPort),
+        CreateTodoUseCase.class,
+        txManager,
+        false);
   }
 
   @Bean

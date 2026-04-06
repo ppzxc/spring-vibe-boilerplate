@@ -31,6 +31,7 @@
 | [ADR-0022](0022-contract-testing-strategy.md) | accepted | Spring Cloud Contract로 API 계약 테스트 도입 |
 | [ADR-0023](0023-mutation-testing-strategy.md) | accepted | Mutation Testing으로 테스트 품질 검증 |
 | [ADR-0024](0024-virtual-threads-hikari-pool-sizing.md) | accepted | Virtual Threads 환경 HikariCP Pool Size 결정 기준 |
+| [ADR-0025](0025-stub-module-retention-strategy.md) | accepted | 스텁 모듈(ws, external) 유지 및 예외 변환 패턴 추가 결정 |
 
 ## 새 ADR 추가
 
