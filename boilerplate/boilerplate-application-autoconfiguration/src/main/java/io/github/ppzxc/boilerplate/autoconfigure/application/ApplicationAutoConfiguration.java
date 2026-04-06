@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.interceptor.TransactionInterceptor;
 
+/** Application AutoConfiguration — UseCase Bean을 트랜잭션 프록시로 등록. */
 @AutoConfiguration
 public class ApplicationAutoConfiguration {
 
