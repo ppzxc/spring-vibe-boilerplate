@@ -2,8 +2,8 @@ services:
   postgres:
     image: postgres:17
     environment:
-      POSTGRES_DB: ${DB_NAME:-boilerplate}}
-      POSTGRES_USER: ${DB_USERNAME:-boilerplate}}
+      POSTGRES_DB: ${DB_NAME:-boilerplate}
+      POSTGRES_USER: ${DB_USERNAME:-boilerplate}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "${DB_PORT:-5432}:5432"
