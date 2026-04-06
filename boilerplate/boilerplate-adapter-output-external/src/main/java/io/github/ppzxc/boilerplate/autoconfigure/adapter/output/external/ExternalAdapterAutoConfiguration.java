@@ -1,6 +1,7 @@
 package io.github.ppzxc.boilerplate.autoconfigure.adapter.output.external;
 
 import io.github.ppzxc.boilerplate.adapter.output.external.ExternalApiClient;
+import io.github.ppzxc.boilerplate.application.port.output.shared.CheckExternalServiceHealthPort;
 import io.github.ppzxc.boilerplate.application.port.output.shared.ExternalDataPort;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.github.resilience4j.ratelimiter.RateLimiterRegistry;
@@ -52,6 +53,13 @@ public class ExternalAdapterAutoConfiguration {
   @Bean
   @ConditionalOnMissingBean
   ExternalDataPort externalDataPort(ExternalApiClient externalApiClient) {
+    return externalApiClient;
+  }
+
+  @Bean
+  @ConditionalOnMissingBean
+  CheckExternalServiceHealthPort checkExternalServiceHealthPort(
+      ExternalApiClient externalApiClient) {
     return externalApiClient;
   }
 }

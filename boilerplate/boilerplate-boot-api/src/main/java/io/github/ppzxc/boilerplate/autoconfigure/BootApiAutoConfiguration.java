@@ -1,5 +1,6 @@
 package io.github.ppzxc.boilerplate.autoconfigure;
 
+import io.github.ppzxc.boilerplate.application.port.output.shared.CheckExternalServiceHealthPort;
 import io.github.ppzxc.boilerplate.health.ExternalServiceHealthIndicator;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -11,7 +12,8 @@ public class BootApiAutoConfiguration {
 
   @Bean
   @ConditionalOnMissingBean
-  ExternalServiceHealthIndicator externalServiceHealthIndicator() {
-    return new ExternalServiceHealthIndicator();
+  ExternalServiceHealthIndicator externalServiceHealthIndicator(
+      CheckExternalServiceHealthPort checkExternalServiceHealthPort) {
+    return new ExternalServiceHealthIndicator(checkExternalServiceHealthPort);
   }
 }

@@ -1,24 +1,21 @@
 package io.github.ppzxc.boilerplate.health;
 
+import io.github.ppzxc.boilerplate.application.port.output.shared.CheckExternalServiceHealthPort;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.health.contributor.Health;
 import org.springframework.boot.health.contributor.HealthIndicator;
 
-/** 외부 서비스 헬스체크 스켈레톤. 실제 외부 서비스 연결 확인 로직으로 교체하여 사용. */
+/** 외부 서비스 헬스체크. CheckExternalServiceHealthPort를 통해 헥사고날 경계를 준수한다. */
+@RequiredArgsConstructor
 public class ExternalServiceHealthIndicator implements HealthIndicator {
+
+  private final CheckExternalServiceHealthPort checkExternalServiceHealthPort;
 
   @Override
   public Health health() {
-    // 스켈레톤: 실제 외부 서비스 health check 로직으로 교체
-    // 예: HTTP ping, gRPC health check 등
-    boolean externalServiceUp = checkExternalService();
-    if (externalServiceUp) {
+    if (checkExternalServiceHealthPort.isHealthy()) {
       return Health.up().withDetail("externalService", "reachable").build();
     }
     return Health.down().withDetail("externalService", "unreachable").build();
-  }
-
-  private boolean checkExternalService() {
-    // TODO: 실제 외부 서비스 연결 확인 로직 구현
-    return true;
   }
 }
