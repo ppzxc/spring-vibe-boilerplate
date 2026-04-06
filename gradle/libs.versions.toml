@@ -22,7 +22,7 @@ org-owasp-dependencycheck = "12.1.1"
 org-cyclonedx-bom = "2.3.0"
 
 # jooq
-org-jooq-codegen-gradle = "3.19.30"
+org-jooq-codegen-gradle = "3.21.1"
 
 # mapstruct
 org-mapstruct = "1.6.3"
