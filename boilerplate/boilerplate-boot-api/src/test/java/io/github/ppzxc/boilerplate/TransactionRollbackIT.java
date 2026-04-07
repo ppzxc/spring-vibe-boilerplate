@@ -7,29 +7,61 @@ import io.github.ppzxc.boilerplate.dummy.DummyAdapter;
 import io.github.ppzxc.boilerplate.dummy.SaveDummyPort;
 import io.github.ppzxc.boilerplate.dummy.TriggerExceptionService;
 import io.github.ppzxc.boilerplate.dummy.TriggerExceptionUseCase;
+import java.util.Properties;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.interceptor.TransactionInterceptor;
+import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
-@SpringBootTest
+@SpringBootTest(
+    properties =
+        "spring.autoconfigure.exclude="
+            + "io.github.springwolf.core.configuration.SpringwolfAutoConfiguration,"
+            + "io.github.springwolf.plugins.stomp.configuration.SpringwolfStompAutoConfiguration,"
+            + "io.github.springwolf.bindings.stomp.configuration.SpringwolfStompBindingAutoConfiguration")
 @Import(TransactionRollbackIT.TestConfig.class)
+@Testcontainers
 class TransactionRollbackIT {
 
+  @Container static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17");
+
+  @DynamicPropertySource
+  static void configureProperties(DynamicPropertyRegistry registry) {
+    registry.add("spring.datasource.url", postgres::getJdbcUrl);
+    registry.add("spring.datasource.username", postgres::getUsername);
+    registry.add("spring.datasource.password", postgres::getPassword);
+    registry.add("spring.datasource.driver-class-name", postgres::getDriverClassName);
+    registry.add("spring.jooq.sql-dialect", () -> "POSTGRES");
+  }
+
   @TestConfiguration
-  @EnableTransactionManagement
   static class TestConfig {
     @Bean
-    @Transactional
-    public TriggerExceptionUseCase triggerExceptionUseCase(SaveDummyPort port) {
-      return new TriggerExceptionService(port);
+    public TriggerExceptionUseCase triggerExceptionUseCase(
+        SaveDummyPort port, PlatformTransactionManager txManager) {
+      TransactionInterceptor interceptor = new TransactionInterceptor();
+      interceptor.setTransactionManager(txManager);
+      Properties attrs = new Properties();
+      attrs.setProperty("*", "PROPAGATION_REQUIRED");
+      interceptor.setTransactionAttributes(attrs);
+
+      ProxyFactory factory = new ProxyFactory(new TriggerExceptionService(port));
+      factory.addInterface(TriggerExceptionUseCase.class);
+      factory.addAdvice(interceptor);
+      return TriggerExceptionUseCase.class.cast(factory.getProxy());
     }
   }
 

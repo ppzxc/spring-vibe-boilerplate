@@ -141,7 +141,7 @@ configureByLabel("java") {
       googleJavaFormat(
         versionCatalog.findVersion("com-google-googlejavaformat").get().requiredVersion
       )
-      targetExclude("**/build/generated/**")
+      targetExclude("**/build/generated/**", "**/build/generated-sources/**")
     }
   }
 
