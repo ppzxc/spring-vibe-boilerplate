@@ -15,7 +15,7 @@ com-puppycrawl-tools-checkstyle = "10.21.4"
 
 # openrewrite recipes
 org-openrewrite-recipe-static-analysis = "2.31.0"
-org-openrewrite-recipe-migrate-java = "3.31.1"
+org-openrewrite-recipe-migrate-java = "3.32.1"
 org-openrewrite-recipe-spring = "6.28.2"
 
 org-owasp-dependencycheck = "12.1.1"
