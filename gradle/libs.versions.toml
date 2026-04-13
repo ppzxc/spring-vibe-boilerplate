@@ -18,7 +18,7 @@ org-openrewrite-recipe-static-analysis = "2.31.0"
 org-openrewrite-recipe-migrate-java = "3.31.1"
 org-openrewrite-recipe-spring = "6.28.2"
 
-org-owasp-dependencycheck = "12.1.1"
+org-owasp-dependencycheck = "12.2.1"
 org-cyclonedx-bom = "2.3.0"
 
 # jooq
