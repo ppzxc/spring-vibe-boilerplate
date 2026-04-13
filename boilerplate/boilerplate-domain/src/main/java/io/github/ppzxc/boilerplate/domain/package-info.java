@@ -1,4 +1,4 @@
-/** 순수 도메인 모델. Spring/JPA 의존 금지. */
+/** 도메인 레이어 — 순수 Java, Spring/JPA 금지. */
 @NullMarked
 package io.github.ppzxc.boilerplate.domain;
 

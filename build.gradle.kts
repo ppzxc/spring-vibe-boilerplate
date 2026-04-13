@@ -15,12 +15,6 @@ plugins {
   alias(libs.plugins.io.spring.dependency.management)
   alias(libs.plugins.com.linecorp.build.recipe.plugin)
   alias(libs.plugins.net.ltgt.errorprone)
-  alias(libs.plugins.com.google.protobuf) apply false
-  alias(libs.plugins.org.jooq.codegen.gradle) apply false
-  alias(libs.plugins.org.owasp.dependencycheck) apply false
-  alias(libs.plugins.org.cyclonedx.bom) apply false
-  alias(libs.plugins.pitest) apply false
-  alias(libs.plugins.spring.cloud.contract) apply false
   alias(libs.plugins.com.diffplug.spotless) apply false
   alias(libs.plugins.org.openrewrite.rewrite) apply false
   alias(libs.plugins.com.fizzpod.lefthook)
@@ -40,16 +34,6 @@ allprojects {
   tasks.withType<BootJar> {
     enabled = false
   }
-}
-
-// ── OWASP Dependency Check + CycloneDX SBOM ───────────────────────
-apply(plugin = libs.plugins.org.owasp.dependencycheck.get().pluginId)
-apply(plugin = libs.plugins.org.cyclonedx.bom.get().pluginId)
-
-configure<org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension> {
-  failBuildOnCVSS = 7.0f
-  analyzers.assemblyEnabled = false
-  formats = listOf("HTML", "JSON")
 }
 
 // ── java 라벨: Java 25 + 공통 빌드 설정 ─────────────────────────────
@@ -189,15 +173,7 @@ configureByLabel("boot") {
   }
 }
 
-// ── proto 라벨: Protobuf 플러그인 적용 ──────────────────────────────
-// protobuf { } 블록은 각 모듈 build.gradle.kts에서 설정 (Kotlin DSL 컴파일 타임 제약)
-configureByLabel("proto") {
-  apply(plugin = "com.google.protobuf")
-}
-
 // ── mapstruct 라벨: MapStruct + Lombok 바인딩 ──────────────────────
-// Lombok annotationProcessor는 "java" 라벨에서 이미 전역 등록됨
-// lombok-mapstruct-binding이 Lombok→MapStruct annotation processor 순서를 보장함
 configureByLabel("mapstruct") {
   dependencies {
     implementation(rootProject.libs.org.mapstruct)
@@ -207,7 +183,6 @@ configureByLabel("mapstruct") {
 }
 
 // ── coverage-gate 라벨: JaCoCo 80% 라인 커버리지 게이트 ──────────────
-// domain, application 모듈에만 적용 (adapter/boot 모듈 제외)
 configureByLabel("coverage-gate") {
   tasks.jacocoTestCoverageVerification {
     dependsOn(tasks.jacocoTestReport)
@@ -223,16 +198,5 @@ configureByLabel("coverage-gate") {
 
   tasks.named("check") {
     dependsOn(tasks.jacocoTestCoverageVerification)
-  }
-}
-
-// ── jooq 라벨: jOOQ Codegen + H2 ──────────────────────────────────
-configureByLabel("jooq") {
-  apply(plugin = rootProject.libs.plugins.org.jooq.codegen.gradle.get().pluginId)
-
-  dependencies {
-    "jooqCodegen"(rootProject.libs.org.jooq.meta.extensions)
-    "jooqCodegen"(rootProject.libs.com.h2database.h2)
-    "implementation"(rootProject.libs.org.springframework.boot.starter.jooq)
   }
 }
