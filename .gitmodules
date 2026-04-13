@@ -1,0 +1,3 @@
+[submodule "docs/playbook/purist-ddd-playbook"]
+	path = docs/playbook/purist-ddd-playbook
+	url = https://github.com/ppzxc/purist-ddd-playbook

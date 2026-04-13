@@ -1,9 +1,0 @@
-management:
-  endpoint:
-    health:
-      show-details: when-authorized
-      probes:
-        enabled: true
-
-cors:
-  allowed-origins: ${CORS_ALLOWED_ORIGINS}

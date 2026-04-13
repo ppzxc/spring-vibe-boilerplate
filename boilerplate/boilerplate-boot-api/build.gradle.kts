@@ -3,27 +3,4 @@
 // boot 라벨이 BootJar 활성화 처리
 dependencies {
   implementation(project(":boilerplate-application"))
-  implementation(project(":boilerplate-application-autoconfiguration"))
-  implementation(project(":boilerplate-adapter-input-api"))
-  implementation(project(":boilerplate-adapter-input-ws"))
-  implementation(project(":boilerplate-adapter-output-persist"))
-  implementation(project(":boilerplate-adapter-output-cache"))
-  implementation(project(":boilerplate-adapter-output-external"))
-
-  // database
-  testRuntimeOnly(libs.com.h2database.h2)
-  runtimeOnly(libs.org.postgresql.postgresql)
-  implementation(libs.org.springframework.boot.starter.flyway)
-  runtimeOnly(libs.org.flywaydb.flyway.database.postgresql)
-
-  // observability (ADR-0008)
-  implementation(libs.org.springframework.boot.starter.actuator)
-  implementation(libs.io.micrometer.tracing.bridge.otel)
-  implementation(libs.io.opentelemetry.exporter.otlp)
-
-  // test: MockMvc requires webmvc on compile classpath (adapter-input-api exposes it as implementation)
-  testImplementation(libs.org.springframework.boot.starter.web)
-  testImplementation(libs.org.springframework.boot.starter.webmvc.test)
-  testImplementation(rootProject.libs.org.testcontainers.junit.jupiter)
-  testImplementation(rootProject.libs.org.testcontainers.postgresql)
 }
