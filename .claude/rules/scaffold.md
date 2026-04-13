@@ -26,6 +26,8 @@ MUST NOT: `UUID.randomUUID()` (UUIDv4) — B-Tree 인덱스 페이지 분할로 
 MUST NOT: Auto Increment — 분산 환경에서 충돌 위험.
 MUST: `SecureRandom`은 `static final` — 매 호출 초기화 금지.
 
+> 근거: ADR-0011
+
 ```java
 // 올바른 패턴 — RFC 9562 §5.7 UUIDv7 순수 Java 구현
 public record {Subject}Id(UUID value) {

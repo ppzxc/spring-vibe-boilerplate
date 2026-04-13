@@ -2,9 +2,7 @@
 
 이 파일은 항상 로드됩니다. 전체 rules 파일 목록과 로드 조건을 나타냅니다.
 
-> **현재 생성된 파일**: naming.md, scaffold.md, validation.md
-> **미생성 파일** (향후 생성 예정): cqrs.md, modulith.md, testing.md, observability.md, security.md, domain.md, application.md, adapter.md
-> 미생성 파일과 관련된 작업 시 `docs/decisions/` ADR을 직접 참조하라.
+> **전체 11개 파일 생성 완료.** 규칙 누락이나 충돌 발견 시 해당 ADR을 `docs/decisions/`에서 직접 읽고 대안을 제안하라.
 
 | 파일 | 내용 | 로드 조건 |
 |------|------|----------|
