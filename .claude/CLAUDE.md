@@ -47,11 +47,9 @@
 
 ### 새 기능 개발 (Inside-Out 원칙)
 
-1. domain/ — Aggregate, VO, Event, Exception 먼저
-2. application/ — Port, Command/Query, UseCase
-3. adapter/ — Mapper, PersistenceAdapter, Controller
-4. configuration/ — Bean 등록, TX 프록시
-5. DDL — V{n}__create_{subject}.sql
+상세 12단계 순서 → `.claude/rules/scaffold.md` §Inside-Out 개발 원칙 참조.
+
+요약: domain → application → adapter → configuration → DDL 순서. Controller나 DB 스키마부터 시작 금지.
 
 ### AI 에이전트 지시 원칙
 

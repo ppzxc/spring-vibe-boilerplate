@@ -21,7 +21,7 @@ MUST NOT: Controller나 DB 스키마부터 시작하지 않는다.
 
 ## 식별자 전략 (UUIDv7)
 
-MUST: Aggregate Root의 식별자는 UUIDv7 또는 ULID를 사용한다.
+MUST: Aggregate Root의 식별자는 UUIDv7을 사용한다.
 MUST NOT: `UUID.randomUUID()` (UUIDv4) — B-Tree 인덱스 페이지 분할로 성능 저하.
 MUST NOT: Auto Increment — 분산 환경에서 충돌 위험.
 MUST: `SecureRandom`은 `static final` — 매 호출 초기화 금지.

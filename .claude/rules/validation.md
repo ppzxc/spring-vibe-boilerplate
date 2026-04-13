@@ -115,7 +115,7 @@ MUST NOT (Domain 직접 참조 금지):
 - MUST NOT: Domain 객체 직접 참조
 - MUST NOT: 트랜잭션 시작 (T-2)
 - MUST NOT: Adapter 간 직접 참조 (AD-2)
-- SHOULD: JSpecify `@Nullable`/`@NonNull` 적용 (AD-6)
+- MUST: JSpecify `@Nullable`/`@NonNull` 적용 (AD-6) — Adapter/Configuration에서만, Domain/Application 금지
 
 ### 트랜잭션
 - MUST: UseCase가 TX 경계 — Configuration 프록시로 적용 (T-1, A-4)
