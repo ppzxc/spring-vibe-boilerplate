@@ -229,6 +229,48 @@ public final class Order {
 }
 ```
 
+### Aggregate 내부 Entity 접근 제어
+
+Aggregate Root가 내부 Entity(예: Credential, OrderItem)를 포함하는 경우, 외부에서 내부 Entity를 직접 생성하는 것을 차단한다.
+
+- MUST: 내부 Entity의 `create()` / `reconstitute()` 팩토리 메서드는 **package-private** 접근 수준으로 선언한다.
+- MUST: 내부 Entity의 생성자는 `private`으로 선언한다.
+- MUST: Aggregate Root만 내부 Entity를 생성·복원할 수 있다.
+- MUST NOT: 외부 패키지에서 내부 Entity를 직접 생성한다.
+
+```java
+// ✅ GOOD — 내부 Entity: package-private 팩토리
+final class Credential {
+    private final CredentialId id;
+    private final HashedPassword password;
+
+    private Credential(CredentialId id, HashedPassword password) {
+        this.id = Objects.requireNonNull(id);
+        this.password = Objects.requireNonNull(password);
+    }
+
+    // package-private — Aggregate Root(User)만 호출 가능
+    static Credential create(HashedPassword password, Instant now) {
+        return new Credential(CredentialId.generate(), password);
+    }
+
+    // package-private — PersistenceMapper가 같은 패키지에서 호출
+    static Credential reconstitute(CredentialId id, HashedPassword password) {
+        return new Credential(id, password);
+    }
+}
+
+// Aggregate Root가 내부 Entity 생성을 관장
+public final class User {
+    private Credential credential;
+
+    public void changePassword(HashedPassword newPassword, Instant now) {
+        this.credential = Credential.create(newPassword, now);
+        registerEvent(/* ... */);
+    }
+}
+```
+
 ---
 
 ## 5. Domain 경계
@@ -432,6 +474,40 @@ public List<DomainEvent> pullDomainEvents() {
 - MUST: Application Service는 `savePort.save(aggregate)`만 호출한다. 이벤트 수거·발행은 Adapter(SavePort 구현체)가 수행한다.
 - MUST NOT: Application Service에서 `pullDomainEvents()`를 직접 호출한다.
 - MUST NOT: Application Service에서 EventPublisher를 직접 호출한다.
+
+---
+
+### append-only Aggregate 변형
+
+소비 전용 BC(예: Audit BC)에서는 Aggregate가 이벤트를 발행하지 않는 변형이 허용된다.
+
+- MAY: 소비 전용 BC에서는 `create()`에서 이벤트를 발행하지 않을 수 있다.
+- MAY: `pullDomainEvents()` 메서드와 `domainEvents` 리스트를 생략할 수 있다.
+- MUST: 이 경우에도 `create()` / `reconstitute()` 팩토리, `private` 생성자, `Objects.requireNonNull`은 동일 적용한다.
+
+```java
+// append-only Aggregate 예시 — AuditLog (이벤트 미발행)
+public final class AuditLog {
+    private final AuditLogId id;
+    private final String action;
+    private final Instant occurredAt;
+
+    private AuditLog(AuditLogId id, String action, Instant occurredAt) {
+        this.id = Objects.requireNonNull(id);
+        this.action = Objects.requireNonNull(action);
+        this.occurredAt = Objects.requireNonNull(occurredAt);
+    }
+
+    public static AuditLog create(String action, Instant now) {
+        return new AuditLog(AuditLogId.generate(), action, now);
+        // 이벤트 발행 없음 — 이 Aggregate 자체가 이벤트의 소비 결과
+    }
+
+    public static AuditLog reconstitute(AuditLogId id, String action, Instant occurredAt) {
+        return new AuditLog(id, action, occurredAt);
+    }
+}
+```
 
 ---
 

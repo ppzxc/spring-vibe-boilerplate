@@ -290,7 +290,31 @@ OAuthScope: String name + Set<Permission>
 
 ---
 
-## 10. 금지 패턴
+## 10. 시크릿 관리
+
+- MUST NOT: `application.yml` / `application.properties`에 DB 비밀번호, API 키, JWT 시크릿을 하드코딩한다.
+- MUST: 시크릿은 환경 변수(`${DATABASE_PASSWORD}`) 또는 시크릿 매니저(Vault, AWS Secrets Manager 등)로 주입한다.
+- MUST NOT: 시크릿이 포함된 파일(`.env`, `credentials.json`, `*.pem`, `*.key`)을 Git에 커밋한다.
+- MUST: `.gitignore`에 시크릿 파일 패턴을 포함한다.
+
+```yaml
+# ✅ GOOD — 환경 변수 참조
+spring:
+  datasource:
+    password: ${DATABASE_PASSWORD}
+
+jwt:
+  secret: ${JWT_SECRET}
+
+# ❌ BAD — 하드코딩
+spring:
+  datasource:
+    password: mySecretPassword123
+```
+
+---
+
+## 11. 금지 패턴
 
 ```java
 // MUST NOT: Domain에서 RequestContext 접근

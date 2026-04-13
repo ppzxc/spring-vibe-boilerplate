@@ -1,5 +1,27 @@
 # 스캐폴딩 규칙
 
+## 계층별 Java/Spring 기능 사용 범위
+
+| 기능 | Domain | Application | Adapter | Configuration |
+|------|:------:|:-----------:|:-------:|:-------------:|
+| `record` (VO, DTO) | O | O | O | O |
+| `sealed interface/class` | O | O | O | O |
+| `ScopedValue` | **X** | O (읽기) | O (바인딩) | O |
+| `Objects.requireNonNull` | O | O | O | O |
+| `Clock` / `Instant.now()` | **X** | O (Clock 주입) | O | O |
+| Spring 어노테이션 | **X** | **X** | O | O |
+| jOOQ | **X** | **X** | O | **X** |
+| Jackson 어노테이션 | **X** | **X** | O | O |
+| JSpecify (`@Nullable`) | **X** | **X** | O | O |
+| `@Transactional` | **X** | **X** | **X** | O (TX 프록시) |
+| Virtual Threads | — | — | O (자동) | O (설정) |
+
+- **O**: 사용 가능
+- **X**: 사용 금지
+- **—**: 해당 없음 (런타임에서 자동 적용)
+
+---
+
 ## Inside-Out 개발 원칙
 
 MUST: 항상 domain 모듈부터 시작하고 바깥으로 나간다.
@@ -234,6 +256,33 @@ class {Context}BeanConfiguration {
 
 > **Anchor Comment**: 새 UseCase Bean 추가 시 `// --- AI_ANCHOR: ADD_NEW_USECASE_BEANS_HERE ---` 바로 **아래에** 삽입한다. 기존 코드를 건드리지 않는다.
 
+### BeanRegistrar 대안 (UseCase 10개 이상)
+
+UseCase가 10개 이상으로 늘어나 BeanConfiguration이 비대해지면, Spring Boot 4의 `BeanRegistrar` API로 TX 프록시를 일괄 등록하는 방식을 전환을 고려한다.
+
+- SHOULD: UseCase 10개 미만에서는 수동 Bean + TX 프록시 등록(위 템플릿)을 유지한다.
+- SHOULD: UseCase 10개 이상에서는 `BeanRegistrar`로 전환을 검토한다.
+- MUST: 전환 시에도 TX 경계는 Configuration 계층이 담당한다는 원칙(A-4, T-1)은 변하지 않는다.
+
+```java
+// BeanRegistrar — UseCase 대량 등록 패턴 (Spring Boot 4+)
+class UseCaseBeanRegistrar implements BeanRegistrar {
+    @Override
+    public void register(BeanRegistry registry) {
+        registry.registerBean("createUserUseCase", CreateUserUseCase.class, spec -> {
+            spec.supplier(ctx -> {
+                var service = new CreateUserService(
+                    ctx.bean(UserPersistenceAdapter.class),
+                    ctx.bean(Clock.class));
+                return createTxProxy(service, CreateUserUseCase.class,
+                    ctx.bean(PlatformTransactionManager.class));
+            });
+        });
+        // 추가 UseCase 등록...
+    }
+}
+```
+
 ### DDL 템플릿
 
 ```sql
@@ -246,6 +295,34 @@ CREATE TABLE {subject} (
                               ON UPDATE CURRENT_TIMESTAMP(6)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 ```
+
+### DDL Backward Compatibility
+
+MUST: DDL 변경은 Backward Compatible이어야 한다. Rolling Update 중 구/신 버전 앱이 동시에 실행된다.
+
+| 변경 유형 | 안전 여부 | 방법 |
+|-----------|----------|------|
+| 컬럼 추가 (NOT NULL + DEFAULT) | 안전 | 단일 마이그레이션 |
+| 컬럼 삭제 | **위험** | 3단계 필수 |
+| 컬럼 이름 변경 | **위험** | 3단계 필수 |
+| 테이블 추가 | 안전 | 단일 마이그레이션 |
+
+MUST NOT: `RENAME COLUMN` 또는 `DROP COLUMN`을 단일 마이그레이션에서 수행한다.
+
+MUST: 컬럼 삭제/이름 변경은 **3단계 마이그레이션**을 따른다:
+
+```
+Phase 1: V{n}__add_new_column.sql
+  → 새 컬럼 추가, 기존 컬럼 유지, 앱 코드는 양쪽 모두 기록
+
+Phase 2: 앱 코드 전환 (별도 릴리스)
+  → 새 컬럼만 읽기/쓰기, 구 컬럼은 더 이상 사용 안 함
+
+Phase 3: V{n+1}__drop_old_column.sql
+  → 구 컬럼 삭제 (구 버전 앱이 완전히 내려간 후)
+```
+
+---
 
 ## 새 UseCase 추가 체크리스트
 
