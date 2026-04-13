@@ -71,13 +71,14 @@ public class UserPersistenceAdapter implements SaveUserPort {
 
     @Override
     public void save(User user) {
-        // 1. Entity → DB 저장
+        // 1. Entity → DB 저장 (UPDATE 시 Optimistic Lock 적용 — AD-7 참조)
         var record = toRecord(user);
         dsl.insertInto(USERS)
            .set(record)
            .onDuplicateKeyUpdate()
            .set(record)
            .execute();
+        // UPDATE의 경우: .where(USERS.VERSION.eq(user.getVersion())) + affected==0 → OptimisticLockException
 
         // 2. Domain Event 수거 → Outbox(event_publication)에 저장 (같은 TX)
         user.pullDomainEvents().forEach(event ->

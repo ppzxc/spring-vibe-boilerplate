@@ -25,7 +25,7 @@ paths: "**/application/**"
 
 - MUST: 모든 UseCase(Command/Query 포함)는 Input Port 인터페이스로 정의한다.
 - MUST NOT: "단순 CRUD라서 생략"한다. 예외 없음.
-- MUST: Input Port 인터페이스는 `application/port/input/` 패키지에 위치한다.
+- MUST: Input Port 인터페이스는 `application/port/in/` 패키지에 위치한다.
 - MUST: 구현체는 `{Verb}{Subject}Service`로 네이밍한다 (예: `RegisterUserService`).
 
 > 근거: ADR-0009
@@ -99,7 +99,7 @@ public class RegisterUserService implements RegisterUserUseCase {
 - Query UseCase: R/O TX
 
 ```java
-// configuration 모듈에서 TX 프록시 적용 예시
+// configuration 모듈에서 TX 프록시 적용 예시 (scaffold.md §Phase 4 패턴과 동일)
 @Configuration
 public class BeanConfiguration {
 
@@ -107,26 +107,28 @@ public class BeanConfiguration {
     public RegisterUserUseCase registerUserUseCase(
             LoadUserPort loadPort,
             SaveUserPort savePort,
-            Clock clock,
             PlatformTransactionManager txManager) {
 
         // 순수 Java 인스턴스 생성 (어노테이션 없음)
-        var service = new RegisterUserService(loadPort, savePort, clock);
+        var service = new RegisterUserService(loadPort, savePort);
 
-        // 트랜잭션 프록시를 감싸서 반환
-        var proxyFactory = new TransactionProxyFactoryBean();
-        proxyFactory.setTarget(service);
-        proxyFactory.setTransactionManager(txManager);
+        // TX 프록시 — MatchAlwaysTransactionAttributeSource 사용
+        var txSource = new MatchAlwaysTransactionAttributeSource();
+        var txAttr = new TransactionAttribute();
+        txAttr.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
+        txSource.setTransactionAttribute(txAttr);
 
-        var txAttr = new Properties();
-        txAttr.setProperty("execute*", "PROPAGATION_REQUIRED");
-        proxyFactory.setTransactionAttributes(txAttr);
-        proxyFactory.afterPropertiesSet();
+        var interceptor = new TransactionInterceptor(txManager, txSource);
 
-        return (RegisterUserUseCase) proxyFactory.getObject();
+        var proxyFactory = new ProxyFactory(service);
+        proxyFactory.addAdvice(interceptor);
+        proxyFactory.setInterfaces(RegisterUserUseCase.class);
+
+        return (RegisterUserUseCase) proxyFactory.getProxy();
     }
 }
 ```
+> TX 프록시 상세 패턴은 `scaffold.md` §Phase 4: Configuration 참조.
 
 ---
 
@@ -224,18 +226,25 @@ public record UserResult(String id, String name) {}
 
 ## Output Port 위치 (A-3)
 
-Output Port(LoadPort, SavePort, QueryPort)는 Application 계층의 `port/output/` 패키지에 정의한다. Output Port 3분할 원칙 및 CQRS 상세는 **`cqrs.md`**를 참조한다.
+Output Port(LoadPort, SavePort, QueryPort)는 Application 계층의 `port/out/` 패키지에 정의한다. Output Port 3분할 원칙 및 CQRS 상세는 **`cqrs.md`**를 참조한다.
 
 ```
 application/port/
-    input/
+    in/
         RegisterUserUseCase.java    # Command UseCase
         FindUserByIdUseCase.java    # Query UseCase
-    output/
+    out/
         LoadUserPort.java           # 도메인 객체 로드 (Optional 반환 강제)
         SaveUserPort.java           # 저장 + 이벤트 수거
         UserQueryPort.java          # DTO 직접 반환 (Aggregate 비경유)
 ```
+
+---
+
+## A-11 (ScopedValue — 컨텍스트 전파)
+
+A-11 (userId, tenantId를 ScopedValue로 전파, ThreadLocal 금지)은 `observability.md` §컨텍스트 전파 참조.
+관련 검증 규칙은 `validation.md` §추적성 참조.
 
 ---
 

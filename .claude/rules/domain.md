@@ -79,7 +79,7 @@ public final class User {
         }
         this.status = UserStatus.SUSPENDED;
         registerEvent(new UserSuspendedEvent(
-            UUID.randomUUID(), "UserSuspendedEvent", this.id.value(), occurredAt, this.version, reason
+            UuidCreator.getTimeOrderedEpoch(), "UserSuspendedEvent", this.id.value(), occurredAt, this.version, reason
         ));
     }
 }
@@ -181,7 +181,7 @@ public final class User {
     public static User create(UserName name, OwnerId ownerId, Instant now) {
         var user = new User(UserId.generate(), name, UserStatus.ACTIVE, ownerId, 0L);
         user.registerEvent(new UserRegisteredEvent(
-            UUID.randomUUID(), "UserRegisteredEvent", user.id.value(), now, 0L, name.value()
+            UuidCreator.getTimeOrderedEpoch(), "UserRegisteredEvent", user.id.value(), now, 0L, name.value()
         ));
         return user;
     }
@@ -232,6 +232,8 @@ public final class Order {
 ---
 
 ## 5. Domain 경계
+
+> **D-12 (금지 접미사)** — naming.md §금지 접미사 참조. Handler/Processor/Manager/Helper/Util/VO/Entity 접미사 금지.
 
 ### D-10 Domain에 Repository/Port 금지
 
