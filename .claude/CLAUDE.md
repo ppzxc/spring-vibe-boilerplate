@@ -15,7 +15,7 @@
 ## 모듈 구조
 
 현재 모듈:
-- `boilerplate-domain`: 순수 Java. 외부 의존 제로. Aggregate, VO, Domain Event, Port 없음.
+- `boilerplate-domain`: 순수 Java. 외부 의존 제로. Aggregate, VO, Domain Event 포함. Port 없음.
 - `boilerplate-application`: domain만 의존. Input Port, Output Port, UseCase Service.
 - `boilerplate-boot-api`: 전체 조립. Controller, PersistenceAdapter, TX 프록시.
 
