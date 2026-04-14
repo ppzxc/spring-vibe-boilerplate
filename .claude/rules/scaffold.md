@@ -292,13 +292,12 @@ class UseCaseBeanRegistrar implements BeanRegistrar {
 
 ```sql
 CREATE TABLE {subject} (
-    id          BINARY(16)    NOT NULL PRIMARY KEY,
+    id          UUID          NOT NULL PRIMARY KEY,
     status      VARCHAR(20)   NOT NULL,
     version     BIGINT        NOT NULL DEFAULT 0,
-    created_at  TIMESTAMP(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    updated_at  TIMESTAMP(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
-                              ON UPDATE CURRENT_TIMESTAMP(6)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    created_at  TIMESTAMPTZ   NOT NULL DEFAULT now(),
+    updated_at  TIMESTAMPTZ   NOT NULL DEFAULT now()
+);
 ```
 
 ### DDL Backward Compatibility
