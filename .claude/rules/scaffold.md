@@ -376,6 +376,115 @@ Phase 3: V{n+1}__drop_old_column.sql
 
 ---
 
+## 신규 BC 모듈 초기화 체크리스트
+
+새 BC를 추가할 때 아래 순서로 Gradle 모듈을 생성하고 등록한다.
+**구현 전 전략적 설계 완료 필수 (strategic-design.md 참조).**
+
+### Step 1: 디렉토리 구조
+
+```
+boilerplate/{bc}/
+  boilerplate-{bc}-domain/
+    build.gradle.kts
+    src/main/java/io/github/ppzxc/boilerplate/{bc}/domain/
+      package-info.java
+  boilerplate-{bc}-application/
+    build.gradle.kts
+    src/main/java/io/github/ppzxc/boilerplate/{bc}/application/
+      package-info.java
+  boilerplate-{bc}-configuration/
+    build.gradle.kts
+  boilerplate-{bc}-adapter-input-api/        (HTTP API 필요 시)
+    build.gradle.kts
+  boilerplate-{bc}-adapter-output-persist/
+    build.gradle.kts
+```
+
+### Step 2: 각 모듈 build.gradle.kts 내용
+
+```kotlin
+// boilerplate-{bc}-domain/build.gradle.kts
+label("java")
+label("coverage-gate")
+// dependencies 블록 없음 — D-1 외부 의존 제로
+
+// boilerplate-{bc}-application/build.gradle.kts
+label("java")
+label("coverage-gate")
+dependencies {
+    implementation(project(":boilerplate-{bc}-domain"))
+}
+
+// boilerplate-{bc}-adapter-input-api/build.gradle.kts
+label("java", "spring")
+dependencies {
+    implementation(project(":boilerplate-{bc}-application"))
+}
+
+// boilerplate-{bc}-adapter-output-persist/build.gradle.kts
+label("java", "spring", "jooq")
+dependencies {
+    implementation(project(":boilerplate-{bc}-application"))
+    implementation(project(":boilerplate-{bc}-domain"))
+}
+
+// boilerplate-{bc}-configuration/build.gradle.kts
+label("java", "spring")
+dependencies {
+    implementation(project(":boilerplate-{bc}-domain"))
+    implementation(project(":boilerplate-{bc}-application"))
+    implementation(project(":boilerplate-{bc}-adapter-input-api"))    // 필요 시
+    implementation(project(":boilerplate-{bc}-adapter-output-persist"))
+}
+```
+
+### Step 3: settings.gradle.kts 등록
+
+```kotlin
+// ── {BC명} BC ──────────────────────────────────────────────────────────
+module(name = ":boilerplate-{bc}-domain",
+       path = "boilerplate/{bc}/boilerplate-{bc}-domain")
+module(name = ":boilerplate-{bc}-application",
+       path = "boilerplate/{bc}/boilerplate-{bc}-application")
+module(name = ":boilerplate-{bc}-configuration",
+       path = "boilerplate/{bc}/boilerplate-{bc}-configuration")
+module(name = ":boilerplate-{bc}-adapter-input-api",
+       path = "boilerplate/{bc}/boilerplate-{bc}-adapter-input-api")
+module(name = ":boilerplate-{bc}-adapter-output-persist",
+       path = "boilerplate/{bc}/boilerplate-{bc}-adapter-output-persist")
+```
+
+### Step 4: boilerplate-boot-api/build.gradle.kts에 configuration 추가
+
+```kotlin
+dependencies {
+    // 기존 BC configuration 의존성들...
+    implementation(project(":boilerplate-{bc}-configuration"))
+}
+```
+
+### Step 5: package-info.java 생성
+
+```java
+// domain
+/** {BC명} 도메인 레이어 — 순수 Java, Spring/JSpecify 금지. */
+package io.github.ppzxc.boilerplate.{bc}.domain;
+
+// application
+/** {BC명} 애플리케이션 레이어 — 순수 Java, Spring/JSpecify 금지. */
+package io.github.ppzxc.boilerplate.{bc}.application;
+```
+
+### Step 6: 빌드 확인
+
+```bash
+./gradlew :boilerplate-{bc}-domain:compileJava --no-daemon
+```
+Expected: BUILD SUCCESSFUL
+
+---
+
 ## 새 UseCase 추가 체크리스트
 
 1. `{Verb}{Subject}Command` 또는 `{Verb}{Subject}Query` record 추가 (self-validation 포함)

@@ -477,6 +477,51 @@ public List<DomainEvent> pullDomainEvents() {
 
 ---
 
+### 이벤트 발행 판단 기준
+
+모든 Aggregate 상태 변경이 이벤트를 발행해야 하는 것은 아니다.
+
+| 상황 | 발행 여부 | 근거 |
+|------|---------|------|
+| 다른 BC가 이 변경에 반응해야 함 | **발행** | BC 간 Eventually Consistent |
+| 같은 BC 내 다른 Aggregate가 반응해야 함 | **발행** | 1 TX = 1 Aggregate 원칙 |
+| 감사(Audit) 로그가 필요함 | **발행** | 이벤트 없이 감사 추적 불가 |
+| 단순 내부 상태 변경 (다른 소비자 없음) | **선택** | 불필요한 복잡성 회피 |
+
+- MUST NOT: 컨슈머가 없는 이벤트를 "언젠가 쓸 수도 있으니" 발행한다.
+- SHOULD: 처음에는 소비자가 생길 때 이벤트를 추가한다 (YAGNI).
+
+### Thin Event vs Fat Event
+
+| 패턴 | 페이로드 | 장점 | 단점 |
+|------|---------|------|------|
+| **Thin Event** | ID + 발생 시각만 포함 | 스키마 안정, 단순 | 컨슈머가 추가 조회 필요 |
+| **Fat Event** | 변경된 전체 상태 포함 | 컨슈머 추가 조회 불필요 | 페이로드 비대, 스키마 변경 잦음 |
+
+**본 프로젝트 기본 선택: Thin Event**
+
+```java
+// ✅ GOOD — Thin Event: 컨슈머가 추가 조회 가능한 경우
+public record UserRegisteredEvent(
+    UUID eventId, String eventType, UUID aggregateId,
+    Instant occurredAt, long aggregateVersion
+    // 추가 페이로드 없음
+) implements UserEvent {}
+
+// ✅ ALSO GOOD — Fat Event: 조회 불가하거나 이벤트 소싱인 경우
+public record UserRegisteredEvent(
+    UUID eventId, String eventType, UUID aggregateId,
+    Instant occurredAt, long aggregateVersion,
+    String userName, String email    // 생성 시점 스냅샷
+) implements UserEvent {}
+```
+
+- SHOULD: 기본적으로 Thin Event를 사용한다.
+- MAY: 이벤트 소싱 패턴 또는 컨슈머가 추가 조회를 할 수 없는 경우 Fat Event를 선택한다.
+- MUST NOT: PII(개인 식별 정보)를 Fat Event 페이로드에 포함한다.
+
+---
+
 ### append-only Aggregate 변형
 
 소비 전용 BC(예: Audit BC)에서는 Aggregate가 이벤트를 발행하지 않는 변형이 허용된다.
