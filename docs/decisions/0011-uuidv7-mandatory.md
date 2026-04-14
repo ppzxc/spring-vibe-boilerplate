@@ -14,11 +14,19 @@ Aggregate Root 식별자는 **UUIDv7** (RFC 9562 §5.7)을 사용한다.
 
 - `UUID.randomUUID()` (UUIDv4) 금지
 - Auto Increment 금지
-- `SecureRandom`은 `static final`로 한 번만 초기화
+- 외부 라이브러리(`uuid-creator` 등) 금지 — Domain 순수성 원칙(D-1) 위반
+
+구현: **순수 Java**, `AtomicReference<State>` CAS + `ThreadLocalRandom` 조합.
+
+설계 근거:
+- `AtomicReference<State>`: timestamp + counter 원자적 갱신 (race condition 방지)
+- `ThreadLocalRandom`: Virtual Thread 친화적, SecureRandom 초기화 오버헤드 없음
+- monotonic counter (0~4095): 동일 ms 내 순서 보장, overflow 시 next ms 대기
+- clock rollback 처리: ts <= prev.timestamp → counter 증가 (B-Tree 정렬 역행 방지)
 
 UUIDv7은 시간 순서로 정렬되어 B-Tree 삽입 성능이 UUIDv4 대비 크게 향상된다.
 
-구현 라이브러리: `com.github.f4b6a3:uuid-creator` — `UuidCreator.getTimeOrderedEpoch()`
+상세 구현 → `.claude/rules/scaffold.md §식별자 전략 (UUIDv7)` 참조
 
 ## Consequences
 

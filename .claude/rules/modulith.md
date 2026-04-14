@@ -332,6 +332,54 @@ module(name = ":boilerplate-notification-adapter-output-persist", path = "boiler
 
 ---
 
+## 11. 마이크로서비스 전환 경로
+
+모놀리식 Modulith에서 마이크로서비스로 전환하는 판단 기준과 절차.
+
+### 전환 판단 기준
+
+마이크로서비스 분리는 **기술적 이유가 아닌 비즈니스/운영 필요**에 의해 결정한다.
+
+| 신호 | 설명 |
+|------|------|
+| **팀 자율성** | 팀 간 배포 병목이 심각하여 독립 배포가 필요한 경우 |
+| **기술 스택 분리** | 특정 BC가 다른 언어/런타임이 필요한 경우 |
+| **독립 스케일링** | 특정 BC만 급격한 부하 증가가 발생하는 경우 |
+| **장애 격리** | 한 BC 장애가 전체 서비스에 영향을 미치는 경우 |
+
+- MUST NOT: 성능 최적화, 코드 정리, 기술 트렌드를 이유로 분리한다.
+- SHOULD: Modulith에서 Aggregate 경계가 잘 정의되어 있지 않으면 분리 전에 경계를 먼저 정리한다.
+
+### 전환 전 사전 조건
+
+- [ ] BC 간 통신이 모두 Integration Event를 통한다 (직접 메서드 호출 없음)
+- [ ] ApplicationModules.verify() 통과
+- [ ] `@ApplicationModuleTest(STANDALONE)` 단독 기동 가능
+- [ ] 해당 BC의 DB 스키마가 명확히 분리되어 있음
+
+### 전환 절차
+
+```
+[1단계] 모듈 경계 검증
+  → ApplicationModules.verify() + STANDALONE 테스트 통과 확인
+
+[2단계] 네트워크 이벤트로 교체
+  → Spring Modulith in-process 이벤트 → 외부 메시지 브로커(Kafka/RabbitMQ)로 교체
+  → EventPublisher 구현체만 교체 (Adapter 계층 변경)
+
+[3단계] 독립 배포 단위 분리
+  → Gradle 멀티모듈에서 별도 프로젝트로 추출
+  → 독립 Spring Boot 애플리케이션으로 구성
+
+[4단계] 서비스 통신 방식 확정
+  → 동기: REST API (OpenAPI 계약 우선)
+  → 비동기: 메시지 브로커 (CloudEvents 표준 준수 — cqrs.md §12 참조)
+```
+
+- MUST: 전환 결정은 ADR로 문서화한다.
+
+---
+
 ## fallback 지시문
 
 ---

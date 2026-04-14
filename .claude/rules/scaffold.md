@@ -51,31 +51,79 @@ MUST NOT: Controller나 DB 스키마부터 시작하지 않는다.
 MUST: Aggregate Root의 식별자는 UUIDv7을 사용한다.
 MUST NOT: `UUID.randomUUID()` (UUIDv4) — B-Tree 인덱스 페이지 분할로 성능 저하.
 MUST NOT: Auto Increment — 분산 환경에서 충돌 위험.
-MUST: `SecureRandom`은 `static final` — 매 호출 초기화 금지.
+MUST: UUIDv7 생성 로직은 `UUIDv7` 유틸리티 클래스에 격리한다. VO 내부에 생성 로직 중복 금지.
 
 > 근거: ADR-0011
 
-```java
-// 올바른 패턴 — RFC 9562 §5.7 UUIDv7 순수 Java 구현
-public record {Subject}Id(UUID value) {
-    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+**UUIDv7 유틸리티 클래스 (domain 모듈 공용)**
 
+```java
+// io/github/ppzxc/boilerplate/{bc}/domain/model/UUIDv7.java
+// 순수 Java — 외부 의존 없음, RFC 9562 §6.2 Method 1 (monotonic counter)
+public final class UUIDv7 {
+    private UUIDv7() {}
+
+    private static final class State {
+        final long timestamp;
+        final int counter;
+        State(long timestamp, int counter) {
+            this.timestamp = timestamp;
+            this.counter = counter;
+        }
+    }
+
+    private static final AtomicReference<State> STATE =
+        new AtomicReference<>(new State(0L, 0));
+
+    public static UUID generate() {
+        State prev, next;
+        do {
+            prev = STATE.get();
+            long ts = System.currentTimeMillis();
+            long newTs = prev.timestamp;
+            int newCnt = prev.counter;
+            if (ts > prev.timestamp) {
+                newTs = ts;
+                newCnt = ThreadLocalRandom.current().nextInt(0x1000);
+            } else {
+                newCnt = prev.counter + 1;
+            }
+            if (newCnt >= 0x1000) {
+                // counter overflow — 다음 ms까지 대기
+                while (System.currentTimeMillis() == prev.timestamp) {
+                    Thread.onSpinWait();
+                }
+                continue;
+            }
+            next = new State(newTs, newCnt);
+        } while (!STATE.compareAndSet(prev, next));
+
+        long msb = ((next.timestamp & 0x0000_FFFF_FFFF_FFFFL) << 16)
+                 | (0x7L << 12)
+                 | (long) next.counter;
+        long lsb = (0b10L << 62)
+                 | (ThreadLocalRandom.current().nextLong() & 0x3FFF_FFFF_FFFF_FFFFL);
+        return new UUID(msb, lsb);
+    }
+}
+```
+
+설계 선택 이유:
+- `AtomicReference<State>` CAS: timestamp + counter 원자적 갱신 → race condition 방지
+- `ThreadLocalRandom`: Virtual Thread 친화적 고성능 난수 (SecureRandom의 초기화 오버헤드 없음)
+- monotonic counter: 동일 ms 내 순서 보장, overflow(>= 0x1000) 시 next ms 대기
+- clock rollback: ts <= prev.timestamp이면 counter 증가 → 역행 방지
+
+**Id VO 템플릿 (UUIDv7 사용)**
+
+```java
+public record {Subject}Id(UUID value) {
     public {Subject}Id {
         Objects.requireNonNull(value, "{Subject}Id must not be null");
     }
 
     public static {Subject}Id generate() {
-        return new {Subject}Id(uuidV7());
-    }
-
-    private static UUID uuidV7() {
-        long ts = System.currentTimeMillis();
-        long msb = ((ts & 0x0000_FFFF_FFFF_FFFFL) << 16)
-                 | (0x7L << 12)
-                 | (SECURE_RANDOM.nextLong() & 0x0FFFL);
-        long lsb = (0b10L << 62)
-                 | (SECURE_RANDOM.nextLong() & 0x3FFF_FFFF_FFFF_FFFFL);
-        return new UUID(msb, lsb);
+        return new {Subject}Id(UUIDv7.generate());
     }
 }
 ```
@@ -292,13 +340,12 @@ class UseCaseBeanRegistrar implements BeanRegistrar {
 
 ```sql
 CREATE TABLE {subject} (
-    id          BINARY(16)    NOT NULL PRIMARY KEY,
+    id          UUID          NOT NULL PRIMARY KEY,
     status      VARCHAR(20)   NOT NULL,
     version     BIGINT        NOT NULL DEFAULT 0,
-    created_at  TIMESTAMP(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
-    updated_at  TIMESTAMP(6)  NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
-                              ON UPDATE CURRENT_TIMESTAMP(6)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+    created_at  TIMESTAMPTZ   NOT NULL DEFAULT now(),
+    updated_at  TIMESTAMPTZ   NOT NULL DEFAULT now()
+);
 ```
 
 ### DDL Backward Compatibility
@@ -326,6 +373,115 @@ Phase 2: 앱 코드 전환 (별도 릴리스)
 Phase 3: V{n+1}__drop_old_column.sql
   → 구 컬럼 삭제 (구 버전 앱이 완전히 내려간 후)
 ```
+
+---
+
+## 신규 BC 모듈 초기화 체크리스트
+
+새 BC를 추가할 때 아래 순서로 Gradle 모듈을 생성하고 등록한다.
+**구현 전 전략적 설계 완료 필수 (strategic-design.md 참조).**
+
+### Step 1: 디렉토리 구조
+
+```
+boilerplate/{bc}/
+  boilerplate-{bc}-domain/
+    build.gradle.kts
+    src/main/java/io/github/ppzxc/boilerplate/{bc}/domain/
+      package-info.java
+  boilerplate-{bc}-application/
+    build.gradle.kts
+    src/main/java/io/github/ppzxc/boilerplate/{bc}/application/
+      package-info.java
+  boilerplate-{bc}-configuration/
+    build.gradle.kts
+  boilerplate-{bc}-adapter-input-api/        (HTTP API 필요 시)
+    build.gradle.kts
+  boilerplate-{bc}-adapter-output-persist/
+    build.gradle.kts
+```
+
+### Step 2: 각 모듈 build.gradle.kts 내용
+
+```kotlin
+// boilerplate-{bc}-domain/build.gradle.kts
+label("java")
+label("coverage-gate")
+// dependencies 블록 없음 — D-1 외부 의존 제로
+
+// boilerplate-{bc}-application/build.gradle.kts
+label("java")
+label("coverage-gate")
+dependencies {
+    implementation(project(":boilerplate-{bc}-domain"))
+}
+
+// boilerplate-{bc}-adapter-input-api/build.gradle.kts
+label("java", "spring")
+dependencies {
+    implementation(project(":boilerplate-{bc}-application"))
+}
+
+// boilerplate-{bc}-adapter-output-persist/build.gradle.kts
+label("java", "spring", "jooq")
+dependencies {
+    implementation(project(":boilerplate-{bc}-application"))
+    implementation(project(":boilerplate-{bc}-domain"))
+}
+
+// boilerplate-{bc}-configuration/build.gradle.kts
+label("java", "spring")
+dependencies {
+    implementation(project(":boilerplate-{bc}-domain"))
+    implementation(project(":boilerplate-{bc}-application"))
+    implementation(project(":boilerplate-{bc}-adapter-input-api"))    // 필요 시
+    implementation(project(":boilerplate-{bc}-adapter-output-persist"))
+}
+```
+
+### Step 3: settings.gradle.kts 등록
+
+```kotlin
+// ── {BC명} BC ──────────────────────────────────────────────────────────
+module(name = ":boilerplate-{bc}-domain",
+       path = "boilerplate/{bc}/boilerplate-{bc}-domain")
+module(name = ":boilerplate-{bc}-application",
+       path = "boilerplate/{bc}/boilerplate-{bc}-application")
+module(name = ":boilerplate-{bc}-configuration",
+       path = "boilerplate/{bc}/boilerplate-{bc}-configuration")
+module(name = ":boilerplate-{bc}-adapter-input-api",
+       path = "boilerplate/{bc}/boilerplate-{bc}-adapter-input-api")
+module(name = ":boilerplate-{bc}-adapter-output-persist",
+       path = "boilerplate/{bc}/boilerplate-{bc}-adapter-output-persist")
+```
+
+### Step 4: boilerplate-boot-api/build.gradle.kts에 configuration 추가
+
+```kotlin
+dependencies {
+    // 기존 BC configuration 의존성들...
+    implementation(project(":boilerplate-{bc}-configuration"))
+}
+```
+
+### Step 5: package-info.java 생성
+
+```java
+// domain
+/** {BC명} 도메인 레이어 — 순수 Java, Spring/JSpecify 금지. */
+package io.github.ppzxc.boilerplate.{bc}.domain;
+
+// application
+/** {BC명} 애플리케이션 레이어 — 순수 Java, Spring/JSpecify 금지. */
+package io.github.ppzxc.boilerplate.{bc}.application;
+```
+
+### Step 6: 빌드 확인
+
+```bash
+./gradlew :boilerplate-{bc}-domain:compileJava --no-daemon
+```
+Expected: BUILD SUCCESSFUL
 
 ---
 

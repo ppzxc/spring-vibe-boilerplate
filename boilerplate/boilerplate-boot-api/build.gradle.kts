@@ -3,4 +3,7 @@
 // boot 라벨이 BootJar 활성화 처리
 dependencies {
   implementation(project(":boilerplate-application"))
+  implementation(libs.org.springframework.modulith.starter.jdbc)
+  implementation(libs.org.springframework.modulith.events.api)
+  runtimeOnly(libs.org.postgresql.postgresql)
 }

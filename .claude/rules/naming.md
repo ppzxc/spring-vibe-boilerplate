@@ -23,6 +23,8 @@ alwaysApply: true
 | Core (Out) | Load Port | `Load{Subject}Port` | `LoadUserPort` |
 | Core (Out) | Save Port | `Save{Subject}Port` | `SaveUserPort` |
 | Core (Out) | Query Port | `{Subject}QueryPort` | `UserQueryPort` |
+| Core (Out) | EventPublisher Port | `{BC}EventPublisherPort` | `IdentityEventPublisherPort` |
+| Adapter (Out) | EventPublisher 구현체 | `{Infra}{BC}EventPublisher` | `KafkaIdentityEventPublisher`, `WebhookIdentityEventPublisher` |
 | Adapter (Out) | Persistence 구현체 | `{Subject}PersistenceAdapter` | `UserPersistenceAdapter` |
 | Adapter (Out) | Query 구현체 | `{Subject}QueryAdapter` | `UserQueryAdapter` |
 | Adapter (Out) | Cache 구현체 | `{Infra}{Subject}Cache` | `RedisUserCache` |

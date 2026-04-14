@@ -92,11 +92,20 @@ public class UserPersistenceAdapter implements SaveUserPort {
 
 ## 3. 수동 매핑 (AD-4, AD-5)
 
-### AD-4 수동 매핑 강제
+### AD-4 명시적 매핑 강제 (Full Mapping 전략)
 
-- MUST: Domain ↔ 기술 구조(jOOQ Record, Web DTO 등) 변환은 명시적 Mapper로 수동 수행한다.
-- MUST NOT: ModelMapper, MapStruct 등 자동 매핑 라이브러리를 사용한다.
-- MUST: 모든 계층 경계에서 명시적 변환을 수행한다 (Full Mapping 전략).
+- MUST: Domain ↔ 기술 구조(jOOQ Record, Web DTO 등) 변환은 명시적 Mapper를 통해 수행한다.
+- MUST: 모든 계층 경계에서 명시적 변환을 수행한다 (Hombergs Full Mapping 전략).
+- MUST NOT: ModelMapper 등 **런타임 리플렉션 기반** 자동 매핑 라이브러리를 사용한다.
+- MAY: **Adapter / Configuration 계층**에서 MapStruct(컴파일 타임 코드 생성)를 사용한다.
+  - 조건: Mapper 인터페이스를 명시적으로 정의하고, 변환 규칙이 인터페이스에 선언되어 있어야 한다.
+  - 금지: Domain / Application 계층에서 MapStruct 사용.
+  - 금지: 암묵적 프로퍼티 이름 매칭에만 의존하는 Mapper (명시적 @Mapping 어노테이션 필수).
+- MUST NOT: jOOQ Generated Record를 Domain 모듈에 노출한다.
+
+> 근거: AD-4는 런타임 리플렉션 매핑(ModelMapper)의 타입 안전성 부재와 도메인 오염을 금지한다.
+> MapStruct는 컴파일 타임 코드 생성으로 "명시적 매퍼" 원칙과 상충하지 않는다.
+> build-recipe 라벨: `mapstruct` (adapter-input-api, adapter-output-persist 모듈에 필요 시 선언).
 
 ### AD-5 reconstitute() 사용
 

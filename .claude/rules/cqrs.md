@@ -363,6 +363,68 @@ Spring Modulith EventPublicationRegistry
 
 ---
 
+## 11. 이벤트 진화 (Backward Compatibility)
+
+Domain Event와 Integration Event는 컨슈머가 존재하는 한 **하위 호환성**을 유지해야 한다.
+
+| 변경 유형 | 허용 여부 | 방법 |
+|---------|---------|------|
+| 페이로드 필드 **추가** (nullable 또는 기본값) | 허용 | 기존 컨슈머는 새 필드를 무시 |
+| 5-field 표준 필드 **제거** | **금지** | — |
+| 기존 필드 **타입 변경** | **금지** | 새 이벤트 타입 신설 |
+| 기존 필드 **의미 변경** | **금지** | 새 이벤트 타입 신설 |
+| 새 이벤트 타입 **신설** | 허용 | sealed interface permits 갱신 |
+
+- MUST: 이벤트 스키마 변경 시 하위 호환성을 검토한다.
+- MUST: 하위 호환이 불가능한 변경은 **새 이벤트 타입**을 신설하고, 구 버전은 일정 기간 병행 발행한다.
+- MUST NOT: 기존 이벤트의 필드 타입이나 의미를 변경한다.
+- MUST NOT: 이벤트 타입에 `V1`, `V2` 버전 접미사를 붙인다. 대신 개념이 다른 새 타입으로 분리한다.
+
+**이벤트 진화 예시**
+
+```java
+// ✅ GOOD — 필드 추가 (하위 호환)
+// v1
+public record UserRegisteredEvent(
+    UUID eventId, String eventType, UUID aggregateId,
+    Instant occurredAt, long aggregateVersion,
+    String userName
+) implements UserEvent {}
+
+// v2 — email 추가 (새 컨슈머만 사용, 기존 컨슈머 영향 없음)
+public record UserRegisteredEvent(
+    UUID eventId, String eventType, UUID aggregateId,
+    Instant occurredAt, long aggregateVersion,
+    String userName,
+    String email   // 추가 — 기존 컨슈머는 무시 가능
+) implements UserEvent {}
+
+// ❌ BAD — 타입 변경 (하위 비호환)
+// userName: String → UserName(VO) 변경 금지
+```
+
+---
+
+## 12. CloudEvents 매핑 (참조)
+
+Spring Modulith의 Integration Event는 [CloudEvents v1.0](https://cloudevents.io/) 표준과 매핑된다.
+
+| CloudEvents 속성 | Spring Modulith / 본 프로젝트 대응 |
+|-----------------|----------------------------------|
+| `id` | `eventId` (UUIDv7) |
+| `source` | 서비스명 + BC명 (`boilerplate/identity`) |
+| `type` | `eventType` (예: `UserRegisteredEvent`) |
+| `time` | `occurredAt` (ISO-8601) |
+| `datacontenttype` | `application/json` |
+| `data` | 이벤트 페이로드 (나머지 필드) |
+| `traceparent` | W3C Trace Context 헤더 (OTel 자동 주입) |
+
+- MUST: Integration Event를 외부 메시지 브로커(Kafka, RabbitMQ 등)로 확장 시 CloudEvents 표준을 따른다.
+- MUST NOT: `traceparent`를 이벤트 페이로드(`data`)에 포함한다. 메시지 헤더로 전파 (observability.md §7 참조).
+- SHOULD: `source` 필드는 `{서비스명}/{bc명}` 형식으로 설정한다.
+
+---
+
 ## fallback 지시문
 
 ---

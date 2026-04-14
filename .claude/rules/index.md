@@ -7,7 +7,7 @@ alwaysApply: true
 
 이 파일은 항상 로드됩니다. 전체 rules 파일 목록과 로드 조건을 나타냅니다.
 
-> **전체 11개 파일 생성 완료.** 규칙 누락이나 충돌 발견 시 해당 ADR을 `docs/decisions/`에서 직접 읽고 대안을 제안하라.
+> **전체 14개 파일.** 규칙 누락이나 충돌 발견 시 해당 ADR을 `docs/decisions/`에서 직접 읽고 대안을 제안하라.
 
 | 파일 | 내용 | 로드 조건 |
 |------|------|----------|
@@ -22,6 +22,9 @@ alwaysApply: true
 | `domain.md` | Domain 계층 35개 규칙 중 D 규칙 — 순수성, Rich Model, Aggregate | `**/domain/**` |
 | `application.md` | Application 계층 규칙 — Port, UseCase, TX 경계, DTO | `**/application/**` |
 | `adapter.md` | Adapter 계층 규칙 — 경계, 매핑, jOOQ, 예외 변환, Optimistic Lock | `**/adapter/**` |
+| `harness.md` | build-recipe 라벨 상세, ArchUnit 규칙, 커버리지 게이트, Spotless/NullAway | 항상 |
+| `cicd.md` | CI 필수 게이트, CVSS 7.0+ 보안 스캔, 배포 전략, 환경별 설정 | 항상 |
+| `strategic-design.md` | BC 추가 전략적 설계 파이프라인 — Subdomain→UL→Context Map→DDD 깊이 | 항상 |
 
 ## ADR 참조 방식
 
