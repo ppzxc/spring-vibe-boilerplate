@@ -1,3 +1,8 @@
+---
+description: 전체 rules 파일 목록과 로드 조건 인덱스
+alwaysApply: true
+---
+
 # Rules Index
 
 이 파일은 항상 로드됩니다. 전체 rules 파일 목록과 로드 조건을 나타냅니다.

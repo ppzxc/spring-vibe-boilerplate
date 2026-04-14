@@ -1,6 +1,11 @@
+---
+description: CQRS Level 1 — Command/Query 분리, Output Port 3분할, Outbox 패턴, 이벤트 흐름
+alwaysApply: true
+---
+
 # CQRS Rules
 
-CQRS 규칙 — 항상 로드됨 (frontmatter 없음).
+CQRS 규칙 — 항상 로드.
 
 > **요구 수준 키워드**: MUST, MUST NOT, SHOULD는 RFC 2119 기준.
 

@@ -1,3 +1,8 @@
+---
+description: 모듈별 금지 import, 컴포넌트별 필수 패턴, 검증 책임 분리, Tier 매핑
+alwaysApply: true
+---
+
 # 검증 규칙
 
 ## 규칙 Tier 매핑

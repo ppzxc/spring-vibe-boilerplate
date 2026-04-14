@@ -1,3 +1,8 @@
+---
+description: 새 Aggregate/UseCase 생성 템플릿, Inside-Out 워크플로우, DDL 패턴
+alwaysApply: true
+---
+
 # 스캐폴딩 규칙
 
 ## 계층별 Java/Spring 기능 사용 범위
