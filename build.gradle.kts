@@ -105,8 +105,8 @@ configureByLabel("java") {
 
   configurations.all {
     resolutionStrategy {
-      force("com.google.errorprone:error_prone_annotations:2.48.0")
-      force("org.checkerframework:checker-qual:3.48.4")
+      force("com.google.errorprone:error_prone_annotations:2.49.0")
+      force("org.checkerframework:checker-qual:3.53.0")
       eachDependency {
         if (requested.group == "org.junit.platform" && requested.name == "junit-platform-launcher") {
           useVersion("6.0.3")
