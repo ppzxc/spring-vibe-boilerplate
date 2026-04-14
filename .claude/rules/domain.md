@@ -79,7 +79,7 @@ public final class User {
         }
         this.status = UserStatus.SUSPENDED;
         registerEvent(new UserSuspendedEvent(
-            UuidCreator.getTimeOrderedEpoch(), "UserSuspendedEvent", this.id.value(), occurredAt, this.version, reason
+            UUIDv7.generate(), "UserSuspendedEvent", this.id.value(), occurredAt, this.version, reason
         ));
     }
 }
@@ -181,7 +181,7 @@ public final class User {
     public static User create(UserName name, OwnerId ownerId, Instant now) {
         var user = new User(UserId.generate(), name, UserStatus.ACTIVE, ownerId, 0L);
         user.registerEvent(new UserRegisteredEvent(
-            UuidCreator.getTimeOrderedEpoch(), "UserRegisteredEvent", user.id.value(), now, 0L, name.value()
+            UUIDv7.generate(), "UserRegisteredEvent", user.id.value(), now, 0L, name.value()
         ));
         return user;
     }

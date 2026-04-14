@@ -64,7 +64,7 @@ public void deactivate(Instant now) {
     }
     this.status = UserStatus.DEACTIVATED;
     registerEvent(new UserDeactivatedEvent(
-        UuidCreator.getTimeOrderedEpoch(), "UserDeactivatedEvent",
+        UUIDv7.generate(), "UserDeactivatedEvent",
         this.id.value(), now, this.version));
 }
 ```
