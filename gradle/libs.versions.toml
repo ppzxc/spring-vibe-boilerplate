@@ -1,6 +1,7 @@
 [versions]
 # plugins
 org-springframework-boot = "4.0.5"
+org-springframework-modulith = "2.0.1"
 com-diffplug-spotless = "8.4.0"
 org-openrewrite-rewrite = "7.29.0"
 com-fizzpod-lefthook = "0.4.0"
@@ -62,6 +63,10 @@ com-github-ben-manes-caffeine = { group = "com.github.ben-manes.caffeine", name 
 org-springframework-boot-starter-actuator = { group = "org.springframework.boot", name = "spring-boot-starter-actuator" }
 org-springframework-boot-starter-webmvc-test = { group = "org.springframework.boot", name = "spring-boot-starter-webmvc-test" }
 org-springframework-security-test = { group = "org.springframework.security", name = "spring-security-test" }
+
+# spring modulith
+org-springframework-modulith-starter-jdbc = { group = "org.springframework.modulith", name = "spring-modulith-starter-jdbc", version.ref = "org-springframework-modulith" }
+org-springframework-modulith-events-api = { group = "org.springframework.modulith", name = "spring-modulith-events-api", version.ref = "org-springframework-modulith" }
 
 # observability
 io-micrometer-tracing-bridge-otel = { group = "io.micrometer", name = "micrometer-tracing-bridge-otel" }
