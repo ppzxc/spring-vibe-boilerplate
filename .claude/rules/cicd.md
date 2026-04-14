@@ -36,7 +36,7 @@ CI/CD 핵심 정책 — 항상 로드.
 ```kotlin
 // boilerplate-boot-api/build.gradle.kts
 plugins {
-    id("org.owasp.dependencycheck") version "latest"
+    id("org.owasp.dependencycheck") version "12.x.x"  // libs.versions.toml에서 최신 버전 확인
 }
 
 dependencyCheck {

@@ -122,8 +122,13 @@ noClasses().that().resideInAPackage("..application..")
     .should().dependOnClassesThat().resideInAPackage("org.springframework..")
     .check(classes);
 
-// application → @Transactional 금지 (A-4)
+// application → @Transactional 금지 (A-4) — 클래스 레벨
 noClasses().that().resideInAPackage("..application..")
+    .should().beAnnotatedWith(Transactional.class)
+    .check(classes);
+
+// application → @Transactional 금지 (A-4) — 메서드 레벨 (Tier 1 완전 보장)
+noMembers().that().areDeclaredInClassesThat().resideInAPackage("..application..")
     .should().beAnnotatedWith(Transactional.class)
     .check(classes);
 
