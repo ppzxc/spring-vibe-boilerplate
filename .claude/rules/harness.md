@@ -186,6 +186,158 @@ tasks.withType<JavaCompile> {
 
 ---
 
+## 7. test-support 모듈
+
+- MUST: 모든 BC의 테스트는 `test-support` 모듈을 `testImplementation`으로 의존한다. 하네스 코드 중복 금지.
+- MUST: test-support 모듈은 DomainTestBase, AdapterTestBase, Fixture Factory 등 공용 테스트 인프라를 제공한다.
+
+```kotlin
+// 각 모듈 build.gradle.kts
+dependencies {
+    testImplementation(project(":test-support"))
+}
+```
+
+### 7.1 DomainTestBase
+
+Domain 테스트의 공통 기반. Spring Context 절대 금지.
+
+```java
+// test-support/src/main/java/.../DomainTestBase.java
+public abstract class DomainTestBase {
+    protected static final Instant NOW = Instant.parse("2026-01-15T10:00:00Z");
+    protected static final Instant LATER = NOW.plusHours(1);
+
+    protected static UUID fixedUuidV7(long epochMillis) {
+        long msb = (epochMillis << 16) | 0x7000L | 0x0001L;
+        long lsb = 0x8000000000000001L;
+        return new UUID(msb, lsb);
+    }
+}
+```
+
+### 7.2 Testcontainers Singleton
+
+모든 Adapter 통합 테스트가 공유하는 단일 PostgreSQL 컨테이너.
+
+```java
+// test-support/src/main/java/.../AdapterTestBase.java
+@SpringBootTest
+@Testcontainers
+public abstract class AdapterTestBase {
+    @Container
+    static final PostgreSQLContainer<?> POSTGRES = new PostgreSQLContainer<>("postgres:17")
+        .withDatabaseName("app").withUsername("app").withPassword("app");
+
+    @DynamicPropertySource
+    static void overrideProps(DynamicPropertyRegistry registry) {
+        registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
+        registry.add("spring.datasource.username", POSTGRES::getUsername);
+        registry.add("spring.datasource.password", POSTGRES::getPassword);
+    }
+}
+```
+
+- MUST: `@Container` + `static`으로 테스트 클래스 간 컨테이너 재사용 (Singleton 패턴).
+
+### 7.3 DB 클린업
+
+- MUST: 각 테스트 메서드 전에 `@BeforeEach`에서 TRUNCATE로 데이터 초기화. `flyway_schema_history`와 `event_publication` 제외.
+
+### 7.4 Fixture Factory
+
+- MUST: Fixture 생성 시 `reconstitute()`를 사용한다. `create()`는 이벤트를 발행하므로 상태 설정 Fixture에 부적합.
+- MUST: 고정 `Instant`를 사용한다. `Instant.now()` 호출 금지.
+
+### 7.5 Clock 제어
+
+- MUST: 테스트 환경에서 `Clock.fixed()`를 Bean으로 등록하여 결정적 시간 제어.
+
+---
+
+## 8. Lefthook (로컬 Git Hooks)
+
+Lefthook은 Git hooks 관리자. CI 전 로컬에서 품질 검사를 실행하여 위반 코드 커밋/푸시 차단.
+
+```kotlin
+// build.gradle.kts
+plugins {
+    alias(libs.plugins.com.fizzpod.lefthook)
+}
+```
+
+```yaml
+# lefthook.yml
+pre-commit:
+  jobs:
+    - name: spotless-check
+      run: ./gradlew spotlessCheck
+    - name: checkstyle
+      glob: "*.java"
+      run: ./gradlew checkstyleMain
+
+pre-push:
+  jobs:
+    - name: unit-tests
+      run: ./gradlew test -x :*:adapter-*:test -x :*:configuration:test
+    - name: archunit
+      run: ./gradlew test --tests "*ArchitectureTest*"
+```
+
+- SHOULD: `lefthook.yml`은 리포지토리에 버전 관리. 팀 전원 동일 hooks. 로컬 오버라이드는 `lefthook-local.yml`(gitignore).
+- MUST: `./gradlew lefthookInstall`로 Git hooks 자동 설치.
+
+---
+
+## 9. PIT Mutation Testing
+
+PIT는 소스 코드에 의도적 변이(mutation)를 주입하고, 테스트가 이를 감지(kill)하는지 확인한다.
+
+```kotlin
+// 모듈별 적용
+pitest {
+    junit5PluginVersion.set("1.2.1")
+    targetClasses.set(setOf("io.github.ppzxc.boilerplate.*"))
+    threads.set(Runtime.getRuntime().availableProcessors())
+    outputFormats.set(setOf("HTML", "XML"))
+    timestampedReports.set(false)
+    mutationThreshold.set(80)
+    coverageThreshold.set(70)
+}
+```
+
+- MUST: domain, application 모듈에 PIT를 적용한다. mutationThreshold 80% 미달 시 빌드 실패.
+- JaCoCo(양적 검증) + PIT(질적 검증)을 보완적으로 사용한다.
+
+---
+
+## 10. OpenRewrite
+
+OpenRewrite는 자동 코드 리팩토링 엔진. 감지뿐 아니라 자동 수정을 수행한다.
+
+```kotlin
+apply(plugin = "org.openrewrite.rewrite")
+configure<RewriteExtension> {
+    configFile = rootProject.file("rewrite.yml")
+    activeRecipe("io.github.ppzxc.boilerplate.CodeQuality")
+}
+dependencies {
+    add("rewrite", libs.org.openrewrite.recipe.static.analysis)
+    add("rewrite", libs.org.openrewrite.recipe.migrate.java)
+    add("rewrite", libs.org.openrewrite.recipe.spring)
+}
+```
+
+| 레시피 | 역할 |
+|--------|------|
+| `static-analysis` | 불필요 import 제거, `final` 추가, 빈 블록 제거 |
+| `migrate-java` | Java 25 API 활용, deprecated API 교체 |
+| `spring` | Spring Boot 4 API 변경 자동 적용 |
+
+- SHOULD: `./gradlew rewriteDryRun`으로 미리보기 후 `./gradlew rewriteRun`으로 자동 수정.
+
+---
+
 ## fallback 지시문
 
 > 위 규칙을 현재 상황에 적용하기 어렵거나 규칙 간 충돌이 발생하면,
