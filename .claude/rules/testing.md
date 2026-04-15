@@ -486,6 +486,75 @@ class ArchitectureTest {
 
 ---
 
+## 10.1. Configuration 테스트
+
+TX 프록시와 EventTranslator가 올바르게 동작하는지 검증.
+
+### TX 프록시 검증
+
+```java
+@SpringBootTest
+@Testcontainers
+class TxProxyIntegrationTest {
+    @Container
+    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:17");
+
+    @DynamicPropertySource
+    static void props(DynamicPropertyRegistry r) {
+        r.add("spring.datasource.url", postgres::getJdbcUrl);
+    }
+
+    @Autowired private RegisterUserUseCase registerUseCase;
+    @Autowired private DSLContext dsl;
+
+    @Test
+    void UseCase_실행이_트랜잭션_내에서_완료() {
+        var command = new RegisterUserCommand("TX테스트", "tx@test.com", "pw");
+        registerUseCase.execute(command);
+        var count = dsl.selectCount().from("users")
+            .where(field("email").eq("tx@test.com")).fetchOne(0, int.class);
+        assertThat(count).isEqualTo(1);
+    }
+
+    @Test
+    void UseCase_실패_시_롤백() {
+        var cmd1 = new RegisterUserCommand("A", "rollback@test.com", "pw");
+        registerUseCase.execute(cmd1);
+        assertThatThrownBy(() -> registerUseCase.execute(
+            new RegisterUserCommand("B", "rollback@test.com", "pw")));
+        var count = dsl.selectCount().from("users")
+            .where(field("email").eq("rollback@test.com")).fetchOne(0, int.class);
+        assertThat(count).isEqualTo(1);
+    }
+}
+```
+
+### EventTranslator 검증
+
+```java
+@SpringBootTest
+@Testcontainers
+class EventTranslatorTest {
+    @Autowired private RegisterUserUseCase registerUseCase;
+    @Autowired private DSLContext dsl;
+
+    @Test
+    void DomainEvent에서_IntegrationEvent로_변환() {
+        registerUseCase.execute(new RegisterUserCommand("이벤트", "evt@test.com", "pw"));
+        await().atMost(Duration.ofSeconds(5)).untilAsserted(() -> {
+            var publications = dsl.selectFrom("event_publication")
+                .where(field("event_type").like("%UserRegisteredIntegrationEvent%"))
+                .fetch();
+            assertThat(publications).isNotEmpty();
+        });
+    }
+}
+```
+
+- MUST: Configuration 테스트는 `{bc}-configuration` 모듈의 `src/test/java`에 위치한다.
+
+---
+
 ## 11. 모듈별 테스트 파일 위치
 
 | 모듈 | 테스트 파일 | 도구 |
@@ -548,6 +617,18 @@ class ArchitectureTest {
 
 **Modulith — MUST**
 - [ ] `ApplicationModules.of().verify()` 검증
+
+**Configuration — SHOULD**
+- [ ] TX 프록시: UseCase 실행이 트랜잭션 내에서 완료 (커밋 후 DB 데이터 존재)
+- [ ] TX 프록시: UseCase 실패 시 롤백 검증
+- [ ] EventTranslator: DomainEvent → IntegrationEvent 변환 검증 (event_publication 테이블)
+
+**Modulith — MUST 보강**
+- [ ] `@ApplicationModuleTest(STANDALONE)` 모듈 단독 기동 검증
+- [ ] `PublishedEvents`로 Integration Event 발행 검증
+
+**Domain Property-Based — SHOULD**
+- [ ] jqwik `@Property` 테스트로 VO 경계값 검증 (유효/무효 입력)
 
 ---
 

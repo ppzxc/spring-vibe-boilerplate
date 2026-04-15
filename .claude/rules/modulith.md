@@ -24,6 +24,8 @@ Modulith 하이브리드 전략 규칙 — 항상 로드.
 
 - MUST: 신규 BC 추가 시 Gradle 멀티모듈 + `@Modulithic` 등록 모두 수행한다.
 - MUST NOT: Common 유틸리티 모듈 (`*-common`, `*-util`)을 생성한다. 공유는 `shared-event` 모듈(이벤트만) 또는 test-support(픽스처만)로 제한한다.
+- MUST: 멀티 모듈 구조를 사용한다. 단일 모듈 구조는 허용하지 않는다 (Part 3 §4.1).
+- MUST: 컴파일 타임에 아키텍처 위반을 원천 차단한다. ArchUnit은 보조 수단일 뿐, 1차 방어선이 될 수 없다.
 
 ---
 

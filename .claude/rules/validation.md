@@ -11,9 +11,9 @@ alwaysApply: true
 
 | Tier | 강제 수단 | 실패 시 대응 | 대상 규칙 |
 |------|----------|-------------|----------|
-| **Tier 1** | CI 자동 (ArchUnit, 금지 import 검사) | 빌드 실패 — 즉시 수정 | D-1~D-4, A-1, A-4, AD-1~AD-2 |
-| **Tier 2** | AI 자기검증 (PR 체크리스트) | AI가 자동 수정 후 재커밋 | D-5~D-14, A-2~A-3, A-5~A-11, AD-3~AD-7, T-1~T-3 |
-| **Tier 3** | 코드 리뷰 (사람) | 리뷰어 지적 시 수정 | 네이밍 규칙(D-12, 모듈명), Aggregate 크기·경계 설계, 전략적 설계 판단 |
+| **Tier 1** | CI 자동 (ArchUnit, Gradle 의존성 검사) | 빌드 실패 — 즉시 수정 | D-1, D-2, D-3, A-1, A-4, AD-1, AD-2 |
+| **Tier 2** | AI 자기검증 (import 스캔, 패턴 매칭) | AI가 자동 수정 후 재커밋 | D-4, D-6, D-8, D-13, D-14, A-2, A-3, A-6, A-7, A-9, A-10, AD-3, AD-5, AD-7, T-1~T-3 |
+| **Tier 3** | 코드 리뷰 (사람) | 리뷰어 지적 시 수정 | D-5, D-9, D-11, D-12, A-5, A-8, AD-4, AD-6 |
 
 - MUST: Tier 1 위반은 커밋 전에 반드시 해결한다.
 - MUST: Tier 2 위반은 AI가 자기검증 체크리스트로 확인 후 자동 수정한다.
@@ -143,8 +143,13 @@ MUST NOT (Domain 직접 참조 금지):
 - MUST NOT: Controller에서 TX 시작 (T-2)
 - MUST NOT: Port 구현체 내부에서 독립 TX 시작 (T-3)
 
+### Configuration 모듈
+- MUST: Bean 와이어링, TX 프록시, EventTranslator, 공유 인프라 Bean만 수행한다.
+- MUST NOT: Configuration 모듈에 if/else 비즈니스 판단, 도메인 로직, 데이터 변환 로직을 작성한다 (Part 3 §4.3).
+
 ### 추적성
 - MUST NOT: Domain Event 페이로드에 `traceId` 포함 — OpenTelemetry가 메시지 헤더로 전파 (A-11)
+- MUST NOT: Domain Event 페이로드에 `userId`(요청자), `tenantId` 포함 — 요청 컨텍스트는 Adapter가 메시지 헤더로 주입 (Part 12 §5.4)
 - MUST: 비즈니스 컨텍스트(userId, tenantId, permissions) 전파에 `ScopedValue` (Java 25) 사용
 - MUST NOT: `ThreadLocal` 사용 — Virtual Thread 환경 위험
 

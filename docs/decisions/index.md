@@ -35,6 +35,16 @@
 | [0014](0014-no-framework-annotations-in-domain.md) | Domain에 프레임워크 어노테이션 금지 | D-2 | Accepted |
 | [0015](0015-no-logging-framework-in-domain.md) | Domain에 로깅 프레임워크 금지 | D-3 | Accepted |
 
+### 인프라 & 보안 결정 (0016-0020)
+
+| ADR | 제목 | 관련 규칙 | 상태 |
+|-----|------|----------|------|
+| [0016](0016-ecs-log-format.md) | ECS JSON 구조화 로깅 채택 | observability.md §3 | Accepted |
+| [0017](0017-jib-container-build.md) | Jib 컨테이너 이미지 빌드 도구 채택 | cicd.md §6 | Accepted |
+| [0018](0018-github-actions-cicd.md) | GitHub Actions CI/CD 파이프라인 채택 | cicd.md §7 | Accepted |
+| [0019](0019-bc-based-authorization-placement.md) | BC 기반 인가 배치 원칙 | security.md §1-2 | Accepted |
+| [0020](0020-access-token-ttl-refresh-strategy.md) | Access Token TTL + Refresh Token 전략 | security.md §9 | Accepted |
+
 ## ADR 작성 가이드
 
 새 ADR은 다음 규칙을 따른다:
