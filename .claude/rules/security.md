@@ -81,6 +81,19 @@ public void execute(UpdateProfileCommand cmd) {
 }
 ```
 
+### 2단계 인가 판단 (Resource Server)
+
+IDP가 아닌 다른 BC(또는 외부 서비스)가 Resource Server로 동작할 때 2단계 인가를 수행한다.
+
+```
+1단계 (Scope):     "이 앱의 토큰에 write scope가 있는가?" → Filter/Interceptor (Adapter)
+2단계 (Permission): "이 사용자가 user:create 권한이 있는가?" → Application 계층 (AuthorizationPolicy)
+```
+
+- MUST: 1단계 Scope 검사는 Adapter(Filter/Interceptor)에서 수행한다.
+- MUST: 2단계 Permission 검사는 Application 계층에서 AuthorizationPolicy Output Port를 통해 수행한다.
+- MUST NOT: Controller에서 직접 Permission 검사를 수행한다.
+
 ---
 
 ## 3. 계층별 RequestContext 접근 규칙
@@ -283,10 +296,46 @@ OAuthScope: String name + Set<Permission>
 
 ### 토큰 비대화 방지 (Permission이 수백 개인 경우)
 
+엔터프라이즈 환경에서 Permission이 수백 개에 달하면 JWT HTTP Header Size Limit(8KB)을 초과할 수 있다.
+
+| 방안 | JWT 내용 | Permission 조회 | 적합한 상황 |
+|------|---------|----------------|-----------|
+| **A. Introspection** (기본) | scope만 | Resource Server가 `/introspect` 또는 Redis 캐시 | Permission 수가 많고, 실시간 권한 변경 필요 |
+| **B. Opaque Token** | 토큰 자체에 정보 없음 | 매 요청마다 IDP에 조회 | 보안 최우선, 토큰 탈취 위험 최소화 |
+| **C. Permission이 적은 경우** | scope + permissions 둘 다 | 불필요 | Permission 수십 개 이하, 단순한 서비스 |
+
+- MUST: 본 프로젝트는 방안 A(Introspection)를 기본으로 한다.
+- MAY: 보안 최우선 환경에서는 방안 B(Opaque Token)를 선택할 수 있다.
+
+### 외부 Resource Server 권한 갱신 전략
+
+외부 Resource Server는 다른 JVM이므로 Spring Modulith 이벤트가 닿지 않는다.
+
+**기본: 짧은 Access Token TTL + Refresh 순환**
+
 ```
-기본: JWT에는 OAuth2 Scope만 포함 (거친 수준)
-세밀한 Permission은 /introspect 엔드포인트 또는 Redis 캐시에서 조회
+Access Token TTL: 5~15분
+Refresh Token: 장기 유효
+
+1. Resource Server가 Access Token 검증 → 만료됨
+2. Client가 Refresh Token으로 새 Access Token 요청
+3. IDP가 그 시점의 최신 Permission으로 새 토큰 발급
+→ 최대 지연 = Access Token TTL
 ```
+
+**긴급: Token Revocation (강제 로그아웃, 권한 박탈)**
+
+- IDP가 해당 토큰을 Revocation List에 등록 → Resource Server가 /introspect 확인 → 즉시 차단.
+
+**프로젝트 성장 단계별 전략**
+
+| 단계 | 인프라 | 내부 BC 간 | 외부 Resource Server |
+|------|--------|----------|-------------------|
+| **초기** | Spring Modulith만 | Modulith 이벤트 (in-process) | 짧은 TTL + Revocation |
+| **성장기** | + Redis | Modulith 이벤트 + Redis pub/sub | Redis 캐시 + 이벤트 무효화 |
+| **확장기** | + Kafka | Modulith Externalization → Kafka | Kafka 구독 또는 OpenID CAEP |
+
+- SHOULD: 초기에는 짧은 Access Token TTL + Revocation으로 시작한다. 코드 변경 없이 인프라만 교체된다.
 
 ---
 
