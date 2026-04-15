@@ -1,5 +1,5 @@
 ---
-description: CI/CD 핵심 정책 — 보안 스캔 게이트, 배포 전략, 환경별 설정
+description: CI/CD 핵심 정책 — 보안 스캔 게이트, 배포 전략, Jib 빌드, GitHub Actions, 릴리스 관리
 alwaysApply: true
 ---
 
@@ -8,7 +8,6 @@ alwaysApply: true
 CI/CD 핵심 정책 — 항상 로드.
 
 > **요구 수준 키워드**: MUST, MUST NOT, SHOULD는 RFC 2119 기준.
-> 인프라 설정(Jenkinsfile, GitHub Actions workflow 상세)은 이 파일 범위 외.
 
 ---
 
@@ -96,6 +95,192 @@ spring:
 - MUST: `/actuator/health/readiness` 가 `UP`을 반환한 후 트래픽 라우팅을 전환한다.
 - MUST NOT: 컨테이너 시작 직후 바로 트래픽을 라우팅한다 (Spring Context 초기화 시간 필요).
 - MUST: Liveness probe 실패 시 컨테이너를 재시작하는 정책을 설정한다.
+
+---
+
+## 6. Jib 컨테이너 이미지 빌드
+
+Docker 파일 없이 OCI 이미지를 빌드. CI/CD 파이프라인에서 Gradle로 직접 이미지 생성.
+
+> 근거: ADR-0017
+
+```kotlin
+// boilerplate-boot-api/build.gradle.kts
+plugins {
+    id("com.google.cloud.tools.jib") version "3.x.x"  // libs.versions.toml에서 최신 버전 확인
+}
+
+jib {
+    from {
+        image = "eclipse-temurin:25-jre"
+    }
+    to {
+        image = "ghcr.io/ppzxc/boilerplate"
+        tags = setOf("latest", project.version.toString())
+    }
+    container {
+        jvmFlags = listOf(
+            "-XX:+UseZGC",                          // ZGC — 저지연 GC (Java 25 기본)
+            "-XX:+ZGenerational",                    // Generational ZGC
+            "-XX:MaxRAMPercentage=75.0",             // 컨테이너 메모리 75% 제한
+            "-Djava.security.egd=file:/dev/urandom"  // 빠른 난수 초기화
+        )
+        ports = listOf("8080")
+        environment = mapOf(
+            "SPRING_PROFILES_ACTIVE" to "prod"
+        )
+    }
+}
+```
+
+- MUST: `jib.to.image`에 버전 태그와 `latest` 태그를 모두 포함한다.
+- MUST: JVM 플래그에 ZGC(`-XX:+UseZGC`)를 포함한다. Java 25의 기본 GC이나 명시적으로 설정한다.
+- MUST: `-XX:MaxRAMPercentage`로 컨테이너 메모리 상한을 설정한다.
+- MUST NOT: `Dockerfile`을 직접 작성하여 이미지를 빌드한다. Jib을 사용한다.
+
+**CD 워크플로우 (push step)**
+
+```yaml
+# .github/workflows/cd.yml (일부)
+- name: Build and push image
+  run: ./gradlew :boilerplate-boot-api:jib
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+```
+
+---
+
+## 7. GitHub Actions CI 파이프라인
+
+> 근거: ADR-0018
+
+모든 PR에 대해 5개 게이트를 순서대로 실행한다.
+
+```yaml
+# .github/workflows/ci.yml
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      # Gate 1: 컴파일 + 코드 품질
+      - name: Compile & Code Quality
+        run: ./gradlew compileJava spotlessCheck checkstyleMain --no-daemon
+
+      # Gate 2: 단위/통합 테스트 + 커버리지
+      - name: Test & Coverage
+        run: ./gradlew test jacocoTestCoverageVerification --no-daemon
+
+      # Gate 3: 정적 분석 (ErrorProne + NullAway — compileJava에 포함)
+      - name: Static Analysis
+        run: ./gradlew compileTestJava --no-daemon
+
+      # Gate 4: Modulith 구조 검증 + ArchUnit
+      - name: Architecture Verification
+        run: ./gradlew test --tests "*ModulithStructureTest*" --tests "*ArchitectureTest*" --no-daemon
+
+      # Gate 5: 보안 취약점 스캔
+      - name: Security Scan (OWASP)
+        run: ./gradlew dependencyCheckAnalyze --no-daemon
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+```
+
+- MUST: CI 파이프라인은 `pull_request` + `push` 이벤트 모두에서 실행한다.
+- MUST: Gradle 실행 시 `--no-daemon` 플래그를 포함한다 (메모리 누수 방지 — harness.md §2 참조).
+- MUST: Java 캐시를 활성화하여 빌드 시간을 단축한다 (`cache: 'gradle'`).
+- MUST: NVD API Key를 GitHub Secrets에 등록한다. 없으면 OWASP 스캔이 느려짐.
+- MUST NOT: `secrets.*`를 코드에 하드코딩한다.
+
+---
+
+## 8. 릴리스 관리
+
+### Semantic Versioning
+
+- MUST: 버전 형식은 `MAJOR.MINOR.PATCH` (SemVer 2.0).
+- MUST: Breaking Change → MAJOR 증가. 새 기능 → MINOR 증가. 버그 수정 → PATCH 증가.
+- MUST NOT: SNAPSHOT, RC 등 비표준 접미사를 운영 배포에 사용한다.
+
+| 변경 유형 | 예시 | 버전 변경 |
+|----------|------|---------|
+| Breaking API change | Command/Event 스키마 비호환 변경 | 1.0.0 → 2.0.0 |
+| 새 기능 (호환) | 신규 UseCase 추가 | 1.0.0 → 1.1.0 |
+| 버그 수정 | 특정 조건에서의 NPE 수정 | 1.0.0 → 1.0.1 |
+
+### Git 태깅
+
+```bash
+# 릴리스 태그 생성 (v 접두어 필수)
+git tag -a v1.2.3 -m "Release v1.2.3"
+git push origin v1.2.3
+```
+
+- MUST: 릴리스 태그는 `v{MAJOR}.{MINOR}.{PATCH}` 형식 (`v` 접두어 필수).
+- MUST NOT: `main` 브랜치에 직접 태그를 수동으로 붙이지 않는다. GitHub Actions Release 워크플로우를 통해 자동화한다.
+
+### Release 워크플로우
+
+```yaml
+# .github/workflows/release.yml
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> $GITHUB_OUTPUT
+
+      - name: Build image and push
+        run: ./gradlew :boilerplate-boot-api:jib -Pversion=${{ steps.version.outputs.version }} --no-daemon
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          generate_release_notes: true
+          tag_name: ${{ github.ref_name }}
+```
+
+- MUST: Release 워크플로우는 `v*` 태그 푸시 이벤트에만 실행한다.
+- MUST: `packages: write` 권한으로 GHCR에 이미지를 푸시한다.
+- MUST: `generate_release_notes: true`로 GitHub이 PR 기반 릴리스 노트를 자동 생성한다.
 
 ---
 
