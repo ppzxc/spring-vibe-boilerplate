@@ -239,6 +239,40 @@ public final class {Subject} {
 }
 ```
 
+### 내부 Entity 템플릿 (Credential 패턴)
+
+Aggregate 내부의 하위 Entity. 외부에서 직접 접근 금지, package-private `create()`/`reconstitute()`.
+
+```java
+// {Subject} Aggregate 내부 Entity — 외부에서 직접 접근 금지
+public final class {ChildEntity} {
+    private final {ChildEntity}Id id;
+    private final {ChildEntity}Type type;
+    private final Instant createdAt;
+
+    private {ChildEntity}({ChildEntity}Id id, {ChildEntity}Type type, Instant createdAt) {
+        this.id = Objects.requireNonNull(id);
+        this.type = Objects.requireNonNull(type);
+        this.createdAt = Objects.requireNonNull(createdAt);
+    }
+
+    // package-private — Aggregate Root를 통해서만 생성
+    static {ChildEntity} create({ChildEntity}Type type, Instant now) {
+        return new {ChildEntity}({ChildEntity}Id.generate(), type, now);
+    }
+
+    static {ChildEntity} reconstitute({ChildEntity}Id id, {ChildEntity}Type type, Instant createdAt) {
+        return new {ChildEntity}(id, type, createdAt);
+    }
+
+    public {ChildEntity}Id id() { return id; }
+    public {ChildEntity}Type type() { return type; }
+}
+```
+
+- MUST: 내부 Entity의 `create()`, `reconstitute()`는 package-private. Aggregate Root를 통해서만 생성.
+- MUST: 외부에서 내부 Entity를 직접 생성하는 것을 금지한다.
+
 ### PersistenceAdapter 템플릿 (AD-3, AD-7)
 
 ```java
@@ -308,6 +342,83 @@ class {Context}BeanConfiguration {
 ```
 
 > **Anchor Comment**: 새 UseCase Bean 추가 시 `// --- AI_ANCHOR: ADD_NEW_USECASE_BEANS_HERE ---` 바로 **아래에** 삽입한다. 기존 코드를 건드리지 않는다.
+
+### EventTranslator 템플릿 (Domain → Integration)
+
+Configuration 모듈에서 Domain Event를 Integration Event로 변환한다.
+
+```java
+// {bc}-configuration 모듈
+@Component
+class {Bc}EventTranslator {
+    private final ApplicationEventPublisher publisher;
+
+    {Bc}EventTranslator(ApplicationEventPublisher publisher) {
+        this.publisher = publisher;
+    }
+
+    @TransactionalEventListener
+    void on({Subject}CreatedEvent event) {
+        publisher.publishEvent(new {Subject}CreatedIntegrationEvent(
+            event.aggregateId(),
+            event.occurredAt()
+        ));
+    }
+    // --- AI_ANCHOR: ADD_NEW_EVENT_TRANSLATION_HERE ---
+}
+```
+
+- MUST: EventTranslator는 Configuration 모듈에 위치한다.
+- MUST: `@TransactionalEventListener`로 Domain Event를 수신하고 Integration Event로 재발행한다.
+
+### BC 내 Aggregate 간 이벤트 기반 분리 템플릿
+
+같은 BC 내 Aggregate 간 통신은 Domain Event를 직접 사용한다 (Integration Event 불필요).
+
+```java
+// {bc}-adapter-input-event — 같은 BC 내 Aggregate 간
+@Component
+class {Subject}EventHandler {
+    private final {Verb}{Target}UseCase useCase;
+
+    @ApplicationModuleListener
+    void on({Subject}{Action}Event event) {
+        useCase.execute(new {Verb}{Target}Command(
+            event.aggregateId().toString()
+        ));
+    }
+}
+```
+
+- MUST: 1 TX = 1 Aggregate. 복수 Aggregate 변경이 필요하면 이벤트 기반으로 분리한다.
+- MUST: 이벤트 핸들러는 `adapter-input-event` 모듈에 위치한다.
+
+### Cross-BC Integration Event 수신 패턴 (adapter-input-event)
+
+다른 BC에서 발행한 Integration Event를 수신하는 핸들러 템플릿.
+
+```java
+// {bc}-adapter-input-event 모듈
+@Component
+class {Source}{Subject}EventHandler {
+    private final {Verb}{Target}UseCase useCase;
+
+    {Source}{Subject}EventHandler({Verb}{Target}UseCase useCase) {
+        this.useCase = useCase;
+    }
+
+    @ApplicationModuleListener
+    void on({Subject}{Action}IntegrationEvent event) {
+        useCase.execute(new {Verb}{Target}Command(
+            event.userId().toString(),
+            event.occurredAt().toString()
+        ));
+    }
+}
+```
+
+- MUST: BC 간 통신은 `@ApplicationModuleListener`로 Integration Event(shared-event 모듈)를 수신한다.
+- MUST: 핸들러는 UseCase를 통해 비즈니스 처리한다. 핸들러에서 직접 Port를 호출하지 않는다.
 
 ### BeanRegistrar 대안 (UseCase 10개 이상)
 
@@ -539,6 +650,26 @@ Create{Subject}Service.java
 [Phase 5: DDL]
 V{n}__create_{subject}.sql
 ```
+
+---
+
+## 신규 프로젝트 생성 9단계 템플릿
+
+**입력**: `{project}` (프로젝트명), `{context}` (첫 번째 BC), `{base-package}` (루트 패키지)
+
+| Step | 내용 | 참조 |
+|------|------|------|
+| 1 | `settings.gradle.kts` 생성 — module() 함수, 5개 BC 모듈 등록 | modulith.md §2 |
+| 2 | 루트 `build.gradle.kts` + `libs.versions.toml` 생성 | modulith.md §5 |
+| 3 | `{context}` BC 5개 모듈 디렉토리 트리 생성 | 위 §신규 BC 모듈 초기화 체크리스트 Step 1 |
+| 4 | 각 모듈 `build.gradle.kts` 생성 (label + dependencies) | 위 §신규 BC 모듈 초기화 체크리스트 Step 2 |
+| 5 | `{context}-domain`에 DomainEvent 인터페이스 생성 | 위 §Domain Event 템플릿 |
+| 6 | `shared-event` 모듈 생성 — Integration Event record | modulith.md §6 |
+| 7 | `boot-api` 모듈 생성 — `@Modulithic`, `application.yml` | modulith.md §2 |
+| 8 | Docker Compose 생성 (PostgreSQL + Grafana LGTM) | — |
+| 9 | Flyway 초기 DDL + `event_publication` 테이블 | 위 §DDL 템플릿 |
+
+- MUST: Step 1~9 순서를 지킨다. `./gradlew build`로 검증 후 첫 번째 Aggregate + UseCase 생성.
 
 ---
 
