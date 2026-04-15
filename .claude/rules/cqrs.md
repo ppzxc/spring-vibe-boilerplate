@@ -256,6 +256,23 @@ public void execute(TransferCommand cmd) {
 
 ---
 
+## 8.1. 동시성 제어 원칙
+
+멱등성이 "동일 요청의 중복 실행"을 방어한다면, 동시성 제어는 "서로 다른 요청이 동일 리소스를 동시에 변경하려 할 때"의 경합을 방어한다.
+
+| 전략 | 동작 방식 | 적합한 상황 |
+|------|-----------|-------------|
+| **Optimistic Lock** | Entity의 version 필드 기반, 갱신 시 version 불일치면 실패 | 충돌 빈도가 낮은 일반적인 경우 (기본 권장) |
+| **Pessimistic Lock** | DB 레코드를 `SELECT ... FOR UPDATE`로 잠금 | 충돌 빈도가 높고 반드시 순차 처리가 필요한 경우 |
+| **Compare-And-Set** | 상태 전이 조건을 WHERE 절에 포함하여 원자적 갱신 | 상태 머신 기반 전이 (예: `PENDING → APPROVED`) |
+
+- MUST: 모든 SavePort 구현체는 UPDATE 시 Aggregate의 `version` 필드를 WHERE 조건에 포함한다.
+- MUST: 영향 행이 0이면 도메인 예외를 발생시킨다 (Optimistic Lock 실패).
+- MUST: Pessimistic Lock 사용 시 근거를 ADR에 명시한다.
+- SHOULD: Optimistic Lock을 기본으로 선택한다.
+
+---
+
 ## 9. 이벤트 흐름 (A-6)
 
 ### A-6 Application Service에서 EventPublisher 직접 호출 금지
