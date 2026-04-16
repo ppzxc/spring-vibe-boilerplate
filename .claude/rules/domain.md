@@ -565,6 +565,11 @@ public final class AuditLog {
 | **Direct Aggregate Reference** | 다른 Aggregate 객체를 필드로 보유. | ID(VO)만 참조. 객체 참조 금지. [D-9] |
 | **Direct EventPublisher Call** | Application Service에서 EventPublisher 직접 호출. | SavePort 구현체(Adapter)가 pullDomainEvents() 후 발행. [AD-3] |
 | **Leaky Abstraction** | Domain Entity에 `@Entity`, `@Table` 등 기술 어노테이션 침투. | 순수 Java만. 기술 매핑은 Adapter Mapper에서 수동 수행. [D-1, D-2] |
+| **Primitive Obsession** | 도메인 의미가 있는 값을 `String`, `Long` 등 원시 타입으로 직접 사용. | record VO로 래핑. `UserId(UUID)`, `Email(String)` 등. [D-7] |
+| **Service Orchestration Overload** | Application Service에 if/else 비즈니스 판단이 집중. Domain이 빈 껍데기. | 비즈니스 판단을 Domain Entity/VO의 행위 메서드로 위임. [A-5] |
+| **Cross-Aggregate Transaction** | 하나의 UseCase에서 복수 Aggregate를 동일 TX로 변경. | 이벤트 기반으로 분리. 1 TX = 1 Aggregate. [A-9] |
+| **Event Amnesia** | SavePort 구현체에서 `pullDomainEvents()` 호출 누락. 이벤트 소실. | `save()` 내부에서 반드시 수거 후 `ApplicationEventPublisher.publishEvent()`. [AD-3] |
+| **Shotgun Parsing** | 입력 검증이 Controller, Service, Domain에 분산. 어디서 실패할지 불명확. | 검증 책임 분리: Command self-validation → VO Compact Constructor → Entity 불변식 순서 엄수. |
 
 ---
 

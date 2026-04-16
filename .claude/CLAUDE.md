@@ -56,3 +56,7 @@
 - 중요한 결정 발생 시 → ADR 먼저 작성 후 구현
 - 기존 rules의 MUST/MUST NOT 임의 변경 금지 → ADR 작성 후 사람 승인 필요
 - 규칙 충돌 시 → 해당 ADR 파일 직접 읽어 결정 배경 파악 후 대안 제안
+
+### 금지 경로
+
+- **MUST NOT**: `docs/playbook/` 디렉토리의 파일을 읽거나 참조한다. playbook 내용은 `.claude/rules/`와 `docs/decisions/`로 완전히 이관되었다. 모든 규칙과 템플릿은 rules 파일만을 정본으로 사용한다.
