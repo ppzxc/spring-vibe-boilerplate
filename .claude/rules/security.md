@@ -400,5 +400,6 @@ public record UserDeactivatedEvent(
 
 ---
 > 위 규칙을 현재 상황에 적용하기 어렵거나 규칙 간 충돌이 발생하면,
-> `docs/decisions/ADR-0013-*.md` 파일을 직접 읽어
+> `docs/decisions/ADR-0013-*.md`(Permission 패턴), `ADR-0019-*.md`(BC 기반 인가 배치 원칙),
+> `ADR-0020-*.md`(Access Token TTL + Refresh 전략) 파일을 직접 읽어
 > 결정의 배경을 파악한 후 최적의 대안을 제안하라.
