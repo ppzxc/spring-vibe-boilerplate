@@ -53,9 +53,9 @@ dependencies {
 
   testFixturesImplementation(libs.com.navercorp.fixture.monkey.starter)
 
-  "rewrite"(libs.org.openrewrite.recipe.static.analysis)
-  "rewrite"(libs.org.openrewrite.recipe.migrate.java)
-  "rewrite"(libs.org.openrewrite.recipe.spring)
+  rewrite(libs.org.openrewrite.recipe.static.analysis)
+  rewrite(libs.org.openrewrite.recipe.migrate.java)
+  rewrite(libs.org.openrewrite.recipe.spring)
 }
 
 tasks.withType<Test>().configureEach {
