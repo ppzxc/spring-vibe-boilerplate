@@ -8,14 +8,14 @@ plugins {
   idea
   `java-library`
   `java-test-fixtures`
-  id("org.springframework.boot")
-  id("io.spring.dependency-management")
-  id("net.ltgt.errorprone")
+  alias(libs.plugins.org.springframework.boot)
+  alias(libs.plugins.io.spring.dependency.management)
+  alias(libs.plugins.net.ltgt.errorprone)
   jacoco
   `jacoco-report-aggregation`
-  id("com.diffplug.spotless")
+  alias(libs.plugins.com.diffplug.spotless)
   checkstyle
-  id("org.openrewrite.rewrite")
+  alias(libs.plugins.org.openrewrite.rewrite)
 }
 
 java {
@@ -44,10 +44,10 @@ dependencies {
   annotationProcessor(libs.org.projectlombok.lombok)
 
   testRuntimeOnly(libs.org.junit.platform.launcher)
-  testImplementation("org.junit.jupiter:junit-jupiter")
-  testImplementation("org.assertj:assertj-core")
-  testImplementation("org.mockito:mockito-core")
-  testImplementation("org.mockito:mockito-junit-jupiter")
+  testImplementation(libs.org.junit.jupiter)
+  testImplementation(libs.org.assertj.core)
+  testImplementation(libs.org.mockito.core)
+  testImplementation(libs.org.mockito.junit.jupiter)
   testImplementation(libs.org.awaitility)
   testImplementation(libs.com.tngtech.archunit.junit5)
 
@@ -90,14 +90,14 @@ tasks.named<JavaCompile>("compileJava") {
 
 configurations.all {
   resolutionStrategy {
-    force("com.google.errorprone:error_prone_annotations:2.49.0")
-    force("org.checkerframework:checker-qual:3.53.0")
-    eachDependency {
-      if (requested.group == "org.junit.platform" && requested.name == "junit-platform-launcher") {
-        useVersion("6.0.3")
-        because("Spring Boot 4 / JUnit 6 requires junit-platform-launcher 6.0.3")
-      }
-    }
+    // guava(2.41.0)·caffeine(2.43.0)이 transitive로 가져오는 구버전을
+    // error_prone_core(2.49.0)와 동일 버전으로 정렬 — annotation processing class incompatibility 방지
+    force(libs.com.google.errorprone.annotations)
+    // postgresql JDBC가 transitive로 3.52.0을 요청 —
+    // NullAway/ErrorProne 정적 분석에 필요한 type qualifier 통일
+    force(libs.org.checkerframework.checker.qual)
+    // Spring Boot 4 / JUnit 6 호환 — spring-boot-starter-test가 가져오는 launcher를 6.0.3으로 강제
+    force(libs.org.junit.platform.launcher)
   }
 }
 
