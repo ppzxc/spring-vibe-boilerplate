@@ -1,3 +1,11 @@
+pluginManagement {
+  includeBuild("build-logic")
+  repositories {
+    gradlePluginPortal()
+    mavenCentral()
+  }
+}
+
 rootProject.name = "boilerplate"
 
 val modules: MutableList<Module> = mutableListOf()
