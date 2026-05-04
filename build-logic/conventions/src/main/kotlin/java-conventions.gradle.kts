@@ -2,14 +2,12 @@ import com.diffplug.gradle.spotless.SpotlessExtension
 import net.ltgt.gradle.errorprone.errorprone
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.openrewrite.gradle.RewriteExtension
-import org.springframework.boot.gradle.tasks.bundling.BootJar
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
   idea
   `java-library`
   `java-test-fixtures`
-  alias(libs.plugins.org.springframework.boot)
-  alias(libs.plugins.io.spring.dependency.management)
   alias(libs.plugins.net.ltgt.errorprone)
   jacoco
   `jacoco-report-aggregation`
@@ -24,13 +22,16 @@ java {
   }
 }
 
-// build-recipe-plugin 시절: allprojects { tasks.withType<BootJar> { enabled = false } }
-// → java-conventions 적용 모듈은 기본적으로 BootJar 비활성, boot-conventions가 재활성화.
-tasks.withType<BootJar>().configureEach {
-  enabled = false
-}
-
 dependencies {
+  // Spring Boot BOM via Gradle native platform —
+  // SpringBootPlugin.BOM_COORDINATES 상수를 사용해 spring-boot-gradle-plugin 버전과 자동 동기화.
+  // org.springframework.boot 플러그인은 apply하지 않고 클래스경로 상수만 사용 (java-conventions의 hexagonal 순수성 유지).
+  val springBootBom = platform(SpringBootPlugin.BOM_COORDINATES)
+  implementation(springBootBom)
+  testImplementation(springBootBom)
+  testFixturesImplementation(springBootBom)
+  annotationProcessor(springBootBom)
+
   implementation(platform(libs.org.testcontainers.bom))
 
   jacocoAggregation(rootProject)

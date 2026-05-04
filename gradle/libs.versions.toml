@@ -5,7 +5,6 @@ org-springframework-modulith = "2.0.1"
 com-diffplug-spotless = "8.4.0"
 org-openrewrite-rewrite = "7.30.0"
 com-fizzpod-lefthook = "0.4.0"
-io-spring-dependency-management = "1.1.7"
 net-ltgt-errorprone = "5.1.0"
 com-google-protobuf-plugin = "0.9.6"
 
@@ -151,7 +150,6 @@ org-springframework-boot = { id = "org.springframework.boot", version.ref = "org
 com-diffplug-spotless = { id = "com.diffplug.spotless", version.ref = "com-diffplug-spotless" }
 org-openrewrite-rewrite = { id = "org.openrewrite.rewrite", version.ref = "org-openrewrite-rewrite" }
 com-fizzpod-lefthook = { id = "com.fizzpod.lefthook", version.ref = "com-fizzpod-lefthook" }
-io-spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "io-spring-dependency-management" }
 net-ltgt-errorprone = { id = "net.ltgt.errorprone", version.ref = "net-ltgt-errorprone" }
 com-google-protobuf = { id = "com.google.protobuf", version.ref = "com-google-protobuf-plugin" }
 org-jooq-codegen-gradle = { id = "org.jooq.jooq-codegen-gradle", version.ref = "org-jooq-codegen-gradle" }
