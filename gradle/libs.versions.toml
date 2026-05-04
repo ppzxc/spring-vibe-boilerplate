@@ -36,7 +36,6 @@ com-uber-nullaway = "0.13.2"
 com-tngtech-archunit = "1.4.1"
 org-jspecify = "1.0.0"
 org-checkerframework-checker-qual = "3.53.0"
-org-junit-platform-launcher = "6.0.3"
 org-springdoc-openapi = "3.0.3"
 io-github-springwolf = "1.12.0"
 io-grpc = "1.80.0"
@@ -125,8 +124,8 @@ org-junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
 org-assertj-core = { group = "org.assertj", name = "assertj-core" }
 org-mockito-core = { group = "org.mockito", name = "mockito-core" }
 org-mockito-junit-jupiter = { group = "org.mockito", name = "mockito-junit-jupiter" }
-# junit-platform-launcher — Spring Boot 4 / JUnit 6 호환을 위해 6.0.3 명시 (BOM 미사용)
-org-junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher", version.ref = "org-junit-platform-launcher" }
+# junit-platform-launcher — Spring Boot BOM(spring-boot-dependencies → junit-bom) 관리
+org-junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 org-awaitility = { group = "org.awaitility", name = "awaitility", version.ref = "org-awaitility" }
 com-tngtech-archunit-junit5 = { group = "com.tngtech.archunit", name = "archunit-junit5", version.ref = "com-tngtech-archunit" }
 com-navercorp-fixture-monkey-starter = { group = "com.navercorp.fixturemonkey", name = "fixture-monkey-starter", version.ref = "com-navercorp-fixture-monkey" }

@@ -92,13 +92,14 @@ tasks.named<JavaCompile>("compileJava") {
 configurations.all {
   resolutionStrategy {
     // guava(2.41.0)·caffeine(2.43.0)이 transitive로 가져오는 구버전을
-    // error_prone_core(2.49.0)와 동일 버전으로 정렬 — annotation processing class incompatibility 방지
+    // error_prone_core(2.49.0)와 동일 버전으로 정렬 — annotation processing class incompatibility 방지.
+    // BOM(spring-boot-dependencies)이 errorprone-annotations 미관리 영역이라 force 필요.
     force(libs.com.google.errorprone.annotations)
     // postgresql JDBC가 transitive로 3.52.0을 요청 —
-    // NullAway/ErrorProne 정적 분석에 필요한 type qualifier 통일
+    // NullAway/ErrorProne 정적 분석에 필요한 type qualifier 통일.
+    // BOM이 checker-qual 미관리 영역이라 force 필요.
     force(libs.org.checkerframework.checker.qual)
-    // Spring Boot 4 / JUnit 6 호환 — spring-boot-starter-test가 가져오는 launcher를 6.0.3으로 강제
-    force(libs.org.junit.platform.launcher)
+    // junit-platform-launcher는 spring-boot-dependencies → junit-bom 6.0.3이 자동 관리하므로 force 불필요.
   }
 }
 
