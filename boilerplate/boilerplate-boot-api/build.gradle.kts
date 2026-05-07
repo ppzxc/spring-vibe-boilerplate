@@ -1,6 +1,9 @@
 // boilerplate-boot-api: 메인 API 서버 진입점 (port 8080)
-// spring 라벨이 spring-boot-starter, spring-boot-starter-test 처리
-// boot 라벨이 BootJar 활성화 처리
+// boot-conventions가 java + spring + boot 누적 적용 (BootJar 활성화 포함)
+plugins {
+  id("boot-conventions")
+}
+
 dependencies {
   implementation(project(":boilerplate-application"))
   implementation(libs.org.springframework.modulith.starter.jdbc)

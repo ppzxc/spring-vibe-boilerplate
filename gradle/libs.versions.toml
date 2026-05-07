@@ -5,8 +5,6 @@ org-springframework-modulith = "2.0.1"
 com-diffplug-spotless = "8.4.0"
 org-openrewrite-rewrite = "7.30.0"
 com-fizzpod-lefthook = "0.4.0"
-io-spring-dependency-management = "1.1.7"
-com-linecorp-build-recipe-plugin = "1.1.1"
 net-ltgt-errorprone = "5.1.0"
 com-google-protobuf-plugin = "0.9.6"
 
@@ -37,6 +35,7 @@ com-google-errorprone-core = "2.49.0"
 com-uber-nullaway = "0.13.2"
 com-tngtech-archunit = "1.4.1"
 org-jspecify = "1.0.0"
+org-checkerframework-checker-qual = "4.0.0"
 org-springdoc-openapi = "3.0.3"
 io-github-springwolf = "1.12.0"
 io-grpc = "1.80.0"
@@ -112,12 +111,20 @@ org-jspecify = { group = "org.jspecify", name = "jspecify", version.ref = "org-j
 
 # errorprone + nullaway
 com-google-errorprone-core = { group = "com.google.errorprone", name = "error_prone_core", version.ref = "com-google-errorprone-core" }
+com-google-errorprone-annotations = { group = "com.google.errorprone", name = "error_prone_annotations", version.ref = "com-google-errorprone-core" }
 com-uber-nullaway = { group = "com.uber.nullaway", name = "nullaway", version.ref = "com-uber-nullaway" }
+org-checkerframework-checker-qual = { group = "org.checkerframework", name = "checker-qual", version.ref = "org-checkerframework-checker-qual" }
 
 # testcontainers (BOM)
 org-testcontainers-bom = { group = "org.testcontainers", name = "testcontainers-bom", version.ref = "org-testcontainers-bom" }
 
 # test utilities
+# JUnit / AssertJ / Mockito — Spring Boot BOM 관리, version 없음
+org-junit-jupiter = { group = "org.junit.jupiter", name = "junit-jupiter" }
+org-assertj-core = { group = "org.assertj", name = "assertj-core" }
+org-mockito-core = { group = "org.mockito", name = "mockito-core" }
+org-mockito-junit-jupiter = { group = "org.mockito", name = "mockito-junit-jupiter" }
+# junit-platform-launcher — Spring Boot BOM(spring-boot-dependencies → junit-bom) 관리
 org-junit-platform-launcher = { group = "org.junit.platform", name = "junit-platform-launcher" }
 org-awaitility = { group = "org.awaitility", name = "awaitility", version.ref = "org-awaitility" }
 com-tngtech-archunit-junit5 = { group = "com.tngtech.archunit", name = "archunit-junit5", version.ref = "com-tngtech-archunit" }
@@ -142,8 +149,6 @@ org-springframework-boot = { id = "org.springframework.boot", version.ref = "org
 com-diffplug-spotless = { id = "com.diffplug.spotless", version.ref = "com-diffplug-spotless" }
 org-openrewrite-rewrite = { id = "org.openrewrite.rewrite", version.ref = "org-openrewrite-rewrite" }
 com-fizzpod-lefthook = { id = "com.fizzpod.lefthook", version.ref = "com-fizzpod-lefthook" }
-io-spring-dependency-management = { id = "io.spring.dependency-management", version.ref = "io-spring-dependency-management" }
-com-linecorp-build-recipe-plugin = { id = "com.linecorp.build-recipe-plugin", version.ref = "com-linecorp-build-recipe-plugin" }
 net-ltgt-errorprone = { id = "net.ltgt.errorprone", version.ref = "net-ltgt-errorprone" }
 com-google-protobuf = { id = "com.google.protobuf", version.ref = "com-google-protobuf-plugin" }
 org-jooq-codegen-gradle = { id = "org.jooq.jooq-codegen-gradle", version.ref = "org-jooq-codegen-gradle" }
