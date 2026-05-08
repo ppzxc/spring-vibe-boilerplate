@@ -1,0 +1,14 @@
+pre-commit:
+  jobs:
+    - name: spotless-check
+      run: ./gradlew spotlessCheck --no-daemon
+    - name: checkstyle
+      glob: "*.java"
+      run: ./gradlew checkstyleMain --no-daemon
+
+pre-push:
+  jobs:
+    - name: unit-tests
+      run: ./gradlew test -x :boilerplate-boot-api:test --no-daemon
+    - name: archunit
+      run: ./gradlew :boilerplate-boot-api:test --tests "*ArchitectureTest*" --no-daemon

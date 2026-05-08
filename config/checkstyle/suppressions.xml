@@ -37,4 +37,7 @@
   <suppress checks="MissingJavadocType" files=".*Fixture\.java$"/>
   <suppress checks="MissingJavadocType" files=".*Factory\.java$"/>
 
+  <!-- UUIDv7: RFC 9562 표준 명칭 — UUID 약어 4자 허용 -->
+  <suppress checks="AbbreviationAsWordInName" files=".*UUIDv7\.java$"/>
+
 </suppressions>

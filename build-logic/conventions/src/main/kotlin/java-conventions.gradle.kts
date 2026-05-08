@@ -89,6 +89,13 @@ tasks.named<JavaCompile>("compileJava") {
   options.errorprone.error("NullAway")
 }
 
+// 테스트 메서드명에 한글 사용 허용 (testing.md — 의도적 설계)
+tasks.named<JavaCompile>("compileTestJava") {
+  options.errorprone {
+    disable("UnicodeInCode")
+  }
+}
+
 configurations.all {
   resolutionStrategy {
     // guava(2.41.0)·caffeine(2.43.0)이 transitive로 가져오는 구버전을

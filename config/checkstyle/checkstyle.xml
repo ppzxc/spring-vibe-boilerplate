@@ -56,7 +56,7 @@
       <property name="ignoreFinal" value="false"/>
       <property name="allowedAbbreviationLength" value="2"/>
       <property name="allowedAbbreviations"
-          value="IT,UI,IO,API,URL,URI,ID,DTO,JWT,WS,MQ,DB,SQL,HTTP,REST,RPC,OK"/>
+          value="IT,UI,IO,API,URL,URI,UUID,ID,DTO,JWT,WS,MQ,DB,SQL,HTTP,REST,RPC,OK"/>
     </module>
 
     <!-- ── Import 규칙 ────────────────────────────────────────────── -->
