@@ -10,6 +10,7 @@ dependencies {
   implementation(project(":boilerplate-shared-security"))
   implementation(project(":boilerplate-identity-configuration"))
   implementation(project(":boilerplate-notification-configuration"))
+  implementation(project(":boilerplate-audit-configuration"))
   implementation(libs.org.springframework.modulith.starter.jdbc)
   implementation(libs.org.springframework.modulith.events.api)
   implementation(libs.org.springframework.boot.starter.web)

@@ -38,5 +38,12 @@ module(name = ":boilerplate-notification-adapter-input-event",  path = "boilerpl
 module(name = ":boilerplate-notification-adapter-output-persist", path = "boilerplate/notification/boilerplate-notification-adapter-output-persist")
 module(name = ":boilerplate-notification-configuration",        path = "boilerplate/notification/boilerplate-notification-configuration")
 
+// ── Audit BC ──────────────────────────────────────────────────────────
+module(name = ":boilerplate-audit-domain",                 path = "boilerplate/audit/boilerplate-audit-domain")
+module(name = ":boilerplate-audit-application",            path = "boilerplate/audit/boilerplate-audit-application")
+module(name = ":boilerplate-audit-adapter-input-event",    path = "boilerplate/audit/boilerplate-audit-adapter-input-event")
+module(name = ":boilerplate-audit-adapter-output-persist", path = "boilerplate/audit/boilerplate-audit-adapter-output-persist")
+module(name = ":boilerplate-audit-configuration",          path = "boilerplate/audit/boilerplate-audit-configuration")
+
 // ── Apps (실행 가능한 애플리케이션) ────────────────────────────────────
 module(name = ":boilerplate-boot-api", path = "boilerplate/boilerplate-boot-api")
