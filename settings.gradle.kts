@@ -31,5 +31,12 @@ module(name = ":boilerplate-identity-adapter-input-api",    path = "boilerplate/
 module(name = ":boilerplate-identity-adapter-output-persist", path = "boilerplate/identity/boilerplate-identity-adapter-output-persist")
 module(name = ":boilerplate-identity-configuration",        path = "boilerplate/identity/boilerplate-identity-configuration")
 
+// ── Notification BC ───────────────────────────────────────────────────
+module(name = ":boilerplate-notification-domain",               path = "boilerplate/notification/boilerplate-notification-domain")
+module(name = ":boilerplate-notification-application",          path = "boilerplate/notification/boilerplate-notification-application")
+module(name = ":boilerplate-notification-adapter-input-event",  path = "boilerplate/notification/boilerplate-notification-adapter-input-event")
+module(name = ":boilerplate-notification-adapter-output-persist", path = "boilerplate/notification/boilerplate-notification-adapter-output-persist")
+module(name = ":boilerplate-notification-configuration",        path = "boilerplate/notification/boilerplate-notification-configuration")
+
 // ── Apps (실행 가능한 애플리케이션) ────────────────────────────────────
 module(name = ":boilerplate-boot-api", path = "boilerplate/boilerplate-boot-api")
