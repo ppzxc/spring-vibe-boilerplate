@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+  <!--
+    억제 항목 형식:
+    <suppress>
+      <notes>ADR-XXXX: [억제 근거] 업그레이드 불가 이유</notes>
+      <cve>CVE-XXXX-XXXXX</cve>
+    </suppress>
+
+    MUST: 억제된 CVE는 ADR 번호와 근거를 반드시 포함한다 (cicd.md §2).
+    MUST: 분기별 재검토한다.
+  -->
+</suppressions>

@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Java 25
+        uses: actions/setup-java@v4
+        with:
+          java-version: '25'
+          distribution: 'temurin'
+          cache: 'gradle'
+
+      # Gate 1: 컴파일 + 코드 품질
+      - name: Compile & Code Quality
+        run: ./gradlew compileJava spotlessCheck checkstyleMain --no-daemon
+
+      # Gate 2: 단위/통합 테스트 + 커버리지
+      - name: Test & Coverage
+        run: ./gradlew test jacocoTestCoverageVerification --no-daemon
+
+      # Gate 3: 정적 분석 (ErrorProne + NullAway — compileJava에 포함)
+      - name: Static Analysis
+        run: ./gradlew compileTestJava --no-daemon
+
+      # Gate 4: Modulith 구조 검증 + ArchUnit
+      - name: Architecture Verification
+        run: ./gradlew :boilerplate-boot-api:test --tests "*ModulithStructureTest*" --tests "*ArchitectureTest*" --no-daemon
+
+      # Gate 5: 보안 취약점 스캔 (CVSS 7.0+ 시 실패)
+      - name: Security Scan (OWASP)
+        run: ./gradlew :boilerplate-boot-api:dependencyCheckAnalyze --no-daemon
+        env:
+          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}

@@ -7,7 +7,7 @@ alwaysApply: true
 
 이 파일은 항상 로드됩니다. 전체 rules 파일 목록과 로드 조건을 나타냅니다.
 
-> **전체 14개 파일.** 규칙 누락이나 충돌 발견 시 해당 ADR을 `docs/decisions/`에서 직접 읽고 대안을 제안하라.
+> **전체 15개 파일.** 규칙 누락이나 충돌 발견 시 해당 ADR을 `docs/decisions/`에서 직접 읽고 대안을 제안하라.
 
 | 파일 | 내용 | 로드 조건 |
 |------|------|----------|
@@ -25,6 +25,7 @@ alwaysApply: true
 | `harness.md` | build-recipe 라벨 상세, ArchUnit 규칙, 커버리지 게이트, Spotless/NullAway | 항상 |
 | `cicd.md` | CI 필수 게이트, CVSS 7.0+ 보안 스캔, 배포 전략, 환경별 설정 | 항상 |
 | `strategic-design.md` | BC 추가 전략적 설계 파이프라인 — Subdomain→UL→Context Map→DDD 깊이 | 항상 |
+| `context-map-pointer.md` | BC 작업 시 `docs/ddd/` 산출물 참조 강제, UL 충돌 검사, 갱신 워크플로우 | 항상 |
 
 ## ADR 참조 방식
 

@@ -594,6 +594,15 @@ package io.github.ppzxc.boilerplate.{bc}.application;
 ```
 Expected: BUILD SUCCESSFUL
 
+### Step 7: `docs/ddd/` 산출물 갱신 (MUST)
+
+새 BC 추가 시 다음 4개 파일을 모두 갱신한다 (`context-map-pointer.md` §3 참조):
+
+- [ ] `docs/ddd/context-map.md` — §1 Subdomain 분류 표에 행 추가, §2 다이어그램에 BC + 관계 추가
+- [ ] `docs/ddd/ubiquitous-language-{bc}.md` — 신규 파일 작성 (`ubiquitous-language-identity.md` 구조 참조)
+- [ ] `docs/ddd/module-bc-mapping.md` — Step 1~6에서 추가한 Gradle 모듈 행 추가
+- [ ] `docs/ddd/strategic-design-changelog.md` — 날짜, 변경 유형, 내용 기록
+
 ---
 
 ## 새 UseCase 추가 체크리스트
