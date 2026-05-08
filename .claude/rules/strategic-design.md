@@ -33,6 +33,9 @@ alwaysApply: true
 
 ## 2. Step 1: Subdomain 분류
 
+- MUST: Subdomain 분류 시작 전에 `docs/ddd/context-map.md`를 먼저 읽는다.
+- MUST: 기존 BC들의 Subdomain 유형을 파악하여 일관성을 유지한다.
+
 질문: "이 문제 영역이 비즈니스에서 어떤 위치를 차지하는가?"
 
 | Subdomain 유형 | 특징 | DDD 전략 |
@@ -90,7 +93,12 @@ Upstream/Downstream (U/D):
 
 - MUST: 신규 BC 추가 시 기존 BC와의 관계를 Context Map에 명시한다.
 - MUST: BC 간 통신은 항상 Integration Event(shared-event)를 통한다. 직접 도메인 모델 공유 금지.
-- SHOULD: Context Map은 `docs/architecture/context-map.md`에 ASCII 다이어그램으로 유지한다.
+- MUST: Context Map은 `docs/ddd/context-map.md`에 ASCII 다이어그램으로 유지한다.
+- MUST: 신규 BC 추가 시 `docs/ddd/` 산출물을 모두 갱신한다 (`context-map-pointer.md` §3 참조).
+   - `docs/ddd/context-map.md` — §1 Subdomain 표에 행 추가, §2 다이어그램에 BC + 관계 추가
+   - `docs/ddd/ubiquitous-language-{bc}.md` — 신규 파일 작성 (`ubiquitous-language-identity.md` 참조)
+   - `docs/ddd/module-bc-mapping.md` — 신규 Gradle 모듈 행 추가
+   - `docs/ddd/strategic-design-changelog.md` — 변경 이력 기록
 
 ---
 
