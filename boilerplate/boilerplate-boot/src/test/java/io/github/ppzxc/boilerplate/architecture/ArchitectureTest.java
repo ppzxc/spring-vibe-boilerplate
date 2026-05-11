@@ -65,6 +65,21 @@ class ArchitectureTest {
         .check(classes);
   }
 
+  // ── D-4(확장): domain → System.currentTimeMillis() 금지 (UUIDv7 생성기 면제)
+  // ADR-0011: UUIDv7 generator는 식별자 생성 구현 세부사항이므로 D-4 면제.
+  // Instant 주입 시 monotonic counter spin-wait 데드락 위험으로 대안 없음.
+  @Test
+  void domain_System_currentTimeMillis_금지_UUIDv7_면제() {
+    noClasses()
+        .that()
+        .resideInAPackage("..domain..")
+        .and()
+        .doNotHaveSimpleName("UUIDv7")
+        .should()
+        .callMethod(System.class, "currentTimeMillis")
+        .check(classes);
+  }
+
   // ── ADR-0011: domain → UUID.randomUUID() 금지 (UUIDv7 강제) ─────────
   @Test
   void domain_UUID_randomUUID_금지() {
@@ -123,15 +138,15 @@ class ArchitectureTest {
         .check(classes);
   }
 
-  // ── AD-1: adapter.input → domain.model 직접 참조 금지 ───────────────
+  // ── AD-1: adapter.input → domain 직접 참조 금지 (model/exception/event/service 전체) ──
   @Test
-  void adapter_input_domain_model_직접_참조_금지() {
+  void adapter_input_domain_직접_참조_금지() {
     noClasses()
         .that()
         .resideInAPackage("..adapter.input..")
         .should()
         .dependOnClassesThat()
-        .resideInAPackage("..domain.model..")
+        .resideInAPackage("..domain..")
         .check(classes);
   }
 

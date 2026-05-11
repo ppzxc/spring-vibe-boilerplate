@@ -7,6 +7,8 @@ plugins {
 dependencies {
   implementation(project(":boilerplate-shared-event"))
   implementation(project(":boilerplate-shared-security"))
+  implementation(project(":boilerplate-identity-domain"))
+  implementation(project(":boilerplate-identity-application"))
   implementation(project(":boilerplate-identity-configuration"))
   implementation(project(":boilerplate-notification-configuration"))
   implementation(project(":boilerplate-audit-configuration"))

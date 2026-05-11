@@ -1,6 +1,5 @@
-package io.github.ppzxc.boilerplate.identity.adapter.input.api;
+package io.github.ppzxc.boilerplate.boot.web;
 
-import io.github.ppzxc.boilerplate.identity.adapter.input.api.dto.FieldViolation;
 import io.github.ppzxc.boilerplate.identity.application.port.output.OptimisticLockException;
 import io.github.ppzxc.boilerplate.identity.domain.exception.UserException;
 import io.github.ppzxc.boilerplate.shared.AccessDeniedException;
@@ -17,9 +16,9 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-/** RFC 9457 problem+json 예외 변환 핸들러 (AIP-193). */
+/** RFC 9457 problem+json 전역 예외 변환 핸들러 (AIP-193). boot 모듈에 위치하여 전체 BC 예외에 접근 가능. */
 @RestControllerAdvice
-public class ProblemDetailExceptionHandler {
+public class GlobalExceptionHandler {
 
   @ExceptionHandler(NoSuchElementException.class)
   public ProblemDetail handleNoSuchElement(NoSuchElementException ex, HttpServletRequest req) {
