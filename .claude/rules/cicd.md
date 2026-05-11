@@ -23,39 +23,7 @@ CI/CD 핵심 정책 — 항상 로드.
 | 코드 품질 | Spotless + Checkstyle | 즉시 차단 |
 | 정적 분석 | ErrorProne + NullAway | 즉시 차단 |
 | Modulith 구조 검증 | `ApplicationModules.verify()` | 즉시 차단 |
-| **보안 취약점 스캔** | OWASP Dependency-Check | CVSS 7.0+ 즉시 차단 |
-
-- MUST: CVSS 7.0 이상 취약점이 있는 의존성은 PR 병합 전에 업데이트하거나 억제(`suppress`) ADR을 작성한다.
-- MUST NOT: 보안 스캔을 skip하거나 threshold를 임의로 높인다.
-
----
-
-## 2. 보안 스캔 설정
-
-```kotlin
-// boilerplate-boot/build.gradle.kts
-plugins {
-    id("org.owasp.dependencycheck") version "12.x.x"  // libs.versions.toml에서 최신 버전 확인
-}
-
-dependencyCheck {
-    failBuildOnCVSS = 7.0f          // CVSS 7.0+ = 빌드 실패
-    suppressionFile = "dependency-check-suppressions.xml"
-}
-```
-
-```xml
-<!-- dependency-check-suppressions.xml 억제 형식 -->
-<suppressions>
-  <suppress>
-    <notes>ADR-XXXX: [근거] 업그레이드 불가 이유</notes>
-    <cve>CVE-XXXX-XXXXX</cve>
-  </suppress>
-</suppressions>
-```
-
-- MUST: 억제된 CVE는 반드시 ADR 번호와 근거를 포함한다.
-- MUST: 억제된 CVE는 분기별 재검토한다.
+**보안 취약점 스캔은 Dependabot에 위임한다.** GitHub Dependabot이 의존성 CVE에 대해 자동으로 PR을 생성한다. 별도의 CI 게이트는 두지 않는다.
 
 ---
 
@@ -195,17 +163,11 @@ jobs:
       - name: Architecture Verification
         run: ./gradlew test --tests "*ModulithStructureTest*" --tests "*ArchitectureTest*" --no-daemon
 
-      # Gate 5: 보안 취약점 스캔
-      - name: Security Scan (OWASP)
-        run: ./gradlew dependencyCheckAnalyze --no-daemon
-        env:
-          NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
 ```
 
 - MUST: CI 파이프라인은 `pull_request` + `push` 이벤트 모두에서 실행한다.
 - MUST: Gradle 실행 시 `--no-daemon` 플래그를 포함한다 (메모리 누수 방지 — harness.md §2 참조).
 - MUST: Java 캐시를 활성화하여 빌드 시간을 단축한다 (`cache: 'gradle'`).
-- MUST: NVD API Key를 GitHub Secrets에 등록한다. 없으면 OWASP 스캔이 느려짐.
 - MUST NOT: `secrets.*`를 코드에 하드코딩한다.
 
 ---
