@@ -51,6 +51,7 @@ public class JwtTokenAdapter implements IssueTokenPort {
     var refreshTokenValue = UUID.randomUUID().toString(); // Opaque refresh token
 
     return new TokenSet(
-        new AccessToken(accessToken), new RefreshToken(refreshTokenValue, refreshExpiresAt));
+        new AccessToken(accessToken, accessExpiresAt),
+        new RefreshToken(refreshTokenValue, refreshExpiresAt));
   }
 }

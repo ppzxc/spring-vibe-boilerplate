@@ -10,8 +10,8 @@ import io.github.ppzxc.boilerplate.identity.application.port.output.SaveRefreshT
 import io.github.ppzxc.boilerplate.identity.domain.exception.UserException;
 import io.github.ppzxc.boilerplate.identity.domain.model.Email;
 import io.github.ppzxc.boilerplate.identity.domain.model.UserStatus;
+import java.time.Clock;
 import java.time.Duration;
-import java.time.Instant;
 
 /** Login Application Service. */
 public class LoginService implements LoginUseCase {
@@ -20,16 +20,19 @@ public class LoginService implements LoginUseCase {
   private final PasswordEncoderPort passwordEncoderPort;
   private final IssueTokenPort issueTokenPort;
   private final SaveRefreshTokenPort saveRefreshTokenPort;
+  private final Clock clock;
 
   public LoginService(
       LoadUserPort loadUserPort,
       PasswordEncoderPort passwordEncoderPort,
       IssueTokenPort issueTokenPort,
-      SaveRefreshTokenPort saveRefreshTokenPort) {
+      SaveRefreshTokenPort saveRefreshTokenPort,
+      Clock clock) {
     this.loadUserPort = loadUserPort;
     this.passwordEncoderPort = passwordEncoderPort;
     this.issueTokenPort = issueTokenPort;
     this.saveRefreshTokenPort = saveRefreshTokenPort;
+    this.clock = clock;
   }
 
   @Override
@@ -51,7 +54,7 @@ public class LoginService implements LoginUseCase {
     saveRefreshTokenPort.save(user.id(), tokenSet.refreshToken());
 
     var expiresIn =
-        Duration.between(Instant.now(), tokenSet.refreshToken().expiresAt()).toSeconds();
+        Duration.between(clock.instant(), tokenSet.accessToken().expiresAt()).toSeconds();
 
     return new TokenResponse(
         tokenSet.accessToken().value(), tokenSet.refreshToken().value(), expiresIn);

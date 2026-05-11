@@ -39,9 +39,15 @@ class IdentityBeanConfiguration {
       BCryptPasswordEncoderAdapter passwordEncoderAdapter,
       JwtTokenAdapter jwtTokenAdapter,
       RefreshTokenPersistenceAdapter refreshTokenAdapter,
+      Clock identityClock,
       PlatformTransactionManager txManager) {
     var service =
-        new LoginService(userAdapter, passwordEncoderAdapter, jwtTokenAdapter, refreshTokenAdapter);
+        new LoginService(
+            userAdapter,
+            passwordEncoderAdapter,
+            jwtTokenAdapter,
+            refreshTokenAdapter,
+            identityClock);
     return createTxProxy(service, LoginUseCase.class, txManager);
   }
 
