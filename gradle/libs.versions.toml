@@ -21,7 +21,7 @@ org-openrewrite-recipe-spring = "6.29.0"
 org-cyclonedx-bom = "3.2.4"
 
 # jooq
-org-jooq-codegen-gradle = "3.19.30"
+org-jooq-codegen-gradle = "3.21.3"
 
 # mapstruct
 org-mapstruct = "1.6.3"
