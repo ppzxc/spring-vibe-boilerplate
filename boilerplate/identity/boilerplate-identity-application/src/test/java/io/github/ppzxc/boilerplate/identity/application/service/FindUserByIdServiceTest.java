@@ -1,14 +1,12 @@
 package io.github.ppzxc.boilerplate.identity.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import io.github.ppzxc.boilerplate.identity.application.dto.FindUserByIdQuery;
 import io.github.ppzxc.boilerplate.identity.application.dto.UserSummary;
 import io.github.ppzxc.boilerplate.identity.application.port.output.UserQueryPort;
-import io.github.ppzxc.boilerplate.identity.domain.exception.UserException;
 import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -35,17 +33,18 @@ class FindUserByIdServiceTest {
 
     var result = sut.execute(new FindUserByIdQuery(userId));
 
-    assertThat(result.userId()).isEqualTo(userId);
-    assertThat(result.userName()).isEqualTo("홍길동");
+    assertThat(result).isPresent();
+    assertThat(result.get().userId()).isEqualTo(userId);
+    assertThat(result.get().userName()).isEqualTo("홍길동");
   }
 
   @Test
-  void 사용자_없으면_예외() {
+  void 사용자_없으면_빈_Optional() {
     var userId = UUID.randomUUID().toString();
     when(queryPort.findSummaryById(userId)).thenReturn(Optional.empty());
 
-    assertThatThrownBy(() -> sut.execute(new FindUserByIdQuery(userId)))
-        .isInstanceOf(UserException.NotFoundException.class)
-        .hasMessageContaining(userId);
+    var result = sut.execute(new FindUserByIdQuery(userId));
+
+    assertThat(result).isEmpty();
   }
 }

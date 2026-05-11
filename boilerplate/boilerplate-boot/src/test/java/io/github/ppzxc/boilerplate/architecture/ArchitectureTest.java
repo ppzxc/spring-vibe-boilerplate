@@ -1,11 +1,14 @@
 package io.github.ppzxc.boilerplate.architecture;
 
+import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.methods;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses;
 import static com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noMembers;
 
 import com.tngtech.archunit.core.domain.JavaClasses;
 import com.tngtech.archunit.core.importer.ClassFileImporter;
 import java.time.Instant;
+import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.transaction.annotation.Transactional;
@@ -167,6 +170,41 @@ class ArchitectureTest {
         .should()
         .dependOnClassesThat()
         .resideInAPackage("org.springframework.security..")
+        .check(classes);
+  }
+
+  // ── Query Type-A: Find/Get/List/Search/Show UseCase → Optional 또는 List 반환 강제 ──
+  // ADR-0022: 단순 absence 조회는 Optional<T> 또는 List<T> 직반환.
+  @Test
+  void typeA_query_usecase_execute_메서드는_Optional_또는_List_반환() {
+    methods()
+        .that()
+        .areDeclaredInClassesThat()
+        .haveSimpleNameStartingWith("Find")
+        .or()
+        .areDeclaredInClassesThat()
+        .haveSimpleNameStartingWith("Get")
+        .or()
+        .areDeclaredInClassesThat()
+        .haveSimpleNameStartingWith("List")
+        .or()
+        .areDeclaredInClassesThat()
+        .haveSimpleNameStartingWith("Search")
+        .or()
+        .areDeclaredInClassesThat()
+        .haveSimpleNameStartingWith("Show")
+        .and()
+        .areDeclaredInClassesThat()
+        .haveSimpleNameEndingWith("UseCase")
+        .and()
+        .areDeclaredInClassesThat()
+        .resideInAPackage("..application.port.input..")
+        .and()
+        .haveName("execute")
+        .should()
+        .haveRawReturnType(Optional.class)
+        .orShould()
+        .haveRawReturnType(List.class)
         .check(classes);
   }
 }

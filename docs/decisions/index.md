@@ -45,6 +45,13 @@
 | [0019](0019-bc-based-authorization-placement.md) | BC 기반 인가 배치 원칙 | security.md §1-2 | Accepted |
 | [0020](0020-access-token-ttl-refresh-strategy.md) | Access Token TTL + Refresh Token 전략 | security.md §9 | Accepted |
 
+### Application 계층 설계 (0021-)
+
+| ADR | 제목 | 관련 규칙 | 상태 |
+|-----|------|----------|------|
+| [0021](0021-result-type-introduction.md) | Result 타입 도입 | error-handling.md | Accepted |
+| [0022](0022-type-a-query-usecase-optional-list-return.md) | Type-A Query UseCase Optional/List 반환 | cqrs.md §13, naming.md, harness.md §3, validation.md Tier 1 | Accepted |
+
 ## ADR 작성 가이드
 
 새 ADR은 다음 규칙을 따른다:

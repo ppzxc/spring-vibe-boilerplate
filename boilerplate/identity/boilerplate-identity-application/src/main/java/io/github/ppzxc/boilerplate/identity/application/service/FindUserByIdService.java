@@ -4,8 +4,8 @@ import io.github.ppzxc.boilerplate.identity.application.dto.FindUserByIdQuery;
 import io.github.ppzxc.boilerplate.identity.application.dto.UserSummary;
 import io.github.ppzxc.boilerplate.identity.application.port.input.FindUserByIdUseCase;
 import io.github.ppzxc.boilerplate.identity.application.port.output.UserQueryPort;
-import io.github.ppzxc.boilerplate.identity.domain.exception.UserException;
 import java.util.Objects;
+import java.util.Optional;
 
 public class FindUserByIdService implements FindUserByIdUseCase {
 
@@ -16,9 +16,7 @@ public class FindUserByIdService implements FindUserByIdUseCase {
   }
 
   @Override
-  public UserSummary execute(FindUserByIdQuery query) {
-    return queryPort
-        .findSummaryById(query.userId())
-        .orElseThrow(() -> new UserException.NotFoundException(query.userId()));
+  public Optional<UserSummary> execute(FindUserByIdQuery query) {
+    return queryPort.findSummaryById(query.userId());
   }
 }

@@ -43,6 +43,21 @@ alwaysApply: true
 | `Webhook` | 이벤트 외부 전파 (Webhook) |
 | `Mq` | 메시지 큐 연동 |
 
+## Query UseCase 접두어 분류 (ADR-0022)
+
+Query UseCase의 반환 타입은 접두어로 결정된다.
+
+| 분류 | 접두어 | 반환 타입 | 의미 |
+|------|--------|----------|------|
+| **Type-A** | `Find*`, `Get*`, `List*`, `Search*`, `Show*` | `Optional<T>` 또는 `List<T>` | 절대 조회. 부재 = "없음"이며 도메인 의미 없음 |
+
+- MUST: 신규 Type-A Query UseCase 이름은 위 접두어 중 하나로 시작한다.
+- MUST NOT: Type-A 접두어 UseCase가 `Result`를 반환한다.
+
+> 근거: ADR-0022
+
+---
+
 ## 금지 접미사 (D-12)
 
 MUST NOT: 아래 접미사를 클래스명에 사용하지 않는다.

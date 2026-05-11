@@ -7,7 +7,7 @@ alwaysApply: true
 
 이 파일은 항상 로드됩니다. 전체 rules 파일 목록과 로드 조건을 나타냅니다.
 
-> **전체 15개 파일.** 규칙 누락이나 충돌 발견 시 해당 ADR을 `docs/decisions/`에서 직접 읽고 대안을 제안하라.
+> **전체 16개 파일.** 규칙 누락이나 충돌 발견 시 해당 ADR을 `docs/decisions/`에서 직접 읽고 대안을 제안하라.
 
 | 파일 | 내용 | 로드 조건 |
 |------|------|----------|
@@ -15,6 +15,7 @@ alwaysApply: true
 | `scaffold.md` | 새 Aggregate/UseCase 생성 템플릿, Inside-Out 워크플로우 | 항상 |
 | `validation.md` | 모듈별 금지 import, 컴포넌트별 필수 패턴, 검증 책임 분리 | 항상 |
 | `cqrs.md` | CQRS 설계, Command/Query, Output Port 3분할, 이벤트 흐름, Outbox | 항상 |
+| `error-handling.md` | Result<T,E> sealed 패턴, BC별 Error 계층, 절대 규칙 7개, 안티패턴 12개 | 항상 |
 | `modulith.md` | Gradle 멀티모듈 + Modulith 하이브리드, 빌드 레이블, 이벤트 발행 | 항상 |
 | `testing.md` | 테스트 피라미드(70/15/10/5), 계층별 테스트 전략, 5중 방어선 | 항상 |
 | `observability.md` | OpenTelemetry, 구조화 로깅, ScopedValue 컨텍스트 전파 | 항상 |

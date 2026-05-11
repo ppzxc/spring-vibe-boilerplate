@@ -98,8 +98,7 @@ class BoundedContextStructureTest {
                     item.getMethods().stream()
                         .anyMatch(
                             m ->
-                                (m.getName().equals("create")
-                                        || m.getName().equals("reconstitute"))
+                                (m.getName().equals("create") || m.getName().equals("reconstitute"))
                                     && m.getModifiers().contains(JavaModifier.STATIC));
                 if (!hasFactory) {
                   events.add(

@@ -60,9 +60,15 @@ public class UserController {
 
   @GetMapping("/{id}")
   public ResponseEntity<UserDetailResponse> findById(@PathVariable String id) {
-    var summary = findUserByIdUseCase.execute(new FindUserByIdQuery(id));
-    var response = UserDetailResponse.from(summary);
-    return ResponseEntity.ok().header("ETag", response.etag()).body(response);
+    return findUserByIdUseCase
+        .execute(new FindUserByIdQuery(id))
+        .map(UserDetailResponse::from)
+        .map(
+            response ->
+                ResponseEntity.ok()
+                    .header("ETag", response.etag())
+                    .<UserDetailResponse>body(response))
+        .orElseThrow();
   }
 
   @PostMapping("/{id}:suspend")
