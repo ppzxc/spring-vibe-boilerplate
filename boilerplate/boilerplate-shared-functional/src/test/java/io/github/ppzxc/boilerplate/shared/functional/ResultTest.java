@@ -9,21 +9,29 @@ import org.junit.jupiter.api.Test;
 class ResultTest {
 
   @Test
-  void success_생성_및_isSuccess() {
+  void success_생성_및_타입_확인() {
     Result<String, Integer> result = Result.success("ok");
 
-    assertThat(result.isSuccess()).isTrue();
-    assertThat(result.isFailure()).isFalse();
     assertThat(result).isInstanceOf(Result.Success.class);
+    String value =
+        switch (result) {
+          case Result.Success<String, Integer>(var v) -> v;
+          case Result.Failure<String, Integer>(var e) -> null;
+        };
+    assertThat(value).isEqualTo("ok");
   }
 
   @Test
-  void failure_생성_및_isFailure() {
+  void failure_생성_및_타입_확인() {
     Result<String, Integer> result = Result.failure(42);
 
-    assertThat(result.isFailure()).isTrue();
-    assertThat(result.isSuccess()).isFalse();
     assertThat(result).isInstanceOf(Result.Failure.class);
+    Integer error =
+        switch (result) {
+          case Result.Success<String, Integer>(var v) -> null;
+          case Result.Failure<String, Integer>(var e) -> e;
+        };
+    assertThat(error).isEqualTo(42);
   }
 
   @Test

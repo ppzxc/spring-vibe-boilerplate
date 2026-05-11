@@ -48,7 +48,7 @@ pre-push:
         ❌ 단위 테스트 실패. 푸시 전 수정 필요.
 
     - name: arch-and-modulith
-      run: ./gradlew :boilerplate-boot:test --tests "*ArchitectureTest*" --tests "*ModulithStructureTest*"
+      run: ./gradlew :boilerplate-boot:test --tests "*ArchitectureTest*" --tests "*ModulithStructureTest*" --tests "*BoundedContextStructureTest*"
       skip:
         - merge
         - rebase

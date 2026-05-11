@@ -6,6 +6,7 @@ import io.github.ppzxc.boilerplate.notification.domain.Notification;
 import io.github.ppzxc.boilerplate.notification.domain.NotificationChannel;
 import io.github.ppzxc.boilerplate.notification.domain.NotificationContent;
 import io.github.ppzxc.boilerplate.notification.domain.RecipientUserId;
+import io.github.ppzxc.boilerplate.test.PureAdapterTestBase;
 import java.time.Instant;
 import java.util.UUID;
 import org.flywaydb.core.Flyway;
@@ -14,28 +15,17 @@ import org.jooq.impl.DSL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.postgresql.ds.PGSimpleDataSource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
-class NotificationPersistenceAdapterTest {
-
-  @Container
-  static final PostgreSQLContainer<?> POSTGRES =
-      new PostgreSQLContainer<>("postgres:17")
-          .withDatabaseName("app")
-          .withUsername("app")
-          .withPassword("app");
+class NotificationPersistenceAdapterTest extends PureAdapterTestBase {
 
   private NotificationPersistenceAdapter adapter;
 
   @BeforeEach
   void setUp() {
     var ds = new PGSimpleDataSource();
-    ds.setUrl(POSTGRES.getJdbcUrl());
-    ds.setUser("app");
-    ds.setPassword("app");
+    ds.setUrl(jdbcUrl());
+    ds.setUser(dbUsername());
+    ds.setPassword(dbPassword());
 
     Flyway.configure()
         .dataSource(ds)

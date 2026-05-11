@@ -4,6 +4,10 @@ plugins {
   id("boot-conventions")
 }
 
+tasks.withType<Test>().configureEach {
+  systemProperty("spring.profiles.active", "test")
+}
+
 dependencies {
   implementation(project(":boilerplate-shared-event"))
   implementation(project(":boilerplate-shared-security"))
@@ -22,6 +26,9 @@ dependencies {
   runtimeOnly(libs.org.flywaydb.flyway.database.postgresql)
   runtimeOnly(libs.org.postgresql.postgresql)
   testImplementation(libs.org.springframework.modulith.core)
+  testImplementation(libs.org.springframework.modulith.test)
+  testImplementation(project(":boilerplate-identity-domain"))
+  testImplementation(project(":boilerplate-identity-application"))
   testImplementation(libs.org.springframework.security.test)
   testImplementation(project(":boilerplate-test-support"))
   testImplementation(libs.org.awaitility)

@@ -22,7 +22,7 @@ class ScopedValueAuthorizationPolicyTest {
     ScopedValue.where(RequestScope.CTX, ctx)
         .run(
             () ->
-                assertThatCode(() -> policy.requirePermission("user:read"))
+                assertThatCode(() -> policy.checkPermission("user:read"))
                     .doesNotThrowAnyException());
   }
 
@@ -32,14 +32,14 @@ class ScopedValueAuthorizationPolicyTest {
     ScopedValue.where(RequestScope.CTX, ctx)
         .run(
             () ->
-                assertThatThrownBy(() -> policy.requirePermission("user:write"))
+                assertThatThrownBy(() -> policy.checkPermission("user:write"))
                     .isInstanceOf(AccessDeniedException.class)
                     .hasMessageContaining("user:write"));
   }
 
   @Test
   void CTX_미바인딩_AccessDeniedException() {
-    assertThatThrownBy(() -> policy.requirePermission("user:read"))
+    assertThatThrownBy(() -> policy.checkPermission("user:read"))
         .isInstanceOf(AccessDeniedException.class);
   }
 
@@ -49,7 +49,7 @@ class ScopedValueAuthorizationPolicyTest {
     ScopedValue.where(RequestScope.CTX, ctx)
         .run(
             () ->
-                assertThatThrownBy(() -> policy.requirePermission("user:read"))
+                assertThatThrownBy(() -> policy.checkPermission("user:read"))
                     .isInstanceOf(AccessDeniedException.class));
   }
 }

@@ -18,14 +18,6 @@ public sealed interface Result<T, E> {
     return new Failure<>(error);
   }
 
-  default boolean isSuccess() {
-    return this instanceof Success<T, E>;
-  }
-
-  default boolean isFailure() {
-    return this instanceof Failure<T, E>;
-  }
-
   default <U> Result<U, E> map(Function<? super T, ? extends U> fn) {
     return switch (this) {
       case Success<T, E>(var v) -> success(fn.apply(v));

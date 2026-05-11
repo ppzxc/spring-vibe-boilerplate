@@ -20,6 +20,11 @@ Thumbs.db
 # Secrets
 .env
 *.env.local
+*.pem
+*.key
+credentials.json
+*.p12
+*.jks
 
 # Claude Code local settings (developer-specific)
 .claude/settings.local.json
