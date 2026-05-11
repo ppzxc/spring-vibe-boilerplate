@@ -1,13 +1,18 @@
 package io.github.ppzxc.boilerplate.identity.configuration;
 
+import io.github.ppzxc.boilerplate.identity.adapter.output.security.BCryptPasswordEncoderAdapter;
+import io.github.ppzxc.boilerplate.identity.adapter.output.token.JwtTokenAdapter;
+import io.github.ppzxc.boilerplate.identity.adapter.output.persist.RefreshTokenPersistenceAdapter;
 import io.github.ppzxc.boilerplate.identity.adapter.output.persist.UserPersistenceAdapter;
 import io.github.ppzxc.boilerplate.identity.adapter.output.persist.UserQueryAdapter;
-import io.github.ppzxc.boilerplate.identity.application.port.in.DeactivateUserUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.in.FindUserByIdUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.in.RegisterUserUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.in.SuspendUserUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.DeactivateUserUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.FindUserByIdUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.LoginUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.RegisterUserUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.SuspendUserUseCase;
 import io.github.ppzxc.boilerplate.identity.application.service.DeactivateUserService;
 import io.github.ppzxc.boilerplate.identity.application.service.FindUserByIdService;
+import io.github.ppzxc.boilerplate.identity.application.service.LoginService;
 import io.github.ppzxc.boilerplate.identity.application.service.RegisterUserService;
 import io.github.ppzxc.boilerplate.identity.application.service.SuspendUserService;
 import java.time.Clock;
@@ -26,6 +31,19 @@ class IdentityBeanConfiguration {
   @Primary
   Clock identityClock() {
     return Clock.systemUTC();
+  }
+
+  @Bean
+  LoginUseCase loginUseCase(
+      UserPersistenceAdapter userAdapter,
+      BCryptPasswordEncoderAdapter passwordEncoderAdapter,
+      JwtTokenAdapter jwtTokenAdapter,
+      RefreshTokenPersistenceAdapter refreshTokenAdapter,
+      PlatformTransactionManager txManager) {
+    var service =
+        new LoginService(
+            userAdapter, passwordEncoderAdapter, jwtTokenAdapter, refreshTokenAdapter);
+    return createTxProxy(service, LoginUseCase.class, txManager);
   }
 
   // --- AI_ANCHOR: ADD_NEW_USECASE_BEANS_HERE ---

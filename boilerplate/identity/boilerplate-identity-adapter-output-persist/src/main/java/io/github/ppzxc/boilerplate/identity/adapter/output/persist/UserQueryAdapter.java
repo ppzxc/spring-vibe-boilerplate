@@ -3,7 +3,7 @@ package io.github.ppzxc.boilerplate.identity.adapter.output.persist;
 import static io.github.ppzxc.boilerplate.identity.persistence.jooq.Tables.USERS;
 
 import io.github.ppzxc.boilerplate.identity.application.dto.UserSummary;
-import io.github.ppzxc.boilerplate.identity.application.port.out.UserQueryPort;
+import io.github.ppzxc.boilerplate.identity.application.port.output.UserQueryPort;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;

@@ -12,7 +12,7 @@ Accepted
 
 모든 UseCase는 Input Port 인터페이스로 정의한다. "단순 CRUD라서 생략"은 허용하지 않는다.
 
-Interface: `{Verb}{Subject}UseCase` → `application/port/in/`
+Interface: `{Verb}{Subject}UseCase` → `application/port/input/`
 Implementation: `{Verb}{Subject}Service` → `application/service/`
 
 ## Consequences

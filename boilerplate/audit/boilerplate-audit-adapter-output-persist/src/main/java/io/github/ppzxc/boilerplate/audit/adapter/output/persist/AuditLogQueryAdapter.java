@@ -3,7 +3,7 @@ package io.github.ppzxc.boilerplate.audit.adapter.output.persist;
 import static io.github.ppzxc.boilerplate.audit.persistence.jooq.Tables.AUDIT_LOG;
 
 import io.github.ppzxc.boilerplate.audit.application.dto.AuditLogSummary;
-import io.github.ppzxc.boilerplate.audit.application.port.out.AuditLogQueryPort;
+import io.github.ppzxc.boilerplate.audit.application.port.output.AuditLogQueryPort;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;

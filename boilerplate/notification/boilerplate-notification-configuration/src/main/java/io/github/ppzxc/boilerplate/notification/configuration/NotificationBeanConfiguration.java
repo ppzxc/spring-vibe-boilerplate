@@ -1,7 +1,7 @@
 package io.github.ppzxc.boilerplate.notification.configuration;
 
 import io.github.ppzxc.boilerplate.notification.adapter.output.persist.NotificationPersistenceAdapter;
-import io.github.ppzxc.boilerplate.notification.application.port.in.SendUserRegisteredNotificationUseCase;
+import io.github.ppzxc.boilerplate.notification.application.port.input.SendUserRegisteredNotificationUseCase;
 import io.github.ppzxc.boilerplate.notification.application.service.SendUserRegisteredNotificationService;
 import java.time.Clock;
 import org.springframework.aop.framework.ProxyFactory;

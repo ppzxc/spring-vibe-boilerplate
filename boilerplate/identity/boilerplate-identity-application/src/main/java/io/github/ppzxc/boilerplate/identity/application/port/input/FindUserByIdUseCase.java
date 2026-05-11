@@ -1,4 +1,4 @@
-package io.github.ppzxc.boilerplate.identity.application.port.in;
+package io.github.ppzxc.boilerplate.identity.application.port.input;
 
 import io.github.ppzxc.boilerplate.identity.application.dto.FindUserByIdQuery;
 import io.github.ppzxc.boilerplate.identity.application.dto.UserSummary;

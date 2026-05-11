@@ -1,7 +1,7 @@
 package io.github.ppzxc.boilerplate.audit.adapter.input.event;
 
 import io.github.ppzxc.boilerplate.audit.application.dto.RecordUserRegisteredAuditCommand;
-import io.github.ppzxc.boilerplate.audit.application.port.in.RecordUserRegisteredAuditUseCase;
+import io.github.ppzxc.boilerplate.audit.application.port.input.RecordUserRegisteredAuditUseCase;
 import io.github.ppzxc.boilerplate.shared.UserRegisteredIntegrationEvent;
 import java.util.Objects;
 import org.springframework.modulith.events.ApplicationModuleListener;

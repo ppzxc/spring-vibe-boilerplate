@@ -1,9 +1,9 @@
 package io.github.ppzxc.boilerplate.identity.application.service;
 
 import io.github.ppzxc.boilerplate.identity.application.dto.SuspendUserCommand;
-import io.github.ppzxc.boilerplate.identity.application.port.in.SuspendUserUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.out.LoadUserPort;
-import io.github.ppzxc.boilerplate.identity.application.port.out.SaveUserPort;
+import io.github.ppzxc.boilerplate.identity.application.port.input.SuspendUserUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.output.LoadUserPort;
+import io.github.ppzxc.boilerplate.identity.application.port.output.SaveUserPort;
 import io.github.ppzxc.boilerplate.identity.domain.exception.UserException;
 import io.github.ppzxc.boilerplate.identity.domain.model.UserId;
 import java.time.Clock;

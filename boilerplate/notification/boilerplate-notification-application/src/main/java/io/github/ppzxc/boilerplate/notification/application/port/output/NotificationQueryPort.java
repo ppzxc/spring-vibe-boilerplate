@@ -1,4 +1,4 @@
-package io.github.ppzxc.boilerplate.notification.application.port.out;
+package io.github.ppzxc.boilerplate.notification.application.port.output;
 
 import io.github.ppzxc.boilerplate.notification.application.dto.NotificationSummary;
 import java.util.Optional;

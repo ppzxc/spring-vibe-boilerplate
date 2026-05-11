@@ -1,4 +1,4 @@
-package io.github.ppzxc.boilerplate.audit.application.port.in;
+package io.github.ppzxc.boilerplate.audit.application.port.input;
 
 import io.github.ppzxc.boilerplate.audit.application.dto.AuditLogSummary;
 import io.github.ppzxc.boilerplate.audit.application.dto.ListRecentAuditLogsQuery;

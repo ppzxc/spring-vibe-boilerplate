@@ -1,4 +1,4 @@
-package io.github.ppzxc.boilerplate.identity.application.port.out;
+package io.github.ppzxc.boilerplate.identity.application.port.output;
 
 /** SavePort 구현체가 Optimistic Lock 실패 시 발생시키는 예외 (AD-7). */
 public final class OptimisticLockException extends RuntimeException {

@@ -2,8 +2,8 @@ package io.github.ppzxc.boilerplate.notification.application.service;
 
 import io.github.ppzxc.boilerplate.notification.application.dto.NotificationSummary;
 import io.github.ppzxc.boilerplate.notification.application.dto.SendUserRegisteredNotificationCommand;
-import io.github.ppzxc.boilerplate.notification.application.port.in.SendUserRegisteredNotificationUseCase;
-import io.github.ppzxc.boilerplate.notification.application.port.out.SaveNotificationPort;
+import io.github.ppzxc.boilerplate.notification.application.port.input.SendUserRegisteredNotificationUseCase;
+import io.github.ppzxc.boilerplate.notification.application.port.output.SaveNotificationPort;
 import io.github.ppzxc.boilerplate.notification.domain.Notification;
 import io.github.ppzxc.boilerplate.notification.domain.NotificationChannel;
 import io.github.ppzxc.boilerplate.notification.domain.NotificationContent;

@@ -1,7 +1,7 @@
 package io.github.ppzxc.boilerplate.identity.adapter.input.api;
 
 import io.github.ppzxc.boilerplate.identity.adapter.input.api.dto.FieldViolation;
-import io.github.ppzxc.boilerplate.identity.application.port.out.OptimisticLockException;
+import io.github.ppzxc.boilerplate.identity.application.port.output.OptimisticLockException;
 import io.github.ppzxc.boilerplate.identity.domain.exception.UserException;
 import io.github.ppzxc.boilerplate.shared.AccessDeniedException;
 import jakarta.servlet.http.HttpServletRequest;

@@ -2,8 +2,8 @@ package io.github.ppzxc.boilerplate.audit.application.service;
 
 import io.github.ppzxc.boilerplate.audit.application.dto.AuditLogSummary;
 import io.github.ppzxc.boilerplate.audit.application.dto.ListRecentAuditLogsQuery;
-import io.github.ppzxc.boilerplate.audit.application.port.in.ListRecentAuditLogsUseCase;
-import io.github.ppzxc.boilerplate.audit.application.port.out.AuditLogQueryPort;
+import io.github.ppzxc.boilerplate.audit.application.port.input.ListRecentAuditLogsUseCase;
+import io.github.ppzxc.boilerplate.audit.application.port.output.AuditLogQueryPort;
 import java.util.List;
 import java.util.Objects;
 

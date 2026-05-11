@@ -1,4 +1,4 @@
-package io.github.ppzxc.boilerplate.audit.application.port.out;
+package io.github.ppzxc.boilerplate.audit.application.port.output;
 
 import io.github.ppzxc.boilerplate.audit.domain.AuditLog;
 

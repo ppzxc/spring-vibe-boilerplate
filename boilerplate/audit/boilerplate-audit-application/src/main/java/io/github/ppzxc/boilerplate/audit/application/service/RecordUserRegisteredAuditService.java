@@ -1,8 +1,8 @@
 package io.github.ppzxc.boilerplate.audit.application.service;
 
 import io.github.ppzxc.boilerplate.audit.application.dto.RecordUserRegisteredAuditCommand;
-import io.github.ppzxc.boilerplate.audit.application.port.in.RecordUserRegisteredAuditUseCase;
-import io.github.ppzxc.boilerplate.audit.application.port.out.SaveAuditLogPort;
+import io.github.ppzxc.boilerplate.audit.application.port.input.RecordUserRegisteredAuditUseCase;
+import io.github.ppzxc.boilerplate.audit.application.port.output.SaveAuditLogPort;
 import io.github.ppzxc.boilerplate.audit.domain.AuditEventType;
 import io.github.ppzxc.boilerplate.audit.domain.AuditLog;
 import io.github.ppzxc.boilerplate.audit.domain.AuditPayload;

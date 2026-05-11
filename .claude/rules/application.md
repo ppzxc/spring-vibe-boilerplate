@@ -25,7 +25,7 @@ paths: "**/application/**"
 
 - MUST: 모든 UseCase(Command/Query 포함)는 Input Port 인터페이스로 정의한다.
 - MUST NOT: "단순 CRUD라서 생략"한다. 예외 없음.
-- MUST: Input Port 인터페이스는 `application/port/in/` 패키지에 위치한다.
+- MUST: Input Port 인터페이스는 `application/port/input/` 패키지에 위치한다.
 - MUST: 구현체는 `{Verb}{Subject}Service`로 네이밍한다 (예: `RegisterUserService`).
 
 > 근거: ADR-0009
@@ -226,7 +226,7 @@ public record UserResult(String id, String name) {}
 
 ## Output Port 위치 (A-3)
 
-Output Port(LoadPort, SavePort, QueryPort)는 Application 계층의 `port/out/` 패키지에 정의한다. Output Port 3분할 원칙 및 CQRS 상세는 **`cqrs.md`**를 참조한다.
+Output Port(LoadPort, SavePort, QueryPort)는 Application 계층의 `port/output/` 패키지에 정의한다. Output Port 3분할 원칙 및 CQRS 상세는 **`cqrs.md`**를 참조한다.
 
 ```
 application/port/

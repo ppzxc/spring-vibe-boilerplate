@@ -3,7 +3,7 @@ package io.github.ppzxc.boilerplate.notification.adapter.output.persist;
 import static io.github.ppzxc.boilerplate.notification.persistence.jooq.Tables.NOTIFICATIONS;
 
 import io.github.ppzxc.boilerplate.notification.application.dto.NotificationSummary;
-import io.github.ppzxc.boilerplate.notification.application.port.out.NotificationQueryPort;
+import io.github.ppzxc.boilerplate.notification.application.port.output.NotificationQueryPort;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;

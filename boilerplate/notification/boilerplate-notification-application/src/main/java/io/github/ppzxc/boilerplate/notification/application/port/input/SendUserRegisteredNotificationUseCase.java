@@ -1,4 +1,4 @@
-package io.github.ppzxc.boilerplate.notification.application.port.in;
+package io.github.ppzxc.boilerplate.notification.application.port.input;
 
 import io.github.ppzxc.boilerplate.notification.application.dto.NotificationSummary;
 import io.github.ppzxc.boilerplate.notification.application.dto.SendUserRegisteredNotificationCommand;

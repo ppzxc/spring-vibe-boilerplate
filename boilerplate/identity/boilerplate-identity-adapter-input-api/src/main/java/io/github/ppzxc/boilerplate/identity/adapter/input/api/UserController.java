@@ -6,11 +6,11 @@ import io.github.ppzxc.boilerplate.identity.application.dto.DeactivateUserComman
 import io.github.ppzxc.boilerplate.identity.application.dto.FindUserByIdQuery;
 import io.github.ppzxc.boilerplate.identity.application.dto.RegisterUserCommand;
 import io.github.ppzxc.boilerplate.identity.application.dto.SuspendUserCommand;
-import io.github.ppzxc.boilerplate.identity.application.port.in.DeactivateUserUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.in.FindUserByIdUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.in.RegisterUserUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.in.SuspendUserUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.out.OptimisticLockException;
+import io.github.ppzxc.boilerplate.identity.application.port.input.DeactivateUserUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.FindUserByIdUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.RegisterUserUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.SuspendUserUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.output.OptimisticLockException;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

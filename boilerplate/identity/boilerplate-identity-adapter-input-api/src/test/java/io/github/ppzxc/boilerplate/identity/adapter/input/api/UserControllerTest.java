@@ -13,10 +13,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import io.github.ppzxc.boilerplate.identity.application.dto.FindUserByIdQuery;
 import io.github.ppzxc.boilerplate.identity.application.dto.RegisterUserResult;
 import io.github.ppzxc.boilerplate.identity.application.dto.UserSummary;
-import io.github.ppzxc.boilerplate.identity.application.port.in.DeactivateUserUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.in.FindUserByIdUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.in.RegisterUserUseCase;
-import io.github.ppzxc.boilerplate.identity.application.port.in.SuspendUserUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.DeactivateUserUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.FindUserByIdUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.RegisterUserUseCase;
+import io.github.ppzxc.boilerplate.identity.application.port.input.SuspendUserUseCase;
 import io.github.ppzxc.boilerplate.identity.domain.exception.UserException;
 import java.time.Instant;
 import java.util.UUID;
