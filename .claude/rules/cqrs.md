@@ -442,6 +442,44 @@ Spring Modulith의 Integration Event는 [CloudEvents v1.0](https://cloudevents.i
 
 ---
 
+## 13. Type-A Query UseCase 반환 타입
+
+> 근거: ADR-0022
+
+### 규칙
+
+`Find*`, `Get*`, `List*`, `Search*`, `Show*` 접두어 Query UseCase의 `execute` 메서드는 반드시 `Optional<T>` 또는 `List<T>`를 반환한다.
+
+- MUST NOT: 위 접두어 UseCase가 `Result`를 반환한다.
+- MUST: Type-A 단건 조회의 부재 처리는 Controller 또는 `@RestControllerAdvice`가 담당한다. Application Service에서 도메인 예외로 승격하는 경우는 "부재가 사실상 도메인 위반인 경우"에 한정한다.
+
+### Controller 처리 패턴
+
+```java
+// 단건 조회 — Optional 체인 + orElseThrow() (NoSuchElementException → advice 404)
+@GetMapping("/{id}")
+public ResponseEntity<UserDetailResponse> findById(@PathVariable String id) {
+    return findUserByIdUseCase.execute(new FindUserByIdQuery(id))
+        .map(UserDetailResponse::from)
+        .map(response -> ResponseEntity.ok().header("ETag", response.etag()).<UserDetailResponse>body(response))
+        .orElseThrow();
+}
+
+// 목록 조회 — List 직반환
+@GetMapping
+public ResponseEntity<List<AuditLogResponse>> list() {
+    var summaries = listRecentAuditLogsUseCase.execute(new ListRecentAuditLogsQuery());
+    return ResponseEntity.ok(summaries.stream().map(AuditLogResponse::from).toList());
+}
+```
+
+### ArchUnit 회귀 방지
+
+`ArchitectureTest`에 `typeA_query_usecase_execute_메서드는_Optional_또는_List_반환` 규칙 등재 (ADR-0022).
+Type-B(`Resolve*/Authorize*/Verify*/Compose*` → Result 반환) 규칙은 별도 ADR에서 결정 후 추가한다.
+
+---
+
 ## fallback 지시문
 
 ---

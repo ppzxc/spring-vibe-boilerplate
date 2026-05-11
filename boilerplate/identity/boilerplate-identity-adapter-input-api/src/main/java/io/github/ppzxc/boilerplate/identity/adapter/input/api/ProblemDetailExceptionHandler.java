@@ -7,6 +7,7 @@ import io.github.ppzxc.boilerplate.shared.AccessDeniedException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Objects;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /** RFC 9457 problem+json 예외 변환 핸들러 (AIP-193). */
 @RestControllerAdvice
 public class ProblemDetailExceptionHandler {
+
+  @ExceptionHandler(NoSuchElementException.class)
+  public ProblemDetail handleNoSuchElement(NoSuchElementException ex, HttpServletRequest req) {
+    return problem(
+        HttpStatus.NOT_FOUND, "Not Found", "NOT_FOUND", msg(ex, "Resource not found"), req);
+  }
 
   @ExceptionHandler(UserException.NotFoundException.class)
   public ProblemDetail handleNotFound(UserException.NotFoundException ex, HttpServletRequest req) {

@@ -19,6 +19,7 @@ import io.github.ppzxc.boilerplate.identity.application.port.input.RegisterUserU
 import io.github.ppzxc.boilerplate.identity.application.port.input.SuspendUserUseCase;
 import io.github.ppzxc.boilerplate.identity.domain.exception.UserException;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,7 +121,9 @@ class UserControllerTest {
     var userId = UUID.randomUUID().toString();
     var now = Instant.parse("2026-01-01T00:00:00Z");
     when(findUserByIdUseCase.execute(any(FindUserByIdQuery.class)))
-        .thenReturn(new UserSummary(userId, "홍길동", "test@example.com", "ACTIVE", 2L, now, now));
+        .thenReturn(
+            Optional.of(
+                new UserSummary(userId, "홍길동", "test@example.com", "ACTIVE", 2L, now, now)));
 
     mockMvc
         .perform(get(BASE_URL + "/{id}", userId).header("Api-Version", API_VERSION))
@@ -135,13 +138,13 @@ class UserControllerTest {
   @Test
   void 단건조회_404_존재하지않음() throws Exception {
     var userId = UUID.randomUUID().toString();
-    when(findUserByIdUseCase.execute(any())).thenThrow(new UserException.NotFoundException(userId));
+    when(findUserByIdUseCase.execute(any())).thenReturn(Optional.empty());
 
     mockMvc
         .perform(get(BASE_URL + "/{id}", userId).header("Api-Version", API_VERSION))
         .andExpect(status().isNotFound())
         .andExpect(content().contentTypeCompatibleWith("application/problem+json"))
-        .andExpect(jsonPath("$.code").value("USER_NOT_FOUND"));
+        .andExpect(jsonPath("$.code").value("NOT_FOUND"));
   }
 
   @Test

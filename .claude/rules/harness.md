@@ -136,6 +136,20 @@ noMembers().that().areDeclaredInClassesThat().resideInAPackage("..application.."
 noClasses().that().resideInAPackage("..adapter.input..")
     .should().dependOnClassesThat().resideInAPackage("..domain.model..")
     .check(classes);
+
+// Type-A Query UseCase → Optional 또는 List 반환 강제 (ADR-0022)
+methods().that().areDeclaredInClassesThat()
+    .haveSimpleNameStartingWith("Find")
+    .or().areDeclaredInClassesThat().haveSimpleNameStartingWith("Get")
+    .or().areDeclaredInClassesThat().haveSimpleNameStartingWith("List")
+    .or().areDeclaredInClassesThat().haveSimpleNameStartingWith("Search")
+    .or().areDeclaredInClassesThat().haveSimpleNameStartingWith("Show")
+    .and().areDeclaredInClassesThat().haveSimpleNameEndingWith("UseCase")
+    .and().areDeclaredInClassesThat().resideInAPackage("..application.port.input..")
+    .and().haveName("execute")
+    .should().haveRawReturnType(Optional.class)
+    .orShould().haveRawReturnType(List.class)
+    .check(classes);
 ```
 
 ---

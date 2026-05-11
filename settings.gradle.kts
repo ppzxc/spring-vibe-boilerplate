@@ -14,8 +14,9 @@ fun module(name: String, path: String) {
 }
 
 // ── Shared ─────────────────────────────────────────────────────────────
-module(name = ":boilerplate-shared-event",    path = "boilerplate/boilerplate-shared-event")
-module(name = ":boilerplate-shared-security", path = "boilerplate/boilerplate-shared-security")
+module(name = ":boilerplate-shared-event",      path = "boilerplate/boilerplate-shared-event")
+module(name = ":boilerplate-shared-security",   path = "boilerplate/boilerplate-shared-security")
+module(name = ":boilerplate-shared-functional", path = "boilerplate/boilerplate-shared-functional")
 
 // ── Test Support ───────────────────────────────────────────────────────
 module(name = ":boilerplate-test-support", path = "boilerplate/boilerplate-test-support")
