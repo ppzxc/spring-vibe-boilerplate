@@ -6,26 +6,15 @@ import io.github.ppzxc.boilerplate.identity.domain.model.Email;
 import io.github.ppzxc.boilerplate.identity.domain.model.HashedPassword;
 import io.github.ppzxc.boilerplate.identity.domain.model.User;
 import io.github.ppzxc.boilerplate.identity.domain.model.UserName;
+import io.github.ppzxc.boilerplate.test.PureAdapterTestBase;
 import java.time.Instant;
 import org.flywaydb.core.Flyway;
 import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.postgresql.ds.PGSimpleDataSource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
-class UserQueryAdapterTest {
-
-  @Container
-  static final PostgreSQLContainer<?> POSTGRES =
-      new PostgreSQLContainer<>("postgres:17")
-          .withDatabaseName("app")
-          .withUsername("app")
-          .withPassword("app");
+class UserQueryAdapterTest extends PureAdapterTestBase {
 
   private UserQueryAdapter queryAdapter;
   private UserPersistenceAdapter persistAdapter;
@@ -33,9 +22,9 @@ class UserQueryAdapterTest {
   @BeforeEach
   void setUp() {
     var ds = new PGSimpleDataSource();
-    ds.setUrl(POSTGRES.getJdbcUrl());
-    ds.setUser("app");
-    ds.setPassword("app");
+    ds.setUrl(jdbcUrl());
+    ds.setUser(dbUsername());
+    ds.setPassword(dbPassword());
 
     Flyway.configure()
         .dataSource(ds)

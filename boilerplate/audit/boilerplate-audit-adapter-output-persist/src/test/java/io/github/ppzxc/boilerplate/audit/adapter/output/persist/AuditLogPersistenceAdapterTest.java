@@ -7,6 +7,7 @@ import io.github.ppzxc.boilerplate.audit.domain.AuditLog;
 import io.github.ppzxc.boilerplate.audit.domain.AuditLogId;
 import io.github.ppzxc.boilerplate.audit.domain.AuditPayload;
 import io.github.ppzxc.boilerplate.audit.domain.AuditedUserId;
+import io.github.ppzxc.boilerplate.test.PureAdapterTestBase;
 import java.time.Instant;
 import java.util.UUID;
 import org.flywaydb.core.Flyway;
@@ -14,29 +15,17 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.postgresql.ds.PGSimpleDataSource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
-class AuditLogPersistenceAdapterTest {
-
-  @Container
-  static final PostgreSQLContainer<?> POSTGRES =
-      new PostgreSQLContainer<>("postgres:17")
-          .withDatabaseName("app")
-          .withUsername("app")
-          .withPassword("app");
+class AuditLogPersistenceAdapterTest extends PureAdapterTestBase {
 
   private AuditLogPersistenceAdapter adapter;
 
   @BeforeEach
   void setUp() {
     var ds = new PGSimpleDataSource();
-    ds.setUrl(POSTGRES.getJdbcUrl());
-    ds.setUser("app");
-    ds.setPassword("app");
+    ds.setUrl(jdbcUrl());
+    ds.setUser(dbUsername());
+    ds.setPassword(dbPassword());
 
     var flyway =
         Flyway.configure()

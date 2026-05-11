@@ -8,6 +8,7 @@ import io.github.ppzxc.boilerplate.identity.domain.model.Email;
 import io.github.ppzxc.boilerplate.identity.domain.model.HashedPassword;
 import io.github.ppzxc.boilerplate.identity.domain.model.User;
 import io.github.ppzxc.boilerplate.identity.domain.model.UserName;
+import io.github.ppzxc.boilerplate.test.PureAdapterTestBase;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,29 +17,17 @@ import org.jooq.SQLDialect;
 import org.jooq.impl.DSL;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.postgresql.ds.PGSimpleDataSource;
-import org.testcontainers.containers.PostgreSQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
-@Testcontainers
-class UserPersistenceAdapterTest {
-
-  @Container
-  static final PostgreSQLContainer<?> POSTGRES =
-      new PostgreSQLContainer<>("postgres:17")
-          .withDatabaseName("app")
-          .withUsername("app")
-          .withPassword("app");
+class UserPersistenceAdapterTest extends PureAdapterTestBase {
 
   private UserPersistenceAdapter adapter;
 
   @BeforeEach
   void setUp() {
     var ds = new PGSimpleDataSource();
-    ds.setUrl(POSTGRES.getJdbcUrl());
-    ds.setUser("app");
-    ds.setPassword("app");
+    ds.setUrl(jdbcUrl());
+    ds.setUser(dbUsername());
+    ds.setPassword(dbPassword());
 
     Flyway.configure()
         .dataSource(ds)
@@ -80,7 +69,11 @@ class UserPersistenceAdapterTest {
             new UserName("이벤트"), new Email("evt@example.com"), new HashedPassword("hashed"), now);
 
     List<Object> collected = new ArrayList<>();
-    var dsl = DSL.using(createDataSource(), SQLDialect.POSTGRES);
+    var ds2 = new PGSimpleDataSource();
+    ds2.setUrl(jdbcUrl());
+    ds2.setUser(dbUsername());
+    ds2.setPassword(dbPassword());
+    var dsl = DSL.using(ds2, SQLDialect.POSTGRES);
     var adapterWithCollector = new UserPersistenceAdapter(dsl, collected::add);
 
     adapterWithCollector.save(user);
@@ -121,11 +114,4 @@ class UserPersistenceAdapterTest {
     assertThat(adapter.existsByEmail(new Email("notexists@example.com"))).isFalse();
   }
 
-  private PGSimpleDataSource createDataSource() {
-    var ds = new PGSimpleDataSource();
-    ds.setUrl(POSTGRES.getJdbcUrl());
-    ds.setUser("app");
-    ds.setPassword("app");
-    return ds;
-  }
 }
