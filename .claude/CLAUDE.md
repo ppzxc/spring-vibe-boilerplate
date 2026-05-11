@@ -33,8 +33,8 @@
 ## 기술 스택
 
 - Java 25 (ScopedValue, Virtual Threads, record, sealed)
-- Spring Boot 4.0.5 (libs.versions.toml: org-springframework-boot = "4.0.5")
-- Spring Modulith 2.0.x (2.0.1 안정 버전, Spring Boot 4 BOM 연동)
+- Spring Boot 4.0.6 (libs.versions.toml: org-springframework-boot = "4.0.6")
+- Spring Modulith 2.0.x (2.0.6 안정 버전, Spring Boot 4.0 BOM 연동)
 - jOOQ (Adapter 계층, Domain 순수성 보호)
 - Gradle 멀티모듈 + linecorp build-recipe-plugin
 - JUnit 5, AssertJ, Testcontainers, ArchUnit, Fixture Monkey

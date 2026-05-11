@@ -13,7 +13,7 @@ CI/CD 플랫폼 선택지:
 
 이 프로젝트는 GitHub에서 호스팅되므로 GitHub Actions가 최적이다.
 
-CI 필수 게이트: 컴파일, 테스트, 커버리지, 코드 품질, 정적 분석, Modulith 구조 검증, 보안 스캔(7개).
+CI 필수 게이트: 컴파일, 테스트, 커버리지, 코드 품질, 정적 분석, Modulith 구조 검증(6개). 보안 취약점 스캔은 Dependabot에 위임.
 
 ## Decision
 
@@ -24,7 +24,6 @@ GitHub Actions를 CI/CD 플랫폼으로 채택한다.
 - Release 워크플로우: `.github/workflows/release.yml` — `v*` 태그 트리거, GitHub Release 자동 생성
 
 Gradle `--no-daemon` 필수 (메모리 누수 방지).
-NVD API Key를 GitHub Secrets에 등록 (OWASP 스캔 속도 향상).
 
 ## Consequences
 

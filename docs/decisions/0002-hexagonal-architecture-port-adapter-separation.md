@@ -19,8 +19,8 @@ Accepted
 의존 방향은 항상 바깥 → 안쪽. Domain은 아무것도 모른다.
 
 **Port 분리 원칙**:
-- Input Port (UseCase 인터페이스): `application/port/in/`
-- Output Port (Load/Save/Query): `application/port/out/`
+- Input Port (UseCase 인터페이스): `application/port/input/`
+- Output Port (Load/Save/Query): `application/port/output/`
 
 **규칙**:
 - AD-1: Inbound Adapter는 Input Port 인터페이스에만 의존. Domain 직접 참조 금지.

@@ -8,7 +8,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 import io.github.ppzxc.boilerplate.audit.application.dto.RecordUserRegisteredAuditCommand;
-import io.github.ppzxc.boilerplate.audit.application.port.out.SaveAuditLogPort;
+import io.github.ppzxc.boilerplate.audit.application.port.output.SaveAuditLogPort;
 import io.github.ppzxc.boilerplate.audit.domain.AuditEventType;
 import io.github.ppzxc.boilerplate.audit.domain.AuditLog;
 import io.github.ppzxc.boilerplate.test.DomainTestBase;

@@ -2,9 +2,9 @@ package io.github.ppzxc.boilerplate.notification.adapter.output.persist;
 
 import static io.github.ppzxc.boilerplate.notification.persistence.jooq.Tables.NOTIFICATIONS;
 
-import io.github.ppzxc.boilerplate.notification.application.port.out.LoadNotificationPort;
-import io.github.ppzxc.boilerplate.notification.application.port.out.OptimisticLockException;
-import io.github.ppzxc.boilerplate.notification.application.port.out.SaveNotificationPort;
+import io.github.ppzxc.boilerplate.notification.application.port.output.LoadNotificationPort;
+import io.github.ppzxc.boilerplate.notification.application.port.output.OptimisticLockException;
+import io.github.ppzxc.boilerplate.notification.application.port.output.SaveNotificationPort;
 import io.github.ppzxc.boilerplate.notification.domain.Notification;
 import io.github.ppzxc.boilerplate.notification.domain.NotificationId;
 import java.util.Objects;

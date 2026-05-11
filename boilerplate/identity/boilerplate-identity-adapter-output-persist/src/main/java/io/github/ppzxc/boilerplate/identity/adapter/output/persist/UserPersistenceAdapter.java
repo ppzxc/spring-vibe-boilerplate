@@ -2,9 +2,9 @@ package io.github.ppzxc.boilerplate.identity.adapter.output.persist;
 
 import static io.github.ppzxc.boilerplate.identity.persistence.jooq.Tables.USERS;
 
-import io.github.ppzxc.boilerplate.identity.application.port.out.LoadUserPort;
-import io.github.ppzxc.boilerplate.identity.application.port.out.OptimisticLockException;
-import io.github.ppzxc.boilerplate.identity.application.port.out.SaveUserPort;
+import io.github.ppzxc.boilerplate.identity.application.port.output.LoadUserPort;
+import io.github.ppzxc.boilerplate.identity.application.port.output.OptimisticLockException;
+import io.github.ppzxc.boilerplate.identity.application.port.output.SaveUserPort;
 import io.github.ppzxc.boilerplate.identity.domain.model.Email;
 import io.github.ppzxc.boilerplate.identity.domain.model.User;
 import io.github.ppzxc.boilerplate.identity.domain.model.UserId;
@@ -30,6 +30,13 @@ public class UserPersistenceAdapter implements LoadUserPort, SaveUserPort {
   public Optional<User> findById(UserId id) {
     return dsl.selectFrom(USERS)
         .where(USERS.ID.eq(id.value()))
+        .fetchOptional(UserPersistenceMapper::toDomain);
+  }
+
+  @Override
+  public Optional<User> findByEmail(Email email) {
+    return dsl.selectFrom(USERS)
+        .where(USERS.EMAIL.eq(email.value()))
         .fetchOptional(UserPersistenceMapper::toDomain);
   }
 

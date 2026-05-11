@@ -2,9 +2,9 @@ package io.github.ppzxc.boilerplate.audit.configuration;
 
 import io.github.ppzxc.boilerplate.audit.adapter.output.persist.AuditLogPersistenceAdapter;
 import io.github.ppzxc.boilerplate.audit.adapter.output.persist.AuditLogQueryAdapter;
-import io.github.ppzxc.boilerplate.audit.application.port.in.FindAuditLogsBySubjectUseCase;
-import io.github.ppzxc.boilerplate.audit.application.port.in.ListRecentAuditLogsUseCase;
-import io.github.ppzxc.boilerplate.audit.application.port.in.RecordUserRegisteredAuditUseCase;
+import io.github.ppzxc.boilerplate.audit.application.port.input.FindAuditLogsBySubjectUseCase;
+import io.github.ppzxc.boilerplate.audit.application.port.input.ListRecentAuditLogsUseCase;
+import io.github.ppzxc.boilerplate.audit.application.port.input.RecordUserRegisteredAuditUseCase;
 import io.github.ppzxc.boilerplate.audit.application.service.FindAuditLogsBySubjectService;
 import io.github.ppzxc.boilerplate.audit.application.service.ListRecentAuditLogsService;
 import io.github.ppzxc.boilerplate.audit.application.service.RecordUserRegisteredAuditService;

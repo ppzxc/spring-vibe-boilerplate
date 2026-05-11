@@ -1,7 +1,7 @@
 package io.github.ppzxc.boilerplate.notification.adapter.input.event;
 
 import io.github.ppzxc.boilerplate.notification.application.dto.SendUserRegisteredNotificationCommand;
-import io.github.ppzxc.boilerplate.notification.application.port.in.SendUserRegisteredNotificationUseCase;
+import io.github.ppzxc.boilerplate.notification.application.port.input.SendUserRegisteredNotificationUseCase;
 import io.github.ppzxc.boilerplate.shared.UserRegisteredIntegrationEvent;
 import java.util.Objects;
 import org.springframework.modulith.events.ApplicationModuleListener;

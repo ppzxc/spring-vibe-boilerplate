@@ -1,11 +1,9 @@
 import com.google.cloud.tools.jib.gradle.JibExtension
-import org.owasp.dependencycheck.gradle.extension.DependencyCheckExtension
 import org.springframework.boot.gradle.tasks.bundling.BootJar
 
 plugins {
   id("spring-conventions")
   alias(libs.plugins.com.google.cloud.tools.jib)
-  alias(libs.plugins.org.owasp.dependencycheck)
 }
 
 tasks.withType<BootJar>().configureEach {
@@ -30,11 +28,4 @@ configure<JibExtension> {
     ports = listOf("8080")
     environment = mapOf("SPRING_PROFILES_ACTIVE" to "prod")
   }
-}
-
-// OWASP Dependency-Check: CVSS 7.0+ 시 빌드 실패 (cicd.md §1, ADR-0018)
-// CI에서 ./gradlew dependencyCheckAnalyze --no-daemon 으로 명시적 실행 (check에 미포함).
-configure<DependencyCheckExtension> {
-  failBuildOnCVSS = 7.0f
-  suppressionFile = rootProject.file("dependency-check-suppressions.xml").absolutePath
 }

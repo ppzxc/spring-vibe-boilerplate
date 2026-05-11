@@ -8,8 +8,8 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import io.github.ppzxc.boilerplate.identity.application.dto.DeactivateUserCommand;
-import io.github.ppzxc.boilerplate.identity.application.port.out.LoadUserPort;
-import io.github.ppzxc.boilerplate.identity.application.port.out.SaveUserPort;
+import io.github.ppzxc.boilerplate.identity.application.port.output.LoadUserPort;
+import io.github.ppzxc.boilerplate.identity.application.port.output.SaveUserPort;
 import io.github.ppzxc.boilerplate.identity.domain.exception.UserException;
 import io.github.ppzxc.boilerplate.identity.domain.model.Email;
 import io.github.ppzxc.boilerplate.identity.domain.model.HashedPassword;

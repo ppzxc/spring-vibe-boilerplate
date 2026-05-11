@@ -9,7 +9,7 @@ import static org.mockito.Mockito.verify;
 
 import io.github.ppzxc.boilerplate.notification.application.dto.NotificationSummary;
 import io.github.ppzxc.boilerplate.notification.application.dto.SendUserRegisteredNotificationCommand;
-import io.github.ppzxc.boilerplate.notification.application.port.out.SaveNotificationPort;
+import io.github.ppzxc.boilerplate.notification.application.port.output.SaveNotificationPort;
 import io.github.ppzxc.boilerplate.notification.domain.Notification;
 import java.time.Clock;
 import java.time.Instant;

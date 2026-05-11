@@ -1,7 +1,7 @@
 [versions]
 # plugins
-org-springframework-boot = "4.0.5"
-org-springframework-modulith = "2.0.1"
+org-springframework-boot = "4.0.6"
+org-springframework-modulith = "2.0.6"
 com-diffplug-spotless = "8.4.0"
 org-openrewrite-rewrite = "7.30.0"
 com-fizzpod-lefthook = "0.4.0"
@@ -18,7 +18,6 @@ org-openrewrite-recipe-static-analysis = "2.32.0"
 org-openrewrite-recipe-migrate-java = "3.32.1"
 org-openrewrite-recipe-spring = "6.29.0"
 
-org-owasp-dependencycheck = "12.2.1"
 org-cyclonedx-bom = "3.2.4"
 
 # jooq
@@ -59,8 +58,8 @@ org-springframework-boot-starter-test = { group = "org.springframework.boot", na
 org-springframework-boot-starter-web = { group = "org.springframework.boot", name = "spring-boot-starter-web" }
 org-springframework-boot-starter-security = { group = "org.springframework.boot", name = "spring-boot-starter-security" }
 org-springframework-boot-starter-oauth2-resource-server = { group = "org.springframework.boot", name = "spring-boot-starter-oauth2-resource-server" }
-org-springframework-boot-starter-opentelemetry = { group = "org.springframework.boot", name = "spring-boot-starter-opentelemetry" }
-org-springframework-boot-docker-compose = { group = "org.springframework.boot", name = "spring-boot-docker-compose" }
+org-springframework-boot-starter-opentelemetry = { group = "org.springframework.boot", name = "spring-boot-starter-opentelemetry", version.ref = "org-springframework-boot" }
+org-springframework-boot-docker-compose = { group = "org.springframework.boot", name = "spring-boot-docker-compose", version.ref = "org-springframework-boot" }
 org-springframework-boot-starter-websocket = { group = "org.springframework.boot", name = "spring-boot-starter-websocket" }
 org-springframework-boot-starter-cache = { group = "org.springframework.boot", name = "spring-boot-starter-cache" }
 com-github-ben-manes-caffeine = { group = "com.github.ben-manes.caffeine", name = "caffeine" }
@@ -96,14 +95,14 @@ com-google-protobuf-protoc = { group = "com.google.protobuf", name = "protoc", v
 io-grpc-protoc-gen-grpc-java = { group = "io.grpc", name = "protoc-gen-grpc-java", version.ref = "io-grpc" }
 
 # jooq
-org-springframework-boot-starter-jooq = { group = "org.springframework.boot", name = "spring-boot-starter-jooq" }
+org-springframework-boot-starter-jooq = { group = "org.springframework.boot", name = "spring-boot-starter-jooq", version.ref = "org-springframework-boot" }
 org-springframework-boot-starter-jdbc = { group = "org.springframework.boot", name = "spring-boot-starter-jdbc" }
 org-jooq-meta-extensions = { group = "org.jooq", name = "jooq-meta-extensions", version.ref = "org-jooq-codegen-gradle" }
 
 # database
 com-h2database-h2 = { group = "com.h2database", name = "h2" }
 org-postgresql-postgresql = { group = "org.postgresql", name = "postgresql" }
-org-springframework-boot-starter-flyway = { group = "org.springframework.boot", name = "spring-boot-starter-flyway" }
+org-springframework-boot-starter-flyway = { group = "org.springframework.boot", name = "spring-boot-starter-flyway", version.ref = "org-springframework-boot" }
 org-flywaydb-flyway-database-postgresql = { group = "org.flywaydb", name = "flyway-database-postgresql" }
 
 # testcontainers (BOM)
@@ -166,7 +165,6 @@ com-fizzpod-lefthook = { id = "com.fizzpod.lefthook", version.ref = "com-fizzpod
 net-ltgt-errorprone = { id = "net.ltgt.errorprone", version.ref = "net-ltgt-errorprone" }
 com-google-protobuf = { id = "com.google.protobuf", version.ref = "com-google-protobuf-plugin" }
 org-jooq-codegen-gradle = { id = "org.jooq.jooq-codegen-gradle", version.ref = "org-jooq-codegen-gradle" }
-org-owasp-dependencycheck = { id = "org.owasp.dependencycheck", version.ref = "org-owasp-dependencycheck" }
 org-cyclonedx-bom = { id = "org.cyclonedx.bom", version.ref = "org-cyclonedx-bom" }
 pitest = { id = "info.solidsoft.pitest", version.ref = "info-solidsoft-pitest" }
 spring-cloud-contract = { id = "org.springframework.cloud.contract", version.ref = "spring-cloud-contract" }

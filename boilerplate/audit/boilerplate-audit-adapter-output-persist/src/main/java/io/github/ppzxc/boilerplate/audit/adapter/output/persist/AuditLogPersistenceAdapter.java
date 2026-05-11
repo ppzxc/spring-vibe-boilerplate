@@ -2,8 +2,8 @@ package io.github.ppzxc.boilerplate.audit.adapter.output.persist;
 
 import static io.github.ppzxc.boilerplate.audit.persistence.jooq.Tables.AUDIT_LOG;
 
-import io.github.ppzxc.boilerplate.audit.application.port.out.LoadAuditLogPort;
-import io.github.ppzxc.boilerplate.audit.application.port.out.SaveAuditLogPort;
+import io.github.ppzxc.boilerplate.audit.application.port.output.LoadAuditLogPort;
+import io.github.ppzxc.boilerplate.audit.application.port.output.SaveAuditLogPort;
 import io.github.ppzxc.boilerplate.audit.domain.AuditLog;
 import io.github.ppzxc.boilerplate.audit.domain.AuditLogId;
 import java.util.Objects;

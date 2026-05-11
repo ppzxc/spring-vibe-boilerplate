@@ -6,7 +6,7 @@ import static org.mockito.Mockito.when;
 
 import io.github.ppzxc.boilerplate.notification.application.dto.NotificationSummary;
 import io.github.ppzxc.boilerplate.notification.application.dto.SendUserRegisteredNotificationCommand;
-import io.github.ppzxc.boilerplate.notification.application.port.in.SendUserRegisteredNotificationUseCase;
+import io.github.ppzxc.boilerplate.notification.application.port.input.SendUserRegisteredNotificationUseCase;
 import io.github.ppzxc.boilerplate.shared.UserRegisteredIntegrationEvent;
 import java.time.Instant;
 import java.util.UUID;

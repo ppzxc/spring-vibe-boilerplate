@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 
 import io.github.ppzxc.boilerplate.identity.application.dto.FindUserByIdQuery;
 import io.github.ppzxc.boilerplate.identity.application.dto.UserSummary;
-import io.github.ppzxc.boilerplate.identity.application.port.out.UserQueryPort;
+import io.github.ppzxc.boilerplate.identity.application.port.output.UserQueryPort;
 import io.github.ppzxc.boilerplate.identity.domain.exception.UserException;
 import java.util.Optional;
 import java.util.UUID;

@@ -5,7 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 
 import io.github.ppzxc.boilerplate.audit.application.dto.RecordUserRegisteredAuditCommand;
-import io.github.ppzxc.boilerplate.audit.application.port.in.RecordUserRegisteredAuditUseCase;
+import io.github.ppzxc.boilerplate.audit.application.port.input.RecordUserRegisteredAuditUseCase;
 import io.github.ppzxc.boilerplate.shared.UserRegisteredIntegrationEvent;
 import java.time.Instant;
 import java.util.UUID;

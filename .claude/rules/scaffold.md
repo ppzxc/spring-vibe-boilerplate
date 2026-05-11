@@ -37,8 +37,8 @@ MUST NOT: Controller나 DB 스키마부터 시작하지 않는다.
 2. `domain/event/` — Domain Event (sealed interface)
 3. `domain/service/` — Domain Service (필요 시)
 4. `domain/exception/` — Domain Exception (sealed class)
-5. `application/port/in/` — Input Port (UseCase 인터페이스)
-6. `application/port/out/` — Output Port (Load/Save/Query 분리)
+5. `application/port/input/` — Input Port (UseCase 인터페이스)
+6. `application/port/output/` — Output Port (Load/Save/Query 분리)
 7. `application/dto/` — Command, Query, Result record
 8. `application/service/` — UseCase 구현체 Service
 9. `adapter/output/` — PersistenceAdapter, QueryAdapter + Mapper

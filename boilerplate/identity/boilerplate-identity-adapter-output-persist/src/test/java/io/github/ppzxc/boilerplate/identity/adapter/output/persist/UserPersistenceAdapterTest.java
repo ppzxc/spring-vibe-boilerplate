@@ -3,7 +3,7 @@ package io.github.ppzxc.boilerplate.identity.adapter.output.persist;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-import io.github.ppzxc.boilerplate.identity.application.port.out.OptimisticLockException;
+import io.github.ppzxc.boilerplate.identity.application.port.output.OptimisticLockException;
 import io.github.ppzxc.boilerplate.identity.domain.model.Email;
 import io.github.ppzxc.boilerplate.identity.domain.model.HashedPassword;
 import io.github.ppzxc.boilerplate.identity.domain.model.User;
