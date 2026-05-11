@@ -139,8 +139,8 @@ dependencies {
 
 | 라이브러리 | 버전 | 변수명 |
 |-----------|------|--------|
-| Spring Boot | 4.0.5 | `org-springframework-boot` |
-| Spring Modulith | 2.0.1 | `spring-modulith` |
+| Spring Boot | 4.0.6 | `org-springframework-boot` |
+| Spring Modulith | 2.0.6 | `spring-modulith` |
 | Java | 25 | — |
 | jOOQ | 3.19.30 | `org-jooq` |
 | Testcontainers | 2.0.4 | `org-testcontainers` |

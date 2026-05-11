@@ -5,7 +5,9 @@ public abstract sealed class UserException extends RuntimeException
     permits UserException.AlreadySuspendedException,
         UserException.AlreadyDeactivatedException,
         UserException.AlreadyExistsException,
-        UserException.NotFoundException {
+        UserException.NotFoundException,
+        UserException.InvalidCredentialException,
+        UserException.IneligibleStatusException {
 
   protected UserException(String message) {
     super(message);
@@ -32,6 +34,18 @@ public abstract sealed class UserException extends RuntimeException
   public static final class NotFoundException extends UserException {
     public NotFoundException(String userId) {
       super("User not found: " + userId);
+    }
+  }
+
+  public static final class InvalidCredentialException extends UserException {
+    public InvalidCredentialException() {
+      super("Invalid email or password");
+    }
+  }
+
+  public static final class IneligibleStatusException extends UserException {
+    public IneligibleStatusException(String status) {
+      super("User status is not eligible for login: " + status);
     }
   }
 }

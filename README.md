@@ -1,6 +1,7 @@
 # spring-vibe-boilerplate
 
-사내 프로젝트 시작점. Java 25 + Spring Boot 4.0.x 기반의 IDP 서버 + Resource Server 보일러플레이트.
+사내 프로젝트 시작점. Java 25 + Spring Boot 4.0.6 기반의 IDP 서버 + Resource Server 보일러플레이트.
+
 
 **아키텍처**: 순수주의 DDD + 헥사고날 아키텍처 + CQRS Level 1 + Spring Modulith 2.0
 

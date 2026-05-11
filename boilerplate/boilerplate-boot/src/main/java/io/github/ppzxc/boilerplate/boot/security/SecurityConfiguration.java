@@ -26,7 +26,7 @@ class SecurityConfiguration {
             auth ->
                 auth.requestMatchers("/actuator/health/**", "/actuator/info")
                     .permitAll()
-                    .requestMatchers(HttpMethod.POST, "/api/identity/users")
+                    .requestMatchers(HttpMethod.POST, "/api/identity/users", "/api/identity/auth/login")
                     .permitAll()
                     .requestMatchers("/api/**")
                     .authenticated()
