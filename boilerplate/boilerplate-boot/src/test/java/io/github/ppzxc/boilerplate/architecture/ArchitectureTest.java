@@ -188,6 +188,21 @@ class ArchitectureTest {
         .check(classes);
   }
 
+  // ── ADR-0021: Result.isSuccess / isFailure 메서드 재도입 금지 ───────────
+  // switch/fold 패턴 강제 — boolean 분기 anti-pattern 방지
+  @Test
+  void Result_isSuccess_isFailure_메서드_재도입_금지() {
+    noMembers()
+        .that()
+        .haveName("isSuccess")
+        .or()
+        .haveName("isFailure")
+        .should()
+        .beDeclaredInClassesThat()
+        .resideInAPackage("..shared.functional..")
+        .check(classes);
+  }
+
   // ── Query Type-A: Find/Get/List/Search/Show UseCase → Optional 또는 List 반환 강제 ──
   // ADR-0022: 단순 absence 조회는 Optional<T> 또는 List<T> 직반환.
   @Test
